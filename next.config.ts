@@ -1,11 +1,16 @@
 import type { NextConfig } from "next";
 
+// Allow images from whichever Supabase project .env points at
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : 'localhost';
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'iebpxtbrcsbgadwyrqqi.supabase.co',
+        hostname: supabaseHost,
         pathname: '/storage/v1/object/public/**',
       },
       {
