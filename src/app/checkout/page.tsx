@@ -193,7 +193,7 @@ export default function CheckoutPage() {
       <div className="max-w-3xl mx-auto px-4 py-20 text-center">
         <ShoppingCart className="w-16 h-16 text-gray-200 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h1>
-        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>Browse Products</Link>
+        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Browse Products</Link>
       </div>
     )
   }
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
         <ShoppingCart className="w-16 h-16 text-gray-200 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-800 mb-2">No items selected</h1>
         <p className="text-gray-500 mb-6">Go back to your cart and select the product(s) you want to order.</p>
-        <Link href="/cart" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>Back to Cart</Link>
+        <Link href="/cart" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Back to Cart</Link>
       </div>
     )
   }
@@ -225,7 +225,7 @@ export default function CheckoutPage() {
               {savedCards.length > 0 ? 'The card saved on your account appears to be expired.' : 'No saved card was found on your account.'}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link href="/account/payment-methods" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>Manage cards</Link>
+              <Link href="/account/payment-methods" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Manage cards</Link>
               <Link href="/cart" className={cn(buttonVariants({ variant: 'outline' }))}>Back to cart</Link>
             </div>
           </div>
@@ -419,7 +419,7 @@ export default function CheckoutPage() {
           </label>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <Button type="submit" size="lg" disabled={loading || !hasUsableCard || !minimumMet} className="bg-[#ec6a82] hover:bg-[#152f4a]">
+          <Button type="submit" size="lg" disabled={loading || !hasUsableCard || !minimumMet} className="bg-[#ec6a82] hover:bg-[#d95672]">
             {loading ? 'Placing Order…' : 'Place Order'}
           </Button>
         </div>

@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
           <Button
             type="submit"
             disabled={pending}
-            className="w-full bg-[#ec6a82] hover:bg-[#152f4a]"
+            className="w-full bg-[#ec6a82] hover:bg-[#d95672]"
           >
             {pending ? 'Sending…' : 'Send Reset Link'}
           </Button>

@@ -1,8 +1,10 @@
+import { Suspense } from 'react'
 import { createAdminClient } from '@/lib/supabase/server'
 import { fetchShopProducts } from '@/lib/shop-products'
 import { Product, Category } from '@/types'
 import ProductCard from '@/components/products/ProductCard'
 import ShopFilters from '@/components/products/ShopFilters'
+import ShopSearchCard from '@/components/products/ShopSearchCard'
 import ShopSort from '@/components/products/ShopSort'
 import Pagination from '@/components/products/Pagination'
 
@@ -57,6 +59,10 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
         </h1>
         <p className="text-sm text-gray-500 mt-1">{count} products found</p>
       </div>
+
+      <Suspense fallback={null}>
+        <ShopSearchCard />
+      </Suspense>
 
       <div className="flex flex-col lg:flex-row gap-6">
         <aside className="w-full lg:w-64 flex-shrink-0">

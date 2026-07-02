@@ -78,7 +78,7 @@ export default function ProductCard({ product }: Props) {
               <Button
                 size="sm"
                 onClick={handleAddToCart}
-                className="bg-[#ec6a82] hover:bg-[#152f4a] text-white text-xs px-2.5 h-8"
+                className="bg-[#ec6a82] hover:bg-[#d95672] text-white text-xs px-2.5 h-8"
               >
                 Add
               </Button>

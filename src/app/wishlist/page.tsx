@@ -20,7 +20,7 @@ export default function WishlistPage() {
         <Heart className="w-16 h-16 text-gray-200 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Your wishlist is empty</h1>
         <p className="text-gray-500 mb-6">Tap the heart on any product to save it here.</p>
-        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>
+        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>
           Browse Products
         </Link>
       </div>
@@ -63,7 +63,7 @@ export default function WishlistPage() {
                     <Button
                       size="sm"
                       onClick={() => { addToCart(product, 1); toast.success(`${product.title} added to cart`) }}
-                      className="bg-[#ec6a82] hover:bg-[#152f4a] text-white text-xs px-2.5 h-8"
+                      className="bg-[#ec6a82] hover:bg-[#d95672] text-white text-xs px-2.5 h-8"
                     >
                       Add
                     </Button>

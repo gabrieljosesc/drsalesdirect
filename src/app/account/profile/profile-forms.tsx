@@ -98,7 +98,7 @@ export function ProfileForms({ profile, emailMasked }: { profile: ProfileData; e
             {profileState.error && <p className="text-sm text-red-600">{profileState.error}</p>}
             {profileState.ok && <p className="text-sm text-green-700">{profileState.ok}</p>}
             <div className="pt-1">
-              <button type="submit" className="rounded-md bg-[#ec6a82] px-8 py-2.5 text-sm font-semibold text-white hover:bg-[#152f4a]">
+              <button type="submit" className="rounded-md bg-[#ec6a82] px-8 py-2.5 text-sm font-semibold text-white hover:bg-[#d95672]">
                 Save Changes
               </button>
             </div>
@@ -164,7 +164,7 @@ export function ProfileForms({ profile, emailMasked }: { profile: ProfileData; e
                 Cancel
               </button>
               <form action={removeAction} onSubmit={() => setConfirmRemove(false)}>
-                <button type="submit" className="rounded-md bg-[#ec6a82] px-4 py-2 text-sm font-medium text-white hover:bg-[#152f4a]">
+                <button type="submit" className="rounded-md bg-[#ec6a82] px-4 py-2 text-sm font-medium text-white hover:bg-[#d95672]">
                   Yes, remove
                 </button>
               </form>

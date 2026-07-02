@@ -39,7 +39,7 @@ export default async function AdminProductsPage({ searchParams }: Props) {
               placeholder="Search products…"
               className="rounded-md border border-gray-300 px-3 py-2 text-sm w-56"
             />
-            <button type="submit" className="rounded-md bg-[#ec6a82] px-3 py-2 text-sm font-medium text-white hover:bg-[#152f4a]">
+            <button type="submit" className="rounded-md bg-[#ec6a82] px-3 py-2 text-sm font-medium text-white hover:bg-[#d95672]">
               Search
             </button>
             {q && (

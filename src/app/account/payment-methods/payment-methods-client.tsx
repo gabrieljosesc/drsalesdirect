@@ -70,7 +70,7 @@ function AddCardModal({ onClose }: { onClose: () => void }) {
           {error && <p className="text-sm text-red-600">{error}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={onClose} className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancel</button>
-            <button type="submit" disabled={pending} className="rounded-md bg-[#ec6a82] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152f4a] disabled:opacity-60">
+            <button type="submit" disabled={pending} className="rounded-md bg-[#ec6a82] px-4 py-2 text-sm font-semibold text-white hover:bg-[#d95672] disabled:opacity-60">
               {pending ? 'Saving…' : 'Save card'}
             </button>
           </div>

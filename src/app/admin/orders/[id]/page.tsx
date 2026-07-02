@@ -232,7 +232,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           <label className="text-xs font-medium text-gray-600">Admin notes (internal — not visible to customer)</label>
           <textarea name="admin_notes" rows={3} defaultValue={order.admin_notes ?? ''} className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ec6a82]" />
         </div>
-        <button type="submit" className="rounded-md bg-[#ec6a82] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#152f4a]">
+        <button type="submit" className="rounded-md bg-[#ec6a82] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#d95672]">
           Update Order
         </button>
       </form>

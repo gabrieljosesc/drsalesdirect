@@ -187,7 +187,7 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
                 <Button
                   size="lg"
                   onClick={handleAdd}
-                  className="flex-1 bg-[#ec6a82] hover:bg-[#152f4a] gap-2"
+                  className="flex-1 bg-[#ec6a82] hover:bg-[#d95672] gap-2"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Add to Cart
@@ -205,7 +205,7 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
           {!showPrice && (
             <Link
               href="/contact"
-              className="inline-block px-6 py-3 bg-[#ec6a82] text-white rounded-lg font-medium hover:bg-[#152f4a] transition-colors mb-4"
+              className="inline-block px-6 py-3 bg-[#ec6a82] text-white rounded-lg font-medium hover:bg-[#d95672] transition-colors mb-4"
             >
               Request Pricing
             </Link>

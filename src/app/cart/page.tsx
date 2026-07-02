@@ -25,7 +25,7 @@ export default function CartPage() {
         <ShoppingCart className="w-16 h-16 text-gray-200 mx-auto mb-4" />
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h1>
         <p className="text-gray-500 mb-6">Add some products to get started.</p>
-        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>
+        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>
           Browse Products
         </Link>
       </div>
@@ -162,7 +162,7 @@ export default function CartPage() {
             </div>
 
             {canCheckout ? (
-              <Link href="/checkout" className={cn(buttonVariants({ size: 'lg' }), 'w-full justify-center bg-[#ec6a82] hover:bg-[#152f4a]')}>
+              <Link href="/checkout" className={cn(buttonVariants({ size: 'lg' }), 'w-full justify-center bg-[#ec6a82] hover:bg-[#d95672]')}>
                 Proceed to Checkout
               </Link>
             ) : (

@@ -45,7 +45,7 @@ export default function ReferralPage() {
           <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to start earning?</h3>
           <p className="text-gray-500 mb-6">Create your free account or contact our team to learn more about your rewards.</p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/auth/register" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>Create Account</Link>
+            <Link href="/auth/register" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Create Account</Link>
             <Link href="/contact" className={cn(buttonVariants({ variant: 'outline' }))}>Contact Us</Link>
           </div>
         </div>

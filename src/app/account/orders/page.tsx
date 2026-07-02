@@ -67,7 +67,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
               Clear filters
             </Link>
           ) : (
-            <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>
+            <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>
               Start Shopping
             </Link>
           )}

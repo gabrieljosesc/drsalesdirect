@@ -80,7 +80,7 @@ export default async function AdminCouponsPage({ searchParams }: { searchParams:
             <input name="expires_at" type="date" className={inputClass} />
           </label>
 
-          <button type="submit" className="w-full rounded-md bg-[#ec6a82] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#152f4a]">
+          <button type="submit" className="w-full rounded-md bg-[#ec6a82] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#d95672]">
             Create Coupon
           </button>
         </form>

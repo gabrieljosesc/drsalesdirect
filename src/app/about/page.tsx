@@ -59,7 +59,7 @@ export default function AboutPage() {
         </section>
 
         <div className="text-center">
-          <Link href="/shop" className={cn(buttonVariants({ size: 'lg' }), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>
+          <Link href="/shop" className={cn(buttonVariants({ size: 'lg' }), 'bg-[#ec6a82] hover:bg-[#d95672]')}>
             Browse Our Products
           </Link>
         </div>

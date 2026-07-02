@@ -106,7 +106,7 @@ export default function UpdatePasswordPage() {
 
           <Button
             type="submit" disabled={loading || !allRulesMet || !matches}
-            className="w-full bg-[#ec6a82] hover:bg-[#152f4a]"
+            className="w-full bg-[#ec6a82] hover:bg-[#d95672]"
           >
             {loading ? 'Updating…' : 'Update Password'}
           </Button>

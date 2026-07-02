@@ -10,6 +10,7 @@ import { getHomeBrands } from '@/lib/home-brands'
 import HeroSlideshow from '@/components/home/HeroSlideshow'
 import BrandMarquee from '@/components/home/BrandMarquee'
 import HighlightSlides from '@/components/home/HighlightSlides'
+import FeaturedCarousel from '@/components/home/FeaturedCarousel'
 import {
   ShieldCheck, Truck, HeadphonesIcon, Award, Gift, Wallet,
   Star,
@@ -33,16 +34,34 @@ const reviews = [
 export default async function HomePage() {
   const supabase = createAdminClient()
 
-  const [{ data: categories }, { data: featured }, { data: posts }, brands] = await Promise.all([
+  const [{ data: categories }, { data: featured }, { data: carouselRaw }, { data: posts }, brands] = await Promise.all([
     supabase.from('categories').select('id, slug, name').is('parent_id', null).order('sort_order').limit(18),
     supabase.from('products')
       .select('*, category:categories(*), images:product_images(id,url,sort_order)')
-      .eq('is_featured', true).eq('is_active', true).limit(10),
+      .eq('is_featured', true).eq('is_active', true).limit(8),
+    supabase.from('products')
+      .select('id, slug, title, base_price, is_featured, images:product_images(url, sort_order)')
+      .eq('is_active', true)
+      .order('review_count', { ascending: false })
+      .order('title')
+      .limit(24),
     supabase.from('blog_posts')
       .select('slug, title, excerpt, published_at')
       .eq('is_published', true).order('published_at', { ascending: false }).limit(3),
     getHomeBrands(supabase),
   ])
+
+  // Carousel: skip the best sellers already shown above
+  const carousel = (carouselRaw ?? [])
+    .filter(p => !p.is_featured)
+    .slice(0, 16)
+    .map(p => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      base_price: Number(p.base_price),
+      image: (p.images ?? []).sort((a, b) => a.sort_order - b.sort_order)[0]?.url ?? null,
+    }))
 
   return (
     <div>
@@ -96,11 +115,30 @@ export default async function HomePage() {
               </div>
               <Link href="/shop" className="text-sm text-[#ec6a82] hover:underline font-medium whitespace-nowrap">View all →</Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {(featured as Product[]).map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── FEATURED PRODUCTS CAROUSEL ───────────────────────────────── */}
+      {carousel.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 py-14">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
+            <p className="text-gray-500 mt-2">A quick look through our catalog — scroll to explore.</p>
+          </div>
+          <FeaturedCarousel products={carousel} />
+          <div className="mt-8 text-center">
+            <Link
+              href="/shop"
+              className="inline-flex items-center justify-center rounded-full bg-[#ec6a82] px-10 py-3.5 text-sm font-bold tracking-widest text-white uppercase hover:bg-[#d95672] transition-colors shadow-md"
+            >
+              Shop All Products
+            </Link>
           </div>
         </section>
       )}

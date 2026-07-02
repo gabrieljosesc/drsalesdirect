@@ -7,7 +7,7 @@ import { loginAction, type LoginState } from '@/app/actions/auth'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Eye, EyeOff } from 'lucide-react'
 
 export function LoginForm() {
   const searchParams = useSearchParams()
@@ -21,6 +21,7 @@ export function LoginForm() {
   // Controlled so a failed login (server-action re-render) keeps what was typed
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
@@ -74,18 +75,28 @@ export function LoginForm() {
                 Forgot password?
               </Link>
             </div>
-            <Input
-              id="password" name="password" type="password"
-              value={password} onChange={e => setPassword(e.target.value)}
-              autoComplete="current-password" required
-              className="mt-1"
-            />
+            <div className="relative mt-1">
+              <Input
+                id="password" name="password" type={showPassword ? 'text' : 'password'}
+                value={password} onChange={e => setPassword(e.target.value)}
+                autoComplete="current-password" required
+                className="pr-10"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(v => !v)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
 
           <Button
             type="submit"
             disabled={pending}
-            className="w-full bg-[#ec6a82] hover:bg-[#152f4a]"
+            className="w-full bg-[#ec6a82] hover:bg-[#d95672]"
           >
             {pending ? 'Signing in…' : 'Sign In'}
           </Button>

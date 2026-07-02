@@ -29,7 +29,7 @@ export default async function OrderConfirmedPage({
         <p>A confirmation email has been sent to you. You can view this order anytime under <strong>My Orders</strong>.</p>
       </div>
       <div className="flex flex-wrap gap-3 justify-center">
-        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#152f4a]')}>
+        <Link href="/shop" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>
           Continue Shopping
         </Link>
         <Link href="/account/orders" className={buttonVariants({ variant: 'outline' })}>

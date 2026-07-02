@@ -53,7 +53,7 @@ export default function Pagination({ currentPage, totalPages }: Props) {
           variant={p === currentPage ? 'default' : 'outline'}
           size="sm"
           onClick={() => goToPage(p)}
-          className={cn('h-9 w-9', p === currentPage && 'bg-[#ec6a82] hover:bg-[#152f4a]')}
+          className={cn('h-9 w-9', p === currentPage && 'bg-[#ec6a82] hover:bg-[#d95672]')}
         >
           {p}
         </Button>

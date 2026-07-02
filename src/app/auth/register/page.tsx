@@ -441,7 +441,7 @@ function RegisterForm() {
           <Button
             type="submit"
             disabled={pending}
-            className="w-full bg-[#ec6a82] hover:bg-[#152f4a] mt-2"
+            className="w-full bg-[#ec6a82] hover:bg-[#d95672] mt-2"
           >
             {pending ? 'Creating account…' : 'Create Account'}
           </Button>

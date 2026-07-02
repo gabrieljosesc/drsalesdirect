@@ -110,7 +110,7 @@ export default function ContactPage() {
                 className="mt-1 w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#ec6a82] resize-none"
               />
             </div>
-            <Button type="submit" disabled={loading} className="bg-[#ec6a82] hover:bg-[#152f4a]">
+            <Button type="submit" disabled={loading} className="bg-[#ec6a82] hover:bg-[#d95672]">
               {loading ? 'Sending...' : 'Send Message'}
             </Button>
           </form>

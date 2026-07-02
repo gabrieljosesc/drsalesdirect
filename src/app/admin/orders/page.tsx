@@ -61,7 +61,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
             placeholder="Search reference, name, email"
             className="rounded-md border border-gray-300 px-3 py-2 text-sm w-64"
           />
-          <button type="submit" className="rounded-md bg-[#ec6a82] px-3 py-2 text-sm font-medium text-white hover:bg-[#152f4a]">Search</button>
+          <button type="submit" className="rounded-md bg-[#ec6a82] px-3 py-2 text-sm font-medium text-white hover:bg-[#d95672]">Search</button>
           {q && <Link href="/admin/orders" className="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">Clear</Link>}
         </form>
       </div>

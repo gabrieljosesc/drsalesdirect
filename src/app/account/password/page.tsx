@@ -25,7 +25,7 @@ export default function PasswordPage() {
         <p className="text-xs text-gray-400">At least 8 characters, with 1 uppercase letter, 1 number, and 1 special character.</p>
         {state.error && <p className="text-sm text-red-600">{state.error}</p>}
         {state.ok && <p className="text-sm text-green-700">{state.ok}</p>}
-        <button type="submit" className="rounded-md bg-[#ec6a82] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#152f4a]">
+        <button type="submit" className="rounded-md bg-[#ec6a82] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#d95672]">
           Update Password
         </button>
       </form>

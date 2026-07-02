@@ -128,7 +128,7 @@ export function OrderItemsEditor({ orderId, initialItems, initialShipping, disco
       </div>
 
       {msg && <p className={`mt-3 text-sm ${msg.ok ? 'text-green-700' : 'text-red-600'}`}>{msg.text}</p>}
-      <Button type="button" onClick={save} disabled={pending} className="mt-3 bg-[#ec6a82] hover:bg-[#152f4a]">
+      <Button type="button" onClick={save} disabled={pending} className="mt-3 bg-[#ec6a82] hover:bg-[#d95672]">
         {pending ? 'Saving…' : 'Save Order Changes'}
       </Button>
     </section>
