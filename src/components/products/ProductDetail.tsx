@@ -152,7 +152,7 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
                     <li
                       key={`${t.minQ}-${t.maxQ}-${i}`}
                       className={`flex items-center justify-between px-3 py-2 text-sm ${
-                        active ? 'bg-blue-50 text-[#ec6a82] font-medium' : 'text-gray-700'
+                        active ? 'bg-rose-50 text-[#ec6a82] font-medium' : 'text-gray-700'
                       }`}
                     >
                       <span>{tierQuantityLabel(t)}</span>
