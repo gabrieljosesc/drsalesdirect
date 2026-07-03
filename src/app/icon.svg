@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Dr Sales Direct">
+  <rect width="64" height="64" rx="15" fill="#ec6a82"/>
+  <path d="M32 16v32M16 32h32" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="M20 39h4l3-7 4.5 14 3-7h5" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
