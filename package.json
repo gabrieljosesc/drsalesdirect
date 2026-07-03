@@ -11,6 +11,7 @@
     "test:watch": "jest --watch",
     "import:catalog": "node scripts/import-drsalesdirect.mjs",
     "import:tiers": "node scripts/import-price-tiers.mjs",
+    "import:blog": "node scripts/import-blog.mjs",
     "seed:catalog": "node scripts/seed-catalog.mjs",
     "seed:peptides": "node scripts/seed-peptides.mjs",
     "rebuild:peptides": "node scripts/rebuild-peptides.mjs",

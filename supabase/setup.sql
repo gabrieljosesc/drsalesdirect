@@ -1,5 +1,5 @@
 -- ============================================================
--- Dr Sales Direct — FULL DATABASE SETUP (run top-to-bottom)
+-- Dr Sales Direct - FULL DATABASE SETUP (run top-to-bottom)
 -- Paste this whole file into the Supabase SQL Editor of your NEW project
 -- Dashboard: https://supabase.com/dashboard/project/YOUR_PROJECT_REF/sql/new
 -- ============================================================
@@ -602,6 +602,13 @@ create policy "contact_messages_insert_any" on public.contact_messages
 drop policy if exists "contact_messages_admin_read" on public.contact_messages;
 create policy "contact_messages_admin_read" on public.contact_messages
   for select using (public.is_admin(auth.uid()));
+
+
+-- >>>>>>>>>>>>>>>>>>>> blog-image-url.sql >>>>>>>>>>>>>>>>>>>>
+-- Cover image for blog posts (stored in Supabase Storage so it survives the
+-- WordPress cutover). Added for the WP blog import.
+alter table public.blog_posts
+  add column if not exists image_url text;
 
 
 -- >>>>>>>>>>>>>>>>>>>> coa.sql >>>>>>>>>>>>>>>>>>>>

@@ -28,7 +28,9 @@ export default async function BlogPostPage({ params }: Props) {
     .single()
 
   if (!post) notFound()
-  const cover = blogImage(post.slug)
+  const cover = post.image_url ?? blogImage(post.slug)
+  // Old plain-text/markdown seeds have no HTML tags; render those as pre-wrap.
+  const isHtml = /<\/?[a-z][\s\S]*>/i.test(post.body ?? '')
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-12">
@@ -39,12 +41,19 @@ export default async function BlogPostPage({ params }: Props) {
       </p>
       {cover && (
         <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-8">
-          <Image src={cover} alt={post.title} fill className="object-cover" sizes="(max-width:768px) 100vw, 768px" priority />
+          <Image src={cover} alt={post.title} fill className="object-cover" sizes="(max-width:768px) 100vw, 768px" priority unoptimized />
         </div>
       )}
-      <div className="prose prose-gray max-w-none whitespace-pre-wrap leading-relaxed text-gray-700">
-        {post.body}
-      </div>
+      {isHtml ? (
+        <div
+          className="prose prose-gray max-w-none leading-relaxed text-gray-700 prose-headings:text-gray-900 prose-a:text-[#ec6a82] prose-img:rounded-xl"
+          dangerouslySetInnerHTML={{ __html: post.body }}
+        />
+      ) : (
+        <div className="prose prose-gray max-w-none whitespace-pre-wrap leading-relaxed text-gray-700">
+          {post.body}
+        </div>
+      )}
     </article>
   )
 }
