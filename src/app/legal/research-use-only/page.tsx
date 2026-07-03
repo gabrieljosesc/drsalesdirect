@@ -10,8 +10,8 @@ export default function ResearchUseOnlyPage() {
       <section className="space-y-2 text-sm text-gray-700 leading-relaxed">
         <h2 className="text-lg font-semibold text-gray-900">Intended use</h2>
         <p>
-          Products designated as Research Use Only (RUO) — including research peptides — are intended
-          solely for laboratory research, analytical testing, and in vitro research applications.
+          Products designated as Research Use Only (RUO) are intended solely for laboratory research,
+          analytical testing, and in vitro research applications.
         </p>
         <p>
           RUO products are <strong>not</strong> intended for human use, veterinary use, clinical use,

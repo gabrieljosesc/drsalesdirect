@@ -36,12 +36,12 @@ const SLIDES: Slide[] = [
     gradient: 'from-[#264079]/90 via-[#5063a6]/70 to-[#e8657f]/55',
   },
   {
-    eyebrow: 'New — Research Peptides',
-    title: 'Now Stocking Premium Research Peptides',
-    body: 'A growing catalog of high-purity peptides with third-party certificates of analysis available on every product.',
-    primary: { label: 'Explore Peptides', href: '/peptides' },
-    secondary: { label: 'View Certificates', href: '/peptides' },
-    bullets: ['Third-party tested', 'COA on every product', 'Fast, tracked shipping'],
+    eyebrow: 'Wholesale Pricing — Buy More, Save More',
+    title: 'Bulk Discounts on Every Order',
+    body: 'Automatic quantity-based pricing across our catalog — the more units you order, the lower your price per unit, shown right on each product page.',
+    primary: { label: 'Shop All Products', href: '/shop' },
+    secondary: { label: 'Best Sellers', href: '/shop' },
+    bullets: ['Tiered volume pricing', 'Dedicated account manager', 'Fast, tracked shipping'],
     gradient: 'from-[#2c4a8c]/90 via-[#5a6cb4]/65 to-[#f08aa0]/55',
   },
 ]

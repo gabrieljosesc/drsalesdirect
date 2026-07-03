@@ -17,13 +17,13 @@ type Highlight = {
 
 const HIGHLIGHTS: Highlight[] = [
   {
-    tag: 'New This Month',
-    title: 'Research Peptides — Now In Stock',
-    body: 'A growing high-purity catalog, each with a third-party certificate of analysis on the product page.',
-    cta: { label: 'Explore Peptides', href: '/peptides' },
+    tag: 'Best Value',
+    title: 'Bulk Pricing on Dermal Fillers',
+    body: 'The more you order, the less you pay per unit — automatic quantity discounts shown right on every product page.',
+    cta: { label: 'Shop Dermal Fillers', href: '/shop/dermal-fillers' },
     icon: Sparkles,
-    theme: 'from-[#ec6a82] to-[#2a5a8c]',
-    accent: 'text-blue-200',
+    theme: 'from-[#ec6a82] to-[#a94d61]',
+    accent: 'text-rose-100',
   },
   {
     tag: 'Member Perk',
