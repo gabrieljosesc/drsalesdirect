@@ -130,14 +130,16 @@ export type OrderItemInput = { product_id: string | null; title: string; quantit
 
 /**
  * Admin order editing: replace an order's line items (add/remove/edit price &
- * quantity) and the shipping amount, then recompute subtotal and total. The
- * coupon discount is preserved. No customer email is sent — the admin notifies
- * separately via the status update if/when they choose to.
+ * quantity), the shipping amount, and optionally a manual discount, then
+ * recompute subtotal and total. When discountAmount is omitted the existing
+ * (coupon) discount is preserved. No customer email is sent — the admin
+ * notifies separately via the status update if/when they choose to.
  */
 export async function saveOrderItemsAction(input: {
   orderId: string
   items: OrderItemInput[]
   shippingAmount: number
+  discountAmount?: number
 }): Promise<{ ok: boolean; message?: string }> {
   await requireAdmin()
   const svc = createAdminClient()
@@ -157,7 +159,9 @@ export async function saveOrderItemsAction(input: {
   if (oErr || !order) return { ok: false, message: 'Order not found.' }
 
   const subtotal = clean.reduce((s, i) => s + i.quantity * i.unit_price, 0)
-  const discount = Number(order.discount_amount ?? 0)
+  // discountAmount omitted (older callers) → preserve the existing discount
+  const discount = Math.min(subtotal, Math.max(0,
+    input.discountAmount !== undefined ? Number(input.discountAmount) || 0 : Number(order.discount_amount ?? 0)))
   const shipping = Math.max(0, Number(input.shippingAmount) || 0)
   const total = Math.max(0, subtotal - discount) + shipping
 
@@ -167,7 +171,7 @@ export async function saveOrderItemsAction(input: {
 
   const { error: updErr } = await svc
     .from('orders')
-    .update({ subtotal, shipping_amount: shipping, total, updated_at: new Date().toISOString() })
+    .update({ subtotal, shipping_amount: shipping, discount_amount: discount, total, updated_at: new Date().toISOString() })
     .eq('id', input.orderId)
   if (updErr) return { ok: false, message: updErr.message }
 

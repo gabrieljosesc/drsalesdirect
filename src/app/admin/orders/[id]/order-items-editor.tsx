@@ -22,6 +22,8 @@ export function OrderItemsEditor({ orderId, initialItems, initialShipping, disco
 }) {
   const [items, setItems] = useState<EditorItem[]>(() => initialItems.map(i => ({ ...i, key: newKey() })))
   const [shipping, setShipping] = useState(initialShipping)
+  const [discountType, setDiscountType] = useState<'amount' | 'percent'>('amount')
+  const [discountValue, setDiscountValue] = useState(discount)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Suggestion[]>([])
   const [searching, setSearching] = useState(false)
@@ -30,7 +32,9 @@ export function OrderItemsEditor({ orderId, initialItems, initialShipping, disco
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const subtotal = items.reduce((s, i) => s + i.quantity * i.unit_price, 0)
-  const total = Math.max(0, subtotal - discount) + (Number(shipping) || 0)
+  const discountAmount = Math.min(subtotal, Math.max(0,
+    discountType === 'percent' ? (subtotal * (Number(discountValue) || 0)) / 100 : Number(discountValue) || 0))
+  const total = Math.max(0, subtotal - discountAmount) + (Number(shipping) || 0)
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
@@ -62,6 +66,7 @@ export function OrderItemsEditor({ orderId, initialItems, initialShipping, disco
         orderId,
         items: items.map(({ product_id, title, quantity, unit_price }) => ({ product_id, title, quantity, unit_price })),
         shippingAmount: Number(shipping) || 0,
+        discountAmount: Math.round(discountAmount * 100) / 100,
       })
       setMsg(res.ok ? { ok: true, text: 'Order saved.' } : { ok: false, text: res.message ?? 'Save failed.' })
     })
@@ -116,7 +121,19 @@ export function OrderItemsEditor({ orderId, initialItems, initialShipping, disco
 
       <div className="mt-4 space-y-1 border-t border-gray-100 pt-3 text-sm">
         <div className="flex justify-between text-gray-600"><span>Subtotal</span><span>{formatPrice(subtotal)}</span></div>
-        {discount > 0 && <div className="flex justify-between text-green-700"><span>Discount</span><span>−{formatPrice(discount)}</span></div>}
+        <div className="flex items-center justify-between gap-2 text-gray-600">
+          <span>Discount</span>
+          <span className="flex items-center gap-1">
+            <select value={discountType} onChange={e => setDiscountType(e.target.value as 'amount' | 'percent')}
+              className="h-8 rounded-md border border-gray-300 px-1 text-sm">
+              <option value="amount">$</option>
+              <option value="percent">%</option>
+            </select>
+            <Input type="number" min={0} step="0.01" value={discountValue}
+              onChange={e => setDiscountValue(Math.max(0, Number(e.target.value) || 0))} className="w-24 h-8 text-right" />
+            <span className="w-20 text-right text-green-700">−{formatPrice(discountAmount)}</span>
+          </span>
+        </div>
         <div className="flex items-center justify-between text-gray-600">
           <span>Shipping</span>
           <label className="flex items-center gap-1">$
