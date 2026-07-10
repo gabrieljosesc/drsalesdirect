@@ -1,7 +1,6 @@
 -- ============================================================
 -- Dr Sales Direct - FULL DATABASE SETUP (run top-to-bottom)
 -- Paste this whole file into the Supabase SQL Editor of your NEW project
--- Dashboard: https://supabase.com/dashboard/project/YOUR_PROJECT_REF/sql/new
 -- ============================================================
 
 -- >>>>>>>>>>>>>>>>>>>> migrate-schema.sql >>>>>>>>>>>>>>>>>>>>
@@ -308,6 +307,7 @@ alter table public.profiles
   add column if not exists license_expiry  date,
   add column if not exists license_state   text,
   add column if not exists license_country text,
+  add column if not exists license_holder_name text,
   add column if not exists business_phone  text,
   add column if not exists website         text,
   add column if not exists address_line1   text,

@@ -11,6 +11,7 @@ alter table public.profiles
   add column if not exists license_expiry  date,
   add column if not exists license_state   text,
   add column if not exists license_country text,
+  add column if not exists license_holder_name text,
   add column if not exists business_phone  text,
   add column if not exists website         text,
   add column if not exists address_line1   text,
