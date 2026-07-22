@@ -4,8 +4,8 @@ import { Product } from '@/types'
 import ProductCard from '@/components/products/ProductCard'
 import ShopSort from '@/components/products/ShopSort'
 import Pagination from '@/components/products/Pagination'
+import CategoryBanner from '@/components/products/CategoryBanner'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
 
 const PAGE_SIZE = 20
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const supabase = createAdminClient()
   const { data } = await supabase.from('categories').select('name').eq('slug', category).single()
   if (!data) return {}
-  return { title: `${data.name} | Dr Sales Direct` }
+  return { title: data.name }
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {
@@ -66,21 +66,8 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-1.5 text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-[#ec6a82]">Home</Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <Link href="/shop" className="hover:text-[#ec6a82]">Shop</Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-gray-700">{category.name}</span>
-      </nav>
-
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">{category.name}</h1>
-        {category.description && (
-          <p className="text-sm text-gray-500 mt-1">{category.description}</p>
-        )}
-        <p className="text-sm text-gray-400 mt-1">{count ?? 0} products</p>
+        <CategoryBanner slug={slug} name={category.name} description={category.description} count={count ?? 0} />
       </div>
 
       {/* Subcategory pills */}

@@ -11,6 +11,7 @@ import HeroSlideshow from '@/components/home/HeroSlideshow'
 import BrandMarquee from '@/components/home/BrandMarquee'
 import HighlightSlides from '@/components/home/HighlightSlides'
 import FeaturedCarousel from '@/components/home/FeaturedCarousel'
+import FeaturedCategories from '@/components/home/FeaturedCategories'
 import {
   ShieldCheck, Truck, HeadphonesIcon, Award, Gift, Wallet,
   Star,
@@ -34,8 +35,7 @@ const reviews = [
 export default async function HomePage() {
   const supabase = createAdminClient()
 
-  const [{ data: categories }, { data: featured }, { data: carouselRaw }, { data: posts }, brands] = await Promise.all([
-    supabase.from('categories').select('id, slug, name').is('parent_id', null).order('sort_order').limit(18),
+  const [{ data: featured }, { data: carouselRaw }, { data: posts }, brands] = await Promise.all([
     supabase.from('products')
       .select('*, category:categories(*), images:product_images(id,url,sort_order)')
       .eq('is_featured', true).eq('is_active', true).limit(8),
@@ -89,20 +89,7 @@ export default async function HomePage() {
       <BrandMarquee brands={brands} />
 
       {/* ── CATEGORIES ───────────────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Shop by Category</h2>
-          <p className="text-gray-500 mt-2">Everything you need to run your practice, in one place.</p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          {(categories ?? []).map((cat) => (
-            <Link key={cat.slug} href={`/shop/${cat.slug}`}
-              className="group rounded-2xl border border-gray-200 bg-white p-5 text-center hover:border-[#ec6a82] hover:shadow-md hover:-translate-y-0.5 transition-all">
-              <h3 className="font-medium text-gray-700 text-sm leading-snug group-hover:text-[#ec6a82]">{cat.name}</h3>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <FeaturedCategories />
 
       {/* ── BEST SELLERS ─────────────────────────────────────────────── */}
       {featured && featured.length > 0 && (

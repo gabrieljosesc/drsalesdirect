@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { ShoppingCart, Heart, User, Search, Menu, Phone, ChevronDown, X } from 'lucide-react'
+import { ShoppingCart, Heart, User, Search, Menu, Truck, ChevronDown, X } from 'lucide-react'
 import { useState } from 'react'
 import { useCart } from '@/hooks/useCart'
 import { useWishlist } from '@/hooks/useWishlist'
@@ -60,9 +60,9 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
       {/* Top bar */}
       <div className="bg-[#ec6a82] text-white text-sm py-1.5 px-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Phone className="w-3.5 h-3.5" />
-          <span>+1-855-843-4782</span>
-          <span className="text-white/60 ml-2 hidden sm:inline">Mon – Fri / 9:00 AM – 6:00 PM EST</span>
+          <Truck className="w-3.5 h-3.5 flex-shrink-0" />
+          <span className="font-medium">Free shipping on your first order</span>
+          <span className="text-white/70 ml-1.5 hidden sm:inline">· and every order over $795</span>
         </div>
         <div className="hidden md:flex items-center gap-4 text-xs">
           <Link href="/faq" className="hover:text-rose-100 transition-colors">FAQ</Link>

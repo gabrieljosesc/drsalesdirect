@@ -14,6 +14,8 @@ type Slide = {
   secondary?: { label: string; href: string }
   bullets: string[]
   gradient: string
+  /** Optional background photo at /public/hero/<file>. Falls back to the gradient. */
+  image?: string
 }
 
 const SLIDES: Slide[] = [
@@ -25,6 +27,7 @@ const SLIDES: Slide[] = [
     secondary: { label: 'Create Account', href: '/auth/register' },
     bullets: ['Authentic & guaranteed', 'Cold-chain shipping', 'Licensed pros only'],
     gradient: 'from-[#2a4581]/90 via-[#4f64a8]/70 to-[#ec6a82]/55',
+    image: '/hero/hero-1.jpg',
   },
   {
     eyebrow: 'Authentic Injectables, Cold-Chain Guaranteed',
@@ -34,6 +37,7 @@ const SLIDES: Slide[] = [
     secondary: { label: 'Botulinum Toxins', href: '/shop/botulinum-toxins' },
     bullets: ['Original manufacturers', 'Validated cold-chain', 'Wholesale pricing'],
     gradient: 'from-[#264079]/90 via-[#5063a6]/70 to-[#e8657f]/55',
+    image: '/hero/hero-2.jpg',
   },
   {
     eyebrow: 'Wholesale Pricing — Buy More, Save More',
@@ -51,6 +55,7 @@ const INTERVAL = 6500
 export default function HeroSlideshow() {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [failed, setFailed] = useState<Record<string, boolean>>({})
 
   const go = useCallback((next: number) => {
     setIndex((next + SLIDES.length) % SLIDES.length)
@@ -72,6 +77,23 @@ export default function HeroSlideshow() {
       onMouseLeave={() => setPaused(false)}
       aria-roledescription="carousel"
     >
+      {/* Optional per-slide background photo (drop files in /public/hero) */}
+      {SLIDES.map((s) =>
+        s.image && !failed[s.image] ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={s.image}
+            src={s.image}
+            alt=""
+            aria-hidden="true"
+            onError={() => setFailed(f => ({ ...f, [s.image!]: true }))}
+            className={cn(
+              'absolute inset-0 h-full w-full object-cover transition-opacity duration-700',
+              SLIDES[index].image === s.image ? 'opacity-100' : 'opacity-0'
+            )}
+          />
+        ) : null
+      )}
       <div className={cn('absolute inset-0 bg-gradient-to-r transition-colors duration-700', slide.gradient)} />
 
       <div className="relative max-w-7xl mx-auto px-4 py-20 lg:py-28">

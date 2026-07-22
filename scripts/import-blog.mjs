@@ -54,13 +54,17 @@ function stripTags(html) {
     .trim()
 }
 
-/** Light sanitize: drop scripts/styles/iframes, WP block comments, srcset. */
+/** Light sanitize: drop scripts/styles/iframes, WP block comments, ez-toc, srcset. */
 function cleanBody(html) {
   return String(html || '')
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<style[\s\S]*?<\/style>/gi, '')
     .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+    // Easy Table of Contents widget (we render our own TOC)
+    .replace(/<nav\b[^>]*>[\s\S]*?<\/nav>/gi, '')
+    .replace(/<a[^>]*aria-label=["']Toggle Table of Content["'][^>]*>[\s\S]*?<\/a>/gi, '')
+    .replace(/<p>\s*Table of Contents\s*<\/p>/gi, '')
     .replace(/\ssrcset="[^"]*"/gi, '')
     .replace(/\ssizes="[^"]*"/gi, '')
     .replace(/\sclass="[^"]*"/gi, '')
