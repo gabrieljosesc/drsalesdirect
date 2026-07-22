@@ -34,6 +34,7 @@ const shopLinks = [
   { label: 'Mesotherapy', href: '/shop/mesotherapy' },
   { label: 'Orthopedic Injections', href: '/shop/orthopedic-injections' },
   { label: 'Thread Lifts', href: '/shop/threads' },
+  { label: 'Peptides', href: '/peptides' },
 ]
 
 const accountLinks = [
@@ -73,7 +74,7 @@ export default function Footer() {
           <p className="text-sm text-white/85 leading-relaxed max-w-3xl">
             We help doctors and other busy medical professionals save time and money. We source
             medical supplies from all the most trusted manufacturers for your convenience — botulinum
-            toxins, dermal fillers, orthopedic injectables, and rheumatology. To
+            toxins, dermal fillers, orthopedic injectables, rheumatology, and research peptides. To
             find out just how easy it is to get everything you need to run your practice, reach out today.
           </p>
         </div>

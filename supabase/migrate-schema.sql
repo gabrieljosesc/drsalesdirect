@@ -262,6 +262,7 @@ insert into public.categories (slug, name, description, sort_order) values
   ('threads',             'Threads',                 'PDO and lifting threads for licensed practitioners.',                                      180),
   ('eyelash-enhancers',   'Eyelash Enhancers',       'Eyelash growth and enhancement formulations.',                                             190),
   ('prp-kits',            'PRP Kits',                'Platelet-rich plasma preparation kits and accessories.',                                   200),
+  ('peptides',            'Peptides',                'Research-use peptide compounds — descriptions for professional reference.',                205),
   ('other',               'Other',                   'Additional professional products not mapped to a specific therapeutic area.',              999)
 on conflict (slug) do nothing;
 

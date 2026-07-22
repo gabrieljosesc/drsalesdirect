@@ -147,6 +147,7 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
             </div>
           </div>
 
+          {navLink('/peptides', 'Peptides', pathname === '/peptides')}
           {navLink('/about', 'About us', pathname === '/about')}
           {navLink('/blog', 'Blog', pathname.startsWith('/blog'))}
           {navLink('/contact', 'Contact us', pathname === '/contact')}
@@ -237,6 +238,7 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
                 ))}
                 <Link href="/shop" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-semibold text-[#ec6a82] hover:bg-gray-100 rounded-md">All Products →</Link>
                 <div className="pt-2 mt-2 border-t space-y-0.5">
+                  <Link href="/peptides" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]">Peptides</Link>
                   <Link href="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]">About us</Link>
                   <Link href="/blog" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]">Blog</Link>
                   <Link href="/contact" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]">Contact us</Link>
