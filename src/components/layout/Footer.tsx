@@ -69,7 +69,7 @@ export default function Footer() {
       <div className="border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 py-10">
           <div className="bg-white rounded-2xl px-6 py-4 inline-block mb-5">
-            <Image src="/logo.svg" alt="Dr Sales Direct" width={220} height={67} unoptimized className="h-14 w-auto" />
+            <Image src="/logo.png" alt="Dr Sales Direct" width={560} height={197} unoptimized className="h-16 w-auto" />
           </div>
           <p className="text-sm text-white/85 leading-relaxed max-w-3xl">
             We help doctors and other busy medical professionals save time and money. We source

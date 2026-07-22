@@ -77,7 +77,7 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
         <div className="flex items-center gap-10">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
-            <Image src="/logo.svg" alt="Dr Sales Direct" width={286} height={64} priority unoptimized className="h-11 w-auto" />
+            <Image src="/logo.png" alt="Dr Sales Direct" width={560} height={197} priority unoptimized className="h-12 sm:h-14 w-auto" />
           </Link>
 
           {/* Nav (desktop, left-aligned beside logo) */}
