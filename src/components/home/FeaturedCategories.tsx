@@ -1,26 +1,27 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { Syringe, Zap, Sparkles, Scale, Droplet, Layers, Bone, Ruler, ArrowRight, LucideIcon } from 'lucide-react'
+import { Syringe, Eye, Sparkles, Scale, FlaskConical, Bone, Bone as BoneIcon, Stethoscope, ArrowRight, LucideIcon } from 'lucide-react'
+import RotatingImage from '@/components/RotatingImage'
+import { categoryImages } from '@/lib/category-images'
 
 type Cat = { slug: string; name: string; icon: LucideIcon; gradient: string; iconColor: string }
 
-// The 8 headline categories shown on the homepage. Drop a photo at
-// /public/categories/<slug>.jpg and it replaces the gradient automatically.
+// The 8 headline categories shown on the homepage. Photos come from
+// /public/categories/<slug>-<n>.jpg (see lib/category-images) and cross-fade
+// when a category has more than one; otherwise a gradient + icon is shown.
 const FEATURED: Cat[] = [
+  { slug: 'rheumatology', name: 'Rheumatology', icon: Stethoscope, gradient: 'from-sky-100 to-sky-50', iconColor: 'text-sky-500' },
+  { slug: 'ophthalmology', name: 'Ophthalmology', icon: Eye, gradient: 'from-blue-100 to-blue-50', iconColor: 'text-blue-500' },
+  { slug: 'orthopedic-injections', name: 'Orthopedic Injections', icon: Bone, gradient: 'from-indigo-100 to-indigo-50', iconColor: 'text-indigo-500' },
+  { slug: 'osteoporosis', name: 'Osteoporosis', icon: BoneIcon, gradient: 'from-teal-100 to-teal-50', iconColor: 'text-teal-500' },
+  { slug: 'gynecology', name: 'Gynecology', icon: Sparkles, gradient: 'from-pink-100 to-pink-50', iconColor: 'text-pink-500' },
+  { slug: 'peptides', name: 'Peptides', icon: FlaskConical, gradient: 'from-violet-100 to-violet-50', iconColor: 'text-violet-500' },
   { slug: 'dermal-fillers', name: 'Dermal Fillers', icon: Syringe, gradient: 'from-rose-100 to-rose-50', iconColor: 'text-rose-500' },
-  { slug: 'botulinum-toxins', name: 'Botulinum Toxins', icon: Zap, gradient: 'from-sky-100 to-sky-50', iconColor: 'text-sky-500' },
-  { slug: 'skincare', name: 'Skincare', icon: Sparkles, gradient: 'from-amber-100 to-amber-50', iconColor: 'text-amber-500' },
   { slug: 'weight-loss', name: 'Weight Loss', icon: Scale, gradient: 'from-emerald-100 to-emerald-50', iconColor: 'text-emerald-500' },
-  { slug: 'peels-and-masks', name: 'Peels & Masks', icon: Droplet, gradient: 'from-violet-100 to-violet-50', iconColor: 'text-violet-500' },
-  { slug: 'threads', name: 'Thread Lifts', icon: Layers, gradient: 'from-fuchsia-100 to-fuchsia-50', iconColor: 'text-fuchsia-500' },
-  { slug: 'orthopedic-injections', name: 'Orthopedic Injections', icon: Bone, gradient: 'from-blue-100 to-blue-50', iconColor: 'text-blue-500' },
-  { slug: 'cannulas-and-needles', name: 'Cannulas & Needles', icon: Ruler, gradient: 'from-teal-100 to-teal-50', iconColor: 'text-teal-500' },
 ]
 
-function CategoryCard({ cat }: { cat: Cat }) {
-  const [imgOk, setImgOk] = useState(true)
+function CategoryCard({ cat, index }: { cat: Cat; index: number }) {
   const Icon = cat.icon
   return (
     <Link
@@ -28,20 +29,17 @@ function CategoryCard({ cat }: { cat: Cat }) {
       className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-[#ec6a82]/40 hover:shadow-lg"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
-        {/* Photo (if present) */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/categories/${cat.slug}.jpg`}
+        <RotatingImage
+          images={categoryImages(cat.slug)}
           alt={cat.name}
-          onError={() => setImgOk(false)}
-          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${imgOk ? '' : 'hidden'}`}
+          delayMs={index * 700}
+          imgClassName="transition-transform duration-500 group-hover:scale-105"
+          fallback={
+            <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${cat.gradient}`}>
+              <Icon className={`h-12 w-12 ${cat.iconColor} opacity-80`} strokeWidth={1.5} />
+            </div>
+          }
         />
-        {/* Gradient + icon fallback */}
-        {!imgOk && (
-          <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${cat.gradient}`}>
-            <Icon className={`h-12 w-12 ${cat.iconColor} opacity-80`} strokeWidth={1.5} />
-          </div>
-        )}
       </div>
       <div className="flex items-center justify-between px-4 py-3.5">
         <span className="text-sm font-semibold text-gray-800 group-hover:text-[#ec6a82]">{cat.name}</span>
@@ -60,8 +58,8 @@ export default function FeaturedCategories() {
           <p className="mt-2 text-gray-500">Everything you need to run your practice, in one place.</p>
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {FEATURED.map((cat) => (
-            <CategoryCard key={cat.slug} cat={cat} />
+          {FEATURED.map((cat, i) => (
+            <CategoryCard key={cat.slug} cat={cat} index={i} />
           ))}
         </div>
         <div className="mt-8 text-center">

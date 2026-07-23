@@ -1,12 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
+import RotatingImage from '@/components/RotatingImage'
+import { categoryImages } from '@/lib/category-images'
 
 /**
- * Category page hero banner. Uses /public/categories/<slug>.jpg when present,
- * otherwise a branded gradient. Overlays breadcrumb, title, description, count.
+ * Category page hero banner. Cross-fades the category's photos from
+ * /public/categories/<slug>-<n>.jpg, or falls back to a branded gradient.
+ * Overlays breadcrumb, title, description, count.
  */
 export default function CategoryBanner({
   slug, name, description, count,
@@ -16,18 +18,9 @@ export default function CategoryBanner({
   description?: string | null
   count: number
 }) {
-  const [imgOk, setImgOk] = useState(true)
-
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1f3a6b] via-[#3a4a7e] to-[#ec6a82]">
-      {/* Photo (if present) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`/categories/${slug}.jpg`}
-        alt={name}
-        onError={() => setImgOk(false)}
-        className={`absolute inset-0 h-full w-full object-cover ${imgOk ? '' : 'hidden'}`}
-      />
+      <RotatingImage images={categoryImages(slug)} alt={name} intervalMs={6000} />
       <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-900/55 to-gray-900/25" />
 
       <div className="relative px-6 py-10 md:px-10 md:py-14">
