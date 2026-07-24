@@ -29,7 +29,7 @@ export default function Pagination({ currentPage, totalPages }: Props) {
   })
 
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div className="flex flex-wrap items-center justify-center gap-1">
       <Button
         variant="outline"
         size="icon"

@@ -144,6 +144,22 @@
   .pmw-marquee-track { animation: none; }
 }
 
+/* ── Announcement ticker ──────────────────────────────────────────────── */
+@keyframes dsd-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.dsd-ticker-track {
+  animation: dsd-ticker 45s linear infinite;
+  will-change: transform;
+}
+.dsd-ticker-wrap:hover .dsd-ticker-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dsd-ticker-track { animation: none; }
+}
+
 /* ── Hero slideshow fade ──────────────────────────────────────────────── */
 @keyframes pmw-fade-in {
   from { opacity: 0; transform: translateY(8px); }

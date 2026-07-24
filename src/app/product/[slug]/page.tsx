@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single()
   if (!data) return {}
   return {
-    title: `${data.title} | Dr Sales Direct`,
+    title: data.title,
     description: data.description?.slice(0, 160) ?? undefined,
   }
 }

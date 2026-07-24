@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { ShoppingCart, Heart, User, Search, Menu, Truck, ChevronDown, X } from 'lucide-react'
+import { ShoppingCart, Heart, User, Search, Menu, ChevronDown, X } from 'lucide-react'
+import AnnouncementBar from '@/components/layout/AnnouncementBar'
 import { useState } from 'react'
 import { useCart } from '@/hooks/useCart'
 import { useWishlist } from '@/hooks/useWishlist'
@@ -57,19 +58,8 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white border-b shadow-sm">
-      {/* Top bar */}
-      <div className="bg-[#ec6a82] text-white text-sm py-1.5 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Truck className="w-3.5 h-3.5 flex-shrink-0" />
-          <span className="font-medium">Free shipping on your first order</span>
-          <span className="text-white/70 ml-1.5 hidden sm:inline">· and every order over $795</span>
-        </div>
-        <div className="hidden md:flex items-center gap-4 text-xs">
-          <Link href="/faq" className="hover:text-rose-100 transition-colors">FAQ</Link>
-          <Link href="/shipping" className="hover:text-rose-100 transition-colors">Shipping</Link>
-          <Link href="/referral" className="hover:text-rose-100 transition-colors">Rewards</Link>
-        </div>
-      </div>
+      {/* Scrolling announcement ticker */}
+      <AnnouncementBar />
 
       {/* Main nav row */}
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-6">

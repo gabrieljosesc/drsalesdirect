@@ -1,21 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { Syringe, Eye, Sparkles, Scale, Bone, Stethoscope, ArrowRight, LucideIcon } from 'lucide-react'
+import { Syringe, Eye, Sparkles, Scale, Bone, Stethoscope, FlaskConical, ArrowRight, LucideIcon } from 'lucide-react'
 import RotatingImage from '@/components/RotatingImage'
 import { categoryImages } from '@/lib/category-images'
 
 type Cat = { slug: string; name: string; icon: LucideIcon; gradient: string; iconColor: string }
 
-// The headline categories shown on the homepage — every one has photos, which
-// cross-fade when a category has more than one (see lib/category-images);
-// a gradient + icon is the fallback. Osteoporosis and Peptides are reachable
-// from the Products dropdown and the Peptides nav item instead.
+// The client's eight headline categories. Photos come from
+// /public/categories/<slug>-<n>.jpg (see lib/category-images) and cross-fade
+// when a category has more than one; a gradient + icon is the fallback.
 const FEATURED: Cat[] = [
   { slug: 'rheumatology', name: 'Rheumatology', icon: Stethoscope, gradient: 'from-sky-100 to-sky-50', iconColor: 'text-sky-500' },
   { slug: 'ophthalmology', name: 'Ophthalmology', icon: Eye, gradient: 'from-blue-100 to-blue-50', iconColor: 'text-blue-500' },
   { slug: 'orthopedic-injections', name: 'Orthopedic Injections', icon: Bone, gradient: 'from-indigo-100 to-indigo-50', iconColor: 'text-indigo-500' },
+  { slug: 'osteoporosis', name: 'Osteoporosis', icon: Bone, gradient: 'from-teal-100 to-teal-50', iconColor: 'text-teal-500' },
   { slug: 'gynecology', name: 'Gynecology', icon: Sparkles, gradient: 'from-pink-100 to-pink-50', iconColor: 'text-pink-500' },
+  { slug: 'peptides', name: 'Peptides', icon: FlaskConical, gradient: 'from-violet-100 to-violet-50', iconColor: 'text-violet-500' },
   { slug: 'dermal-fillers', name: 'Dermal Fillers', icon: Syringe, gradient: 'from-rose-100 to-rose-50', iconColor: 'text-rose-500' },
   { slug: 'weight-loss', name: 'Weight Loss', icon: Scale, gradient: 'from-emerald-100 to-emerald-50', iconColor: 'text-emerald-500' },
 ]
@@ -56,7 +57,7 @@ export default function FeaturedCategories() {
           <h2 className="text-3xl font-bold text-gray-900">Shop by Category</h2>
           <p className="mt-2 text-gray-500">Everything you need to run your practice, in one place.</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {FEATURED.map((cat, i) => (
             <CategoryCard key={cat.slug} cat={cat} index={i} />
           ))}

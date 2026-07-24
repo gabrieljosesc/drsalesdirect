@@ -16,6 +16,7 @@ export const CATEGORY_IMAGE_COUNT: Record<string, number> = {
   'orthopedic-injections': 3,
   'gynecology': 3,
   'ophthalmology': 3,
+  'osteoporosis': 3,
   'skincare': 1,
 }
 
