@@ -48,7 +48,10 @@ const MAKER = /\b(merz|galderma|teoxane|chroma|croma|sanofi|abbvie|allergan|ibsa
 // packaging / formulation words in a filename that do NOT change product identity.
 // Any OTHER extra word in the file (e.g. PLUS, KISS, HYDRO) means a different
 // product, so the match is rejected.
-const NOISE = new Set('bisoft biphasic soft lidocaine lidocaina complement resize front back side view powder mist filler relleno corporal retouch alternative default persp box vial vials pcs pack ml mg mine cc with and the for un a of new daily care'.split(' '))
+const NOISE = new Set(('bisoft biphasic soft lidocaine lidocaina complement resize front back side view powder mist retouch alternative default persp box vial vials pcs pack ml mg mine cc with and the for un a of new daily care ' +
+  // generic dosage form words: present in a product title but often omitted from
+  // the filename (or vice-versa); they describe the form, not the identity
+  'cream creams serum gel mask masks masque solution fluid cleanser lotion spray drop drops injection filler face facial skin body hydrating moisturizing').split(/\s+/).filter(Boolean))
 const norm = t => String(t || '').toLowerCase().replace(/[®™©]/g, '').replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim()
 const brand = t => new Set(norm(t).replace(LANG, ' ').split(' ').filter(w => w.length >= 1 && !/^\d/.test(w)))
 const doses = t => new Set((String(t).toLowerCase().replace(/,/g, '.').match(/\d+(?:\.\d+)?\s*(?:mg|mcg|ml|iu|g|u|cc)?/g) || [])
@@ -120,11 +123,12 @@ async function main() {
   const jobs = []
   for (const p of targets) {
     const pB = brand(p.title), pD = doses(p.title)
-    if (pB.size === 0) continue
+    const pCore = new Set([...pB].filter(w => !NOISE.has(w)))   // identity words only
+    if (pCore.size === 0) continue
     const cands = []
     for (const g of index) {
-      if (![...pB].every(w => g.b.has(w))) continue          // product name ⊆ filename
-      // and the filename must not add a MEANINGFUL word (a different variant)
+      if (![...pCore].every(w => g.b.has(w))) continue          // product identity ⊆ filename
+      // and the filename must not add a MEANINGFUL (identity) word => different variant
       const extraMeaningful = [...g.b].filter(w => !pB.has(w) && !NOISE.has(w) && !/^\d/.test(w))
       if (extraMeaningful.length) continue
       let doseScore
