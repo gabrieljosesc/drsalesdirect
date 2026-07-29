@@ -23,20 +23,22 @@ const LOGO = path.join(ROOT, 'public', 'logo.png')
 const WM_OPACITY = 0.55
 const WM_WIDTH_PCT = 0.20
 
-// slugs that share the given HD files (order = image order)
+// slugs that share the given HD files (order = image order). Per the client,
+// only peptides carry the watermark (wm: true); everything else stays clean.
 const MAP = [
-  { slugs: ['orencia', 'orencia-non-english'], files: ['rheumatology/ORENICA.png'] },
-  { slugs: ['prolia', 'prolia-non-english'], files: ['rheumatology/PROLIA.png'] },
-  { slugs: ['cjc-1295-no-dac-10mg'], files: ['peptides/14.CJC-1295 No DAC.jpg', 'peptides/13.CJC-1295 DAC.jpg'] },
-  { slugs: ['tesamorelin-10mg'], files: ['peptides/3.Tesamoralin.jpg'] },
-  { slugs: ['wegovy-flextouch-0-25mg'], files: ['weight-loss/WEGOVY 0.25 mg.png'] },
+  { slugs: ['orencia', 'orencia-non-english'], files: ['rheumatology/ORENICA.png'], wm: false },
+  { slugs: ['prolia', 'prolia-non-english'], files: ['rheumatology/PROLIA.png'], wm: false },
+  { slugs: ['cjc-1295-no-dac-10mg'], files: ['peptides/14.CJC-1295 No DAC.jpg', 'peptides/13.CJC-1295 DAC.jpg'], wm: true },
+  { slugs: ['tesamorelin-10mg'], files: ['peptides/3.Tesamoralin.jpg'], wm: true },
+  { slugs: ['wegovy-flextouch-0-25mg'], files: ['weight-loss/WEGOVY 0.25 mg.png'], wm: false },
 ]
 
-async function subtleWatermark(buf) {
+async function processImage(buf, watermark) {
   const base = sharp(buf).rotate().flatten({ background: '#ffffff' })
   const meta = await base.metadata()
   const W = Math.min(meta.width || 1000, 1100)
-  const resized = await base.resize({ width: W, withoutEnlargement: true }).jpeg().toBuffer()
+  const resized = await base.resize({ width: W, withoutEnlargement: true }).jpeg({ quality: 88 }).toBuffer()
+  if (!watermark) return resized
   const m2 = await sharp(resized).metadata()
   const iw = m2.width || W, ih = m2.height || W
   const logoW = Math.round(iw * WM_WIDTH_PCT)
@@ -61,7 +63,7 @@ async function main() {
     for (const f of entry.files) {
       const p = path.join(HD_ROOT, f)
       if (!fs.existsSync(p)) { console.log('MISSING file:', f); continue }
-      outs.push(await subtleWatermark(fs.readFileSync(p)))
+      outs.push(await processImage(fs.readFileSync(p), entry.wm))
     }
     if (!outs.length) continue
 

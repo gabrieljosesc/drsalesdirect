@@ -49,24 +49,15 @@ const norm = t => String(t || '').toLowerCase().replace(/[®™©]/g, '').replac
 const toks = t => new Set(norm(t).split(' ').filter(w => w.length > 1))
 const jac = (a, b) => { const i = [...a].filter(x => b.has(x)).length; const u = new Set([...a, ...b]).size; return u ? i / u : 0 }
 
-/** Composite the current logo onto a clean product photo. */
+/**
+ * Prepare a clean product photo. Per the client, non-peptide categories carry
+ * NO watermark (this script only processes non-peptides), so we just normalise
+ * orientation, resize and re-encode.
+ */
 async function watermark(buf) {
-  const base = sharp(buf).rotate()
-  const meta = await base.metadata()
-  const W = Math.min(meta.width || 900, 1000)
-  const resized = await base.resize({ width: W, withoutEnlargement: true }).toBuffer()
-  const m2 = await sharp(resized).metadata()
-
-  const logoW = Math.round((m2.width || W) * 0.24)
-  const logo = await sharp(LOGO).resize({ width: logoW }).png().toBuffer()
-  const lm = await sharp(logo).metadata()
-
-  const left = Math.round(((m2.width || W) - logoW) / 2)
-  const top = Math.round((m2.height || W) - (lm.height || 0) - Math.round((m2.height || W) * 0.05))
-
-  return sharp(resized)
-    .composite([{ input: logo, left, top: Math.max(0, top), blend: 'over' }])
-    .jpeg({ quality: 86 })
+  return sharp(buf).rotate().flatten({ background: '#ffffff' })
+    .resize({ width: 1000, withoutEnlargement: true })
+    .jpeg({ quality: 88 })
     .toBuffer()
 }
 

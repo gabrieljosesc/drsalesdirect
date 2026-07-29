@@ -30,13 +30,15 @@ const HD_ROOT = 'C:/Users/63950/hdimg'
 const BUCKET = 'product-images'
 const LOGO = path.join(ROOT, 'public', 'logo.png')
 const MATCH_MIN = 0.6
+const MAX_IMAGES = 5
 const WM_OPACITY = 0.55
 const WM_WIDTH_PCT = 0.20
 
 const LANG = /\b(non english|nonenglish|english|turkish|korean|german|hungarian|japan|japanese|french|spanish|italian|russian|polish|danish|slovakian|slovak|default|persp|pack|injection|pen|kwikpen|flextouch|augentropfen|flakon|ql|iud)\b/g
 const norm = t => String(t || '').toLowerCase().replace(/[®™©]/g, '').replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim()
-// brand tokens: words >=2 chars, NOT starting with a digit, language/packaging noise removed
-const brand = t => new Set(norm(t).replace(LANG, ' ').split(' ').filter(w => w.length > 1 && !/^\d/.test(w)))
+// brand tokens: NOT starting with a digit, language/packaging noise removed.
+// Single letters are kept — they distinguish variants like REJURAN I vs S.
+const brand = t => new Set(norm(t).replace(LANG, ' ').split(' ').filter(w => w.length >= 1 && !/^\d/.test(w)))
 // dosage fingerprint (decimals preserved): the numeric core of each dose, so a
 // file's 0.25 never collapses into 0.5 or matches a bare "0".
 const doses = t => new Set((String(t).toLowerCase().replace(/,/g, '.').match(/\d+(?:\.\d+)?\s*(?:mg|mcg|ml|iu|g|u)?/g) || [])
@@ -85,26 +87,28 @@ function matchFile(fname, idx) {
   return { product: top.p, ambiguous }
 }
 
-async function subtleWatermark(buf) {
+// Per the client, the logo watermark is applied to PEPTIDES ONLY; every other
+// category is left clean.
+const WATERMARK_CATEGORIES = new Set(['peptides'])
+
+async function processImage(buf, watermark) {
   const base = sharp(buf).rotate().flatten({ background: '#ffffff' })
   const meta = await base.metadata()
   const W = Math.min(meta.width || 1000, 1100)
-  const resized = await base.resize({ width: W, withoutEnlargement: true }).jpeg().toBuffer()
+  const resized = await base.resize({ width: W, withoutEnlargement: true }).jpeg({ quality: 88 }).toBuffer()
+  if (!watermark) return resized
+
   const m2 = await sharp(resized).metadata()
   const iw = m2.width || W, ih = m2.height || W
-
   const logoW = Math.round(iw * WM_WIDTH_PCT)
   const logo = await sharp(LOGO).resize({ width: logoW }).ensureAlpha().toBuffer()
   const lm = await sharp(logo).metadata()
-  // multiply the logo's alpha by WM_OPACITY (dest-in with a translucent white tile)
   const faded = await sharp(logo)
     .composite([{ input: Buffer.from([255, 255, 255, Math.round(255 * WM_OPACITY)]), raw: { width: 1, height: 1, channels: 4 }, tile: true, blend: 'dest-in' }])
     .png().toBuffer()
-
   const pad = Math.round(iw * 0.025)
   const left = Math.max(0, iw - logoW - pad)
   const top = Math.max(0, ih - (lm.height || 0) - pad)
-
   return sharp(resized).composite([{ input: faded, left, top, blend: 'over' }]).jpeg({ quality: 88 }).toBuffer()
 }
 
@@ -156,10 +160,12 @@ async function main() {
   const failures = []
   for (const { product, files } of byProduct.values()) {
     const rows = []
-    for (let i = 0; i < files.length; i++) {
+    const wm = WATERMARK_CATEGORIES.has(product.category?.slug)
+    const use = files.slice(0, MAX_IMAGES)
+    for (let i = 0; i < use.length; i++) {
       try {
-        const buf = fs.readFileSync(path.join(HD_ROOT, files[i].cat, files[i].file))
-        const out = await subtleWatermark(buf)
+        const buf = fs.readFileSync(path.join(HD_ROOT, use[i].cat, use[i].file))
+        const out = await processImage(buf, wm)
         const keyPath = `hd/${product.slug}-${i}.jpg`
         const { error } = await D.storage.from(BUCKET).upload(keyPath, out, { contentType: 'image/jpeg', upsert: true })
         if (error) throw new Error(error.message)
