@@ -40,7 +40,7 @@ const BUCKET = 'product-images'
 // itself (REVOFIL-FINE-01.jpg), so a near-perfect name match is self-verifying
 // — unlike a foreign DB's product->image mapping, which we found to be wrong
 // for some products.
-const MATCH_MIN = 0.9
+const MATCH_MIN = 0.84
 const MAX_IMAGES = 4
 const LOGO = path.join(ROOT, 'public', 'logo.png')
 const MP_IMAGES = 'C:/Users/63950/Desktop/gabby/medicaplanet/web/public/images'
@@ -110,10 +110,15 @@ async function main() {
   }
 
   const run = LIMIT ? jobs.slice(0, LIMIT) : jobs
-  let done = 0, images = 0
+  let done = 0, images = 0, skippedHd = 0
   const failures = []
 
   for (const j of run) {
+    // Never overwrite the client's HD photos — only fill products that still
+    // have the old watermarked import (or no image at all).
+    const { data: existing } = await D.from('product_images').select('url').eq('product_id', j.d.id).limit(1)
+    if (existing?.length && /\/hd\//.test(existing[0].url)) { skippedHd++; continue }
+
     const rows = []
     const files = j.files.slice(0, MAX_IMAGES)
     for (let i = 0; i < files.length; i++) {
@@ -138,7 +143,7 @@ async function main() {
     if (done && done % 20 === 0) console.log(`  ${done}/${run.length} products …`)
   }
 
-  console.log(`\nRebranded ${done} products, ${images} images.`)
+  console.log(`\nRebranded ${done} products, ${images} images. (skipped ${skippedHd} already on client HD)`)
   if (failures.length) {
     console.log(`\n⚠ ${failures.length} failures:`)
     failures.slice(0, 12).forEach(f => console.log('  -', f))
