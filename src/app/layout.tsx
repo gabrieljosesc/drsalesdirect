@@ -40,11 +40,10 @@ export default async function RootLayout({
   const user = await getAuthUser()
 
   const admin = createAdminClient()
-  const [{ data: categories }, { data: navSamples }] = await Promise.all([
+  const [{ data: allCategories }, { data: navSamples }] = await Promise.all([
     admin
       .from('categories')
-      .select('id, slug, name, parent_id')
-      .is('parent_id', null)
+      .select('id, slug, name, parent_id, sort_order')
       .order('sort_order'),
     admin
       .from('products')
@@ -53,6 +52,18 @@ export default async function RootLayout({
       .eq('is_active', true)
       .limit(3),
   ])
+
+  // Primary navigation = top-level categories with sort_order < 100 (the
+  // client's seven); each carries its child categories (Dermatology umbrella).
+  const cats = allCategories ?? []
+  const categories = cats
+    .filter(c => !c.parent_id && (c.sort_order ?? 0) < 100)
+    .map(c => ({
+      id: c.id, slug: c.slug, name: c.name, parent_id: c.parent_id,
+      children: cats
+        .filter(k => k.parent_id === c.id)
+        .map(k => ({ id: k.id, slug: k.slug, name: k.name })),
+    }))
 
   // Flatten the hero image for each nav sample product
   const samples = (navSamples ?? []).map(p => ({

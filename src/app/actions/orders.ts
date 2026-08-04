@@ -18,12 +18,20 @@ export type PlaceOrderInput = {
   /** Billing address; omit/null when it is the same as shipping. */
   billing?: OrderAddressInput | null
   items: { slug: string; quantity: number }[]
-  cardId: string
-  cvv: string
+  /** Saved card — required for domestic orders; ignored for international. */
+  cardId?: string | null
+  cvv?: string
   couponCode?: string
   customerNotes?: string
   paymentNotes?: string
   policyAccepted?: boolean
+  /**
+   * International order (shipping/billing outside the US): no card is
+   * captured — the team sends a secure payment link after verifying the
+   * customer's government-issued photo ID (required upload).
+   */
+  international?: boolean
+  idDocumentPath?: string
 }
 
 export type PlaceOrderResult = { ok: true; reference: string } | { ok: false; message: string }
@@ -91,8 +99,17 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
   if (!user) return { ok: false, message: 'Please sign in to place an order.' }
 
   if (!input.items.length) return { ok: false, message: 'Your cart is empty.' }
-  if (!input.cardId) return { ok: false, message: 'Select a saved card before placing the order.' }
-  if (!/^\d{3,4}$/.test(input.cvv.trim())) return { ok: false, message: 'Enter the 3–4 digit CVV from your card.' }
+
+  const international = Boolean(input.international)
+  if (international) {
+    // ID must exist and belong to this user (paths are {userId}/{file})
+    if (!input.idDocumentPath || !input.idDocumentPath.startsWith(`${user.id}/`)) {
+      return { ok: false, message: 'International orders require a valid government-issued photo ID. Please upload it to continue.' }
+    }
+  } else {
+    if (!input.cardId) return { ok: false, message: 'Select a saved card before placing the order.' }
+    if (!/^\d{3,4}$/.test((input.cvv ?? '').trim())) return { ok: false, message: 'Enter the 3–4 digit CVV from your card.' }
+  }
 
   const svc = createAdminClient()
 
@@ -145,23 +162,33 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
   const shippingAmount = computeShipping(subtotal - discount, firstOrder)
   const total = Math.max(0, subtotal - discount) + shippingAmount
 
-  // Card snapshot + encrypted CVV
-  const { data: card } = await svc
-    .from('user_saved_cards')
-    .select('id, brand, last4, exp_month, exp_year, name_on_card, pan_encrypted')
-    .eq('id', input.cardId)
-    .eq('user_id', user.id)
-    .single()
-  if (!card) return { ok: false, message: 'Saved card not found. Please add a card on file.' }
-  if (cardExpired(card.exp_month, card.exp_year)) {
-    return { ok: false, message: 'Your saved card is expired. Please update it.' }
-  }
+  // Card snapshot + encrypted CVV (domestic orders only — international
+  // orders are paid through a secure payment link after ID verification)
+  let paymentCardSnapshot: Record<string, unknown> | null = null
+  if (!international) {
+    const { data: card } = await svc
+      .from('user_saved_cards')
+      .select('id, brand, last4, exp_month, exp_year, name_on_card, pan_encrypted')
+      .eq('id', input.cardId!)
+      .eq('user_id', user.id)
+      .single()
+    if (!card) return { ok: false, message: 'Saved card not found. Please add a card on file.' }
+    if (cardExpired(card.exp_month, card.exp_year)) {
+      return { ok: false, message: 'Your saved card is expired. Please update it.' }
+    }
 
-  let cvvEncrypted: string
-  try {
-    cvvEncrypted = encryptCardCvv(input.cvv.trim())
-  } catch {
-    return { ok: false, message: 'Payment processing is not configured. Contact support.' }
+    let cvvEncrypted: string
+    try {
+      cvvEncrypted = encryptCardCvv((input.cvv ?? '').trim())
+    } catch {
+      return { ok: false, message: 'Payment processing is not configured. Contact support.' }
+    }
+    paymentCardSnapshot = {
+      brand: card.brand, last4: card.last4,
+      exp_month: card.exp_month, exp_year: card.exp_year,
+      name_on_card: card.name_on_card, cvv_encrypted: cvvEncrypted,
+      pan_encrypted: card.pan_encrypted ?? null,
+    }
   }
 
   const s = input.shipping
@@ -194,12 +221,10 @@ export async function placeOrder(input: PlaceOrderInput): Promise<PlaceOrderResu
         customer_notes: input.customerNotes || null,
         payment_notes: input.paymentNotes || null,
         policy_acknowledged_at: input.policyAccepted ? new Date().toISOString() : null,
-        payment_card_snapshot: {
-          brand: card.brand, last4: card.last4,
-          exp_month: card.exp_month, exp_year: card.exp_year,
-          name_on_card: card.name_on_card, cvv_encrypted: cvvEncrypted,
-          pan_encrypted: card.pan_encrypted ?? null,
-        },
+        payment_card_snapshot: paymentCardSnapshot,
+        payment_method: international ? 'payment_link' : 'card',
+        requires_id_verification: international,
+        id_document_path: international ? input.idDocumentPath : null,
       })
       .select('id')
       .single()

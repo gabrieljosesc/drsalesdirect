@@ -9,6 +9,7 @@
  * count here. Categories missing from this map fall back to a gradient.
  */
 export const CATEGORY_IMAGE_COUNT: Record<string, number> = {
+  'dermatology': 3,
   'dermal-fillers': 3,
   'weight-loss': 3,
   'peptides': 3,

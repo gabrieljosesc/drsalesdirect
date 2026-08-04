@@ -240,34 +240,46 @@ create policy "product_images_admin_all" on storage.objects
   for all using (bucket_id = 'product-images' and public.is_admin(auth.uid()))
   with check (bucket_id = 'product-images' and public.is_admin(auth.uid()));
 
--- 17. Seed categories. sort_order drives the Products dropdown / shop filters:
--- the client's ten headline categories first, then the rest.
+-- 17. Seed categories. The primary navigation shows the seven top-level
+-- categories with sort_order < 100; Dermatology is an umbrella whose children
+-- (parent_id set below) appear in its hover dropdown. Categories with
+-- sort_order >= 200 stay reachable via /shop but are out of the main nav.
 insert into public.categories (slug, name, description, sort_order) values
-  -- top 10
+  -- the seven primaries
   ('rheumatology',        'Rheumatology',           'Inflammatory and rheumatic disease therapies for specialist use.',                           10),
   ('ophthalmology',       'Ophthalmology',          'Ophthalmic preparations and related professional-use products.',                             20),
   ('orthopedic-injections','Orthopedic Injections', 'Viscosupplementation and joint-care injectables.',                                            30),
-  ('osteoporosis',        'Osteoporosis',           'Osteoporosis-related injectable and adjunct therapies.',                                      40),
-  ('gynecology',          'Gynecology',             'Gynecological and related professional products.',                                            50),
+  ('gynecology',          'Gynecology',             'Gynecological and related professional products.',                                            40),
+  ('weight-loss',         'Weight Loss',            'Anti-obesity and weight-management pharmaceuticals.',                                         50),
   ('peptides',            'Peptides',               'Research-use peptide compounds — descriptions for professional reference.',                   60),
-  ('dermal-fillers',      'Dermal Fillers',         'Hyaluronic acid and related injectable fillers.',                                             70),
-  ('anaesthetics',        'Anesthetics',            'Local and topical anesthetics for professional use.',                                         80),
-  ('body-sculpting',      'Body Sculpting',         'Body contouring and sculpting solutions for licensed practice.',                              90),
-  ('mesotherapy',         'Mesotherapy',            'Mesotherapy and skin-quality solutions.',                                                    100),
-  -- everything else
-  ('botulinum-toxins',    'Botulinum Toxins',       'Neuromodulators for licensed aesthetic and therapeutic use.',                                110),
-  ('skincare',            'Skincare',               'Topical and professional skincare.',                                                         120),
-  ('peels-and-masks',     'Peels and Masks',        'Professional peels, masks, and resurfacing protocols.',                                      130),
-  ('threads',             'Threads',                'PDO and lifting threads for licensed practitioners.',                                        140),
-  ('weight-loss',         'Weight Loss',            'Anti-obesity and weight-management pharmaceuticals.',                                        150),
-  ('cannulas-and-needles','Cannulas and Needles',   'Cannulas, needles, and injection accessories.',                                              160),
-  ('dermal-filler-removal','Dermal Filler Removal', 'Hyaluronidase and related agents for filler reversal.',                                      170),
-  ('fat-removal',         'Fat Removal',            'Lipolytic and fat-reduction technologies where licensed and indicated.',                     180),
-  ('prp-kits',            'PRP Kits',               'Platelet-rich plasma preparation kits and accessories.',                                     190),
-  ('eyelash-enhancers',   'Eyelash Enhancers',      'Eyelash growth and enhancement formulations.',                                               200),
+  ('dermatology',         'Dermatology',            'Aesthetic and dermatology products — fillers, toxins, skincare, threads, and more.',          70),
+  -- dermatology subcategories (parented below)
+  ('dermal-fillers',      'Dermal Fillers',         'Hyaluronic acid and related injectable fillers.',                                             10),
+  ('botulinum-toxins',    'Botulinum Toxins',       'Neuromodulators for licensed aesthetic and therapeutic use.',                                 20),
+  ('skincare',            'Skincare',               'Topical and professional skincare.',                                                          30),
+  ('mesotherapy',         'Mesotherapy',            'Mesotherapy and skin-quality solutions.',                                                     40),
+  ('threads',             'Threads',                'PDO and lifting threads for licensed practitioners.',                                         50),
+  ('anaesthetics',        'Anesthetics',            'Local and topical anesthetics for professional use.',                                         60),
+  ('peels-and-masks',     'Peels and Masks',        'Professional peels, masks, and resurfacing protocols.',                                       70),
+  ('body-sculpting',      'Body Sculpting',         'Body contouring and sculpting solutions for licensed practice.',                              80),
+  ('fat-removal',         'Fat Removal',            'Lipolytic and fat-reduction technologies where licensed and indicated.',                      90),
+  ('dermal-filler-removal','Dermal Filler Removal', 'Hyaluronidase and related agents for filler reversal.',                                      100),
+  ('cannulas-and-needles','Cannulas and Needles',   'Cannulas, needles, and injection accessories.',                                              110),
+  ('prp-kits',            'PRP Kits',               'Platelet-rich plasma preparation kits and accessories.',                                     120),
+  ('eyelash-enhancers',   'Eyelash Enhancers',      'Eyelash growth and enhancement formulations.',                                               130),
+  -- reachable via /shop, outside the primary nav
+  ('osteoporosis',        'Osteoporosis',           'Osteoporosis-related injectable and adjunct therapies.',                                     200),
   ('asthma',              'Asthma',                 'Respiratory therapies supplied through professional channels.',                              210),
   ('other',               'Other',                  'Additional professional products not mapped to a specific therapeutic area.',                999)
 on conflict (slug) do nothing;
+
+-- Parent the dermatology subcategories under the Dermatology umbrella
+update public.categories set parent_id = (select id from public.categories where slug = 'dermatology')
+where slug in (
+  'dermal-fillers','botulinum-toxins','skincare','mesotherapy','threads',
+  'anaesthetics','peels-and-masks','body-sculpting','fat-removal',
+  'dermal-filler-removal','cannulas-and-needles','prp-kits','eyelash-enhancers'
+);
 
 -- 18. Seed blog
 insert into public.blog_posts (slug, title, excerpt, body, published_at, is_published) values

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { ShoppingCart, Heart, User, Search, Menu, ChevronDown, X } from 'lucide-react'
+import { ShoppingCart, Heart, User, Search, Menu, ChevronDown, ChevronRight, X } from 'lucide-react'
 import AnnouncementBar from '@/components/layout/AnnouncementBar'
 import { useState } from 'react'
 import { useCart } from '@/hooks/useCart'
@@ -14,11 +14,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import SearchBar from '@/components/products/SearchBar'
 import { logoutAction } from '@/app/actions/auth'
 
+interface ChildCategory {
+  id: string
+  slug: string
+  name: string
+}
+
 interface Category {
   id: string
   slug: string
   name: string
   parent_id: string | null
+  children?: ChildCategory[]
 }
 
 interface NavSample {
@@ -42,6 +49,7 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
   const pathname = usePathname()
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileDermOpen, setMobileDermOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
 
   const navLink = (href: string, label: string, active: boolean) => (
@@ -83,20 +91,59 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
               Products <ChevronDown className="w-4 h-4" />
             </button>
             <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 hidden group-hover:block z-50">
-              <div className="w-[720px] bg-white rounded-xl border shadow-xl p-4 grid grid-cols-[1fr_280px] gap-4">
-                {/* Categories */}
+              <div className="w-[560px] bg-white rounded-xl border shadow-xl p-4 grid grid-cols-[1fr_250px] gap-4">
+                {/* Primary categories (7) — Dermatology expands its subcategories */}
                 <div>
                   <p className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wide text-gray-400">Shop by Category</p>
-                  <div className="grid grid-cols-2 gap-0.5">
-                    {categories.map(cat => (
-                      <Link
-                        key={cat.slug}
-                        href={`/shop/${cat.slug}`}
-                        className="rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#ec6a82] transition-colors"
-                      >
-                        {cat.name}
-                      </Link>
-                    ))}
+                  <div className="space-y-0.5">
+                    {categories.map(cat => {
+                      const kids = cat.children ?? []
+                      if (kids.length === 0) {
+                        return (
+                          <Link
+                            key={cat.slug}
+                            href={`/shop/${cat.slug}`}
+                            className="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#ec6a82] transition-colors"
+                          >
+                            {cat.name}
+                          </Link>
+                        )
+                      }
+                      // Umbrella category with hover flyout of subcategories
+                      return (
+                        <div key={cat.slug} className="group/sub relative">
+                          <Link
+                            href={`/shop/${cat.slug}`}
+                            className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#ec6a82] transition-colors"
+                          >
+                            {cat.name}
+                            <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
+                          </Link>
+                          <div className="absolute left-full top-0 z-10 hidden group-hover/sub:block pl-2">
+                            <div className="w-[420px] rounded-xl border bg-white p-3 shadow-xl">
+                              <p className="px-2 pb-1.5 text-[11px] font-semibold uppercase tracking-wide text-gray-400">{cat.name}</p>
+                              <div className="grid grid-cols-2 gap-0.5">
+                                <Link
+                                  href={`/shop/${cat.slug}`}
+                                  className="rounded-lg px-2.5 py-1.5 text-sm font-semibold text-[#ec6a82] hover:bg-rose-50 transition-colors"
+                                >
+                                  All {cat.name}
+                                </Link>
+                                {kids.map(k => (
+                                  <Link
+                                    key={k.slug}
+                                    href={`/shop/${k.slug}`}
+                                    className="rounded-lg px-2.5 py-1.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#ec6a82] transition-colors"
+                                  >
+                                    {k.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                   <Link
                     href="/shop"
@@ -213,19 +260,66 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
               <nav className="mt-6 space-y-0.5">
                 <Link href="/" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]">Home</Link>
                 <p className="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">Products</p>
-                {categories.map(cat => (
-                  <Link
-                    key={cat.slug}
-                    href={`/shop/${cat.slug}`}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      'block px-3 py-2 text-sm rounded-md transition-colors',
-                      pathname.startsWith(`/shop/${cat.slug}`) ? 'bg-[#ec6a82] text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]'
-                    )}
-                  >
-                    {cat.name}
-                  </Link>
-                ))}
+                {categories.map(cat => {
+                  const kids = cat.children ?? []
+                  if (kids.length === 0) {
+                    return (
+                      <Link
+                        key={cat.slug}
+                        href={`/shop/${cat.slug}`}
+                        onClick={() => setMobileOpen(false)}
+                        className={cn(
+                          'block px-3 py-2 text-sm rounded-md transition-colors',
+                          pathname.startsWith(`/shop/${cat.slug}`) ? 'bg-[#ec6a82] text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]'
+                        )}
+                      >
+                        {cat.name}
+                      </Link>
+                    )
+                  }
+                  const open = mobileDermOpen
+                  return (
+                    <div key={cat.slug}>
+                      <div className="flex items-center">
+                        <Link
+                          href={`/shop/${cat.slug}`}
+                          onClick={() => setMobileOpen(false)}
+                          className={cn(
+                            'flex-1 px-3 py-2 text-sm rounded-md transition-colors',
+                            pathname.startsWith(`/shop/${cat.slug}`) ? 'bg-[#ec6a82] text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]'
+                          )}
+                        >
+                          {cat.name}
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setMobileDermOpen(v => !v)}
+                          aria-label={`${open ? 'Collapse' : 'Expand'} ${cat.name}`}
+                          className="p-2 text-gray-400 hover:text-[#ec6a82]"
+                        >
+                          <ChevronDown className={cn('w-4 h-4 transition-transform', open && 'rotate-180')} />
+                        </button>
+                      </div>
+                      {open && (
+                        <div className="ml-3 border-l border-gray-200 pl-2 space-y-0.5">
+                          {kids.map(k => (
+                            <Link
+                              key={k.slug}
+                              href={`/shop/${k.slug}`}
+                              onClick={() => setMobileOpen(false)}
+                              className={cn(
+                                'block px-3 py-1.5 text-sm rounded-md transition-colors',
+                                pathname.startsWith(`/shop/${k.slug}`) ? 'bg-[#ec6a82] text-white' : 'text-gray-600 hover:bg-gray-100 hover:text-[#ec6a82]'
+                              )}
+                            >
+                              {k.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
                 <Link href="/shop" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-semibold text-[#ec6a82] hover:bg-gray-100 rounded-md">All Products →</Link>
                 <div className="pt-2 mt-2 border-t space-y-0.5">
                   <Link href="/peptides" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#ec6a82]">Peptides</Link>

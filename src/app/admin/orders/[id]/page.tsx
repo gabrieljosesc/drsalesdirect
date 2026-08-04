@@ -105,6 +105,16 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
     try { cardFullNumber = formatPan(decryptCardPan(cardPanEncrypted)) } catch { cardFullNumber = null }
   }
 
+  // International orders: signed URL for the customer's photo ID (1 hour)
+  const isInternational = Boolean(order.requires_id_verification)
+  let idDocumentUrl: string | null = null
+  if (order.id_document_path) {
+    const { data: signed } = await svc.storage
+      .from('id-documents')
+      .createSignedUrl(order.id_document_path, 3600)
+    idDocumentUrl = signed?.signedUrl ?? null
+  }
+
   return (
     <div className="max-w-3xl">
       <Link href="/admin/orders" className="text-sm text-[#ec6a82] hover:underline">← Orders</Link>
@@ -114,13 +124,45 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Pro
           <h1 className="text-2xl font-bold text-gray-900">Order {order.reference_number ?? ''}</h1>
           <p className="mt-0.5 text-xs text-gray-400 font-mono">{order.id}</p>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusColor(order.status)}`}>
-          {statusLabel(order.status)}
-        </span>
+        <div className="flex items-center gap-2">
+          {isInternational && (
+            <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
+              International · payment link
+            </span>
+          )}
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusColor(order.status)}`}>
+            {statusLabel(order.status)}
+          </span>
+        </div>
       </div>
 
       {sp.saved && <p className="mt-3 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">Order updated.</p>}
       {sp.error && <p className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{decodeURIComponent(sp.error)}</p>}
+
+      {isInternational && (
+        <section className="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
+          <h2 className="text-xs font-semibold uppercase tracking-wide text-blue-800">International order — verification required</h2>
+          <p className="mt-1 text-sm text-blue-900">
+            No card was captured at checkout. Verify the customer&apos;s photo ID below, then send a
+            secure payment link to <span className="font-medium">{order.email}</span>.
+          </p>
+          <div className="mt-2">
+            {idDocumentUrl ? (
+              <a
+                href={idDocumentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+              >
+                View government photo ID ↗
+              </a>
+            ) : (
+              <p className="text-sm font-medium text-red-700">No ID document on file — do not process this order.</p>
+            )}
+            <span className="ml-2 align-middle text-xs text-blue-700/70">Secure link, expires in 1 hour.</span>
+          </div>
+        </section>
+      )}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         {/* Customer */}

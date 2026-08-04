@@ -10,6 +10,8 @@ import { computeShipping, SHIPPING_RATES_TEXT } from '@/lib/shipping'
 import { meetsCheckoutMinimumUsd } from '@/lib/cart-minimum'
 import { CartMinimumBar } from '@/components/CartMinimumBar'
 import { placeOrder, isFirstOrder } from '@/app/actions/orders'
+import { uploadIdDocument } from '@/app/actions/id-verification'
+import { isInternationalCountry } from '@/lib/international'
 import { validateCoupon } from '@/app/actions/coupons'
 import { createClient } from '@/lib/supabase/client'
 import { AddressAutocomplete } from '@/components/AddressAutocomplete'
@@ -19,7 +21,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
-import { ShoppingCart, Tag, X, CreditCard } from 'lucide-react'
+import { ShoppingCart, Tag, X, CreditCard, Globe, FileCheck2, Upload } from 'lucide-react'
 
 type SavedCard = { id: string; brand: string | null; last4: string; exp_month: number; exp_year: number; name_on_card: string; is_default: boolean }
 type SavedAddress = { id: string; label: string | null; recipient_name: string; phone: string | null; line1: string; line2: string | null; city: string | null; state: string | null; postal_code: string | null; country: string | null; is_default: boolean }
@@ -66,6 +68,12 @@ export default function CheckoutPage() {
 
   const [customerNotes, setCustomerNotes] = useState('')
   const [paymentNotes, setPaymentNotes] = useState('')
+
+  // International-order verification (government photo ID + payment link)
+  const [idDocPath, setIdDocPath] = useState<string | null>(null)
+  const [idUploading, setIdUploading] = useState(false)
+  const [idModalOpen, setIdModalOpen] = useState(false)
+  const [idPromptShown, setIdPromptShown] = useState(false)
   const [policyAccepted, setPolicyAccepted] = useState(false)
   const [couponInput, setCouponInput] = useState('')
   const [coupon, setCoupon] = useState<{ code: string; discount: number } | null>(null)
@@ -74,6 +82,39 @@ export default function CheckoutPage() {
   const usableCards = useMemo(() => savedCards.filter(c => !cardExpired(c)), [savedCards])
   const selectedCard = usableCards.find(c => c.id === selectedCardId) ?? usableCards[0] ?? null
   const hasUsableCard = usableCards.length > 0
+
+  // Address outside the US → secure-payment-link flow + required photo ID
+  const international = useMemo(
+    () => isInternationalCountry(shipping.country) || (!billingSame && isInternationalCountry(billing.country)),
+    [shipping.country, billingSame, billing.country]
+  )
+
+  // Pop the ID-verification modal the first time an international address is detected
+  useEffect(() => {
+    if (international && !idDocPath && !idPromptShown && !prefilling) {
+      setIdModalOpen(true)
+      setIdPromptShown(true)
+    }
+  }, [international, idDocPath, idPromptShown, prefilling])
+
+  async function handleIdFile(file: File | null) {
+    if (!file) return
+    setIdUploading(true)
+    try {
+      const fd = new FormData()
+      fd.set('file', file)
+      const res = await uploadIdDocument(fd)
+      if (res.ok) {
+        setIdDocPath(res.path)
+        setIdModalOpen(false)
+        toast.success('ID uploaded — thank you. Your order can now be placed.')
+      } else {
+        toast.error(res.message)
+      }
+    } finally {
+      setIdUploading(false)
+    }
+  }
 
   // Checkout operates on SELECTED cart lines only (same as MedicaPlanet)
   const total = selectedTotal
@@ -163,10 +204,18 @@ export default function CheckoutPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
-    if (!selectedCard) { setError('Add a non-expired card on file before placing this order.'); return }
     if (missingShipping.length) { setError(`Complete the shipping address: ${missingShipping.join(', ')}.`); return }
     if (missingBilling.length) { setError(`Complete the billing address: ${missingBilling.join(', ')}.`); return }
-    if (cvv.trim().length < 3) { setError('Enter the CVV from your card.'); return }
+    if (international) {
+      if (!idDocPath) {
+        setIdModalOpen(true)
+        setError('International orders require a government-issued photo ID. Please upload it to continue.')
+        return
+      }
+    } else {
+      if (!selectedCard) { setError('Add a non-expired card on file before placing this order.'); return }
+      if (cvv.trim().length < 3) { setError('Enter the CVV from your card.'); return }
+    }
     if (!minimumMet) { setError('Minimum order not reached. Add more items before checking out.'); return }
     if (!policyAccepted) { setError('Please confirm the professional-use acknowledgement.'); return }
 
@@ -175,12 +224,14 @@ export default function CheckoutPage() {
       shipping,
       billing: billingSame ? null : billing,
       items: selectedItems.map(i => ({ slug: i.product.slug, quantity: i.quantity })),
-      cardId: selectedCard.id,
-      cvv: cvv.trim(),
+      cardId: international ? null : selectedCard!.id,
+      cvv: international ? undefined : cvv.trim(),
       couponCode: coupon?.code,
       customerNotes,
       paymentNotes: paymentNotes.trim() || undefined,
       policyAccepted,
+      international,
+      idDocumentPath: international ? idDocPath! : undefined,
     })
     setLoading(false)
     if (!res.ok) { setError(res.message); toast.error(res.message); return }
@@ -215,8 +266,48 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Blocking modal when no usable card */}
-      {!hasUsableCard && (
+      {/* ID-verification modal for international orders */}
+      {idModalOpen && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl">
+            <div className="flex items-start justify-between gap-3">
+              <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+                <Globe className="h-5 w-5 text-[#ec6a82]" /> International order verification
+              </h2>
+              <button type="button" onClick={() => setIdModalOpen(false)} aria-label="Close" className="text-gray-400 hover:text-gray-600">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <p className="mt-2 text-sm text-gray-600">
+              Your address appears to be outside the United States. For security, international
+              orders require a valid <strong>government-issued photo ID</strong> before they can be
+              approved, and payment is completed through a <strong>secure payment link</strong> our
+              team sends after verification — your card is not charged at checkout.
+            </p>
+            <label className={cn(
+              'mt-4 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-6 text-center transition-colors',
+              idUploading ? 'border-gray-300 bg-gray-50 text-gray-400' : 'border-[#ec6a82]/40 bg-rose-50/50 text-gray-600 hover:border-[#ec6a82] hover:bg-rose-50'
+            )}>
+              <Upload className="h-6 w-6 text-[#ec6a82]" />
+              <span className="text-sm font-medium">{idUploading ? 'Uploading…' : 'Upload photo ID (passport, driver’s license…)'}</span>
+              <span className="text-xs text-gray-400">JPG, PNG, WebP or PDF · max 10 MB · stored securely, visible to our verification team only</span>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,application/pdf"
+                className="hidden"
+                disabled={idUploading}
+                onChange={e => handleIdFile(e.target.files?.[0] ?? null)}
+              />
+            </label>
+            <p className="mt-3 text-xs text-gray-400">
+              You can close this window, but the order cannot be placed until the ID is uploaded.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Blocking modal when no usable card (domestic orders only) */}
+      {!hasUsableCard && !international && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 px-4">
           <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl">
             <h2 className="text-lg font-semibold text-gray-900">Update card information</h2>
@@ -301,42 +392,70 @@ export default function CheckoutPage() {
                 </label>
               </div>
 
-              {/* Payment card */}
-              <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 sm:col-span-2">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Payment card</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900 flex items-center gap-1.5">
-                      <CreditCard className="w-4 h-4 text-gray-400" />
-                      {selectedCard ? cardLabel(selectedCard) : 'No valid card on file'}
-                    </p>
-                    {selectedCard && <p className="text-xs text-gray-500">Name on card: {selectedCard.name_on_card}</p>}
+              {/* Payment: card on file (domestic) or secure link + ID (international) */}
+              {international ? (
+                <div className="rounded-lg border border-[#ec6a82]/30 bg-rose-50/60 p-3 sm:col-span-2">
+                  <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[#a94d61]">
+                    <Globe className="h-3.5 w-3.5" /> International order
+                  </p>
+                  <p className="mt-1 text-sm text-gray-700">
+                    Payment is completed through a <strong>secure payment link</strong> our team sends
+                    after your ID is verified — no card is charged at checkout.
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    {idDocPath ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                        <FileCheck2 className="h-3.5 w-3.5" /> Photo ID uploaded
+                      </span>
+                    ) : (
+                      <>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+                          Photo ID required
+                        </span>
+                        <Button type="button" size="sm" onClick={() => setIdModalOpen(true)} className="bg-[#ec6a82] hover:bg-[#d95672] h-7 px-3 text-xs">
+                          Upload ID
+                        </Button>
+                      </>
+                    )}
                   </div>
-                  <Link href="/account/payment-methods" className="text-xs font-medium text-[#ec6a82] hover:underline whitespace-nowrap">Manage cards</Link>
                 </div>
-
-                {usableCards.length > 1 && (
-                  <select
-                    value={selectedCard?.id ?? ''}
-                    onChange={e => setSelectedCardId(e.target.value || null)}
-                    className="mt-3 w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
-                  >
-                    {usableCards.map(c => <option key={c.id} value={c.id}>{cardLabel(c)}{c.is_default ? ' (Default)' : ''}</option>)}
-                  </select>
-                )}
-
-                {selectedCard && (
-                  <div className="mt-3">
-                    <label className="text-xs font-medium text-gray-600">CVV / Security code <span className="text-red-500">*</span></label>
-                    <input
-                      type="password" inputMode="numeric" maxLength={4} value={cvv}
-                      onChange={e => setCvv(e.target.value.replace(/\D/g, ''))}
-                      placeholder="3–4 digits" autoComplete="cc-csc"
-                      className="mt-1 w-24 rounded-md border border-gray-300 px-3 py-2 text-sm"
-                    />
+              ) : (
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 sm:col-span-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Payment card</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900 flex items-center gap-1.5">
+                        <CreditCard className="w-4 h-4 text-gray-400" />
+                        {selectedCard ? cardLabel(selectedCard) : 'No valid card on file'}
+                      </p>
+                      {selectedCard && <p className="text-xs text-gray-500">Name on card: {selectedCard.name_on_card}</p>}
+                    </div>
+                    <Link href="/account/payment-methods" className="text-xs font-medium text-[#ec6a82] hover:underline whitespace-nowrap">Manage cards</Link>
                   </div>
-                )}
-              </div>
+
+                  {usableCards.length > 1 && (
+                    <select
+                      value={selectedCard?.id ?? ''}
+                      onChange={e => setSelectedCardId(e.target.value || null)}
+                      className="mt-3 w-full max-w-md rounded-md border border-gray-300 bg-white px-3 py-2 text-sm"
+                    >
+                      {usableCards.map(c => <option key={c.id} value={c.id}>{cardLabel(c)}{c.is_default ? ' (Default)' : ''}</option>)}
+                    </select>
+                  )}
+
+                  {selectedCard && (
+                    <div className="mt-3">
+                      <label className="text-xs font-medium text-gray-600">CVV / Security code <span className="text-red-500">*</span></label>
+                      <input
+                        type="password" inputMode="numeric" maxLength={4} value={cvv}
+                        onChange={e => setCvv(e.target.value.replace(/\D/g, ''))}
+                        placeholder="3–4 digits" autoComplete="cc-csc"
+                        className="mt-1 w-24 rounded-md border border-gray-300 px-3 py-2 text-sm"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </section>
 
@@ -419,7 +538,7 @@ export default function CheckoutPage() {
           </label>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <Button type="submit" size="lg" disabled={loading || !hasUsableCard || !minimumMet} className="bg-[#ec6a82] hover:bg-[#d95672]">
+          <Button type="submit" size="lg" disabled={loading || (international ? !idDocPath : !hasUsableCard) || !minimumMet} className="bg-[#ec6a82] hover:bg-[#d95672]">
             {loading ? 'Placing Order…' : 'Place Order'}
           </Button>
         </div>
