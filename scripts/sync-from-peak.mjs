@@ -172,6 +172,23 @@ async function main() {
     return
   }
 
+  // --sync-prices: make every matched drs product carry peak's exact price
+  // and volume tiers (user-confirmed overwrite of the old-site pricing).
+  if (process.argv.includes('--sync-prices')) {
+    let updated = 0, same = 0
+    for (const { p, d } of matched) {
+      if (Number(p.base_price) === Number(d.base_price) &&
+          JSON.stringify(p.price_tiers ?? []) === JSON.stringify(d.price_tiers ?? [])) { same++; continue }
+      const { error } = await D.from('products')
+        .update({ base_price: p.base_price, price_tiers: p.price_tiers ?? [] })
+        .eq('id', d.id)
+      if (error) console.log(`  ✗ ${d.title}: ${error.message}`)
+      else updated++
+    }
+    console.log(`Price/tier sync: ${updated} updated, ${same} already identical.`)
+    return
+  }
+
   let added = 0, images = 0, skipped = 0
   const fails = []
   for (const p of missing) {
