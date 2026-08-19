@@ -68,7 +68,7 @@ async function main() {
   const [{ data: pp }, { data: pImgs }, { data: dd }, { data: dCats }] = await Promise.all([
     P.from('products').select('id,slug,title,description,sku,base_price,price_tiers,currency,rating,review_count,is_active, category:categories(slug)'),
     P.from('product_images').select('product_id,url,sort_order'),
-    D.from('products').select('id,slug,title,base_price,price_tiers'),
+    D.from('products').select('id,slug,title,base_price,price_tiers,is_active, category:categories(name)'),
     D.from('categories').select('id,slug'),
   ])
   const catId = Object.fromEntries(dCats.map(c => [c.slug, c.id]))
@@ -169,6 +169,29 @@ async function main() {
   if (DRY) {
     console.log('MISSING (would be added):')
     missing.forEach(p => console.log(`  [${p.category?.slug}] ${p.title}  $${p.base_price} tiers:${(p.price_tiers ?? []).length}`))
+    return
+  }
+
+  // --prune: drsalesdirect must mirror peak EXACTLY — deactivate every active
+  // drs product that no active peak product matched. Deactivation (not hard
+  // delete) keeps past-order references intact and stays reversible.
+  if (process.argv.includes('--prune')) {
+    const keptIds = new Set(matched.map(({ d }) => d.id))
+    const toRemove = dd.filter(d => d.is_active && !keptIds.has(d.id))
+    const byCat = {}
+    for (const d of toRemove) (byCat[d.category?.name ?? 'Other'] = byCat[d.category?.name ?? 'Other'] || []).push(d.title)
+    console.log(`PRUNE: deactivating ${toRemove.length} drs-only products:`)
+    for (const c of Object.keys(byCat).sort()) {
+      console.log(`  [${c}] (${byCat[c].length})`)
+      byCat[c].sort().forEach(t => console.log(`     - ${t}`))
+    }
+    if (!process.argv.includes('--apply')) { console.log('\n(dry) re-run with --prune --apply to deactivate'); return }
+    const ids = toRemove.map(d => d.id)
+    for (let i = 0; i < ids.length; i += 100) {
+      const { error } = await D.from('products').update({ is_active: false }).in('id', ids.slice(i, i + 100))
+      if (error) { console.log('✗', error.message); return }
+    }
+    console.log(`\nDeactivated ${ids.length} products.`)
     return
   }
 

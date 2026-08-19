@@ -1,7 +1,8 @@
 PRODUCT PHOTOS — Dr Sales Direct
 ================================
 
-All 563 active products have images. 526 use verified clean HD sources.
+All 431 active products have images (catalog now mirrors Peak Medical exactly;
+drs-only products were deactivated). 394 use verified clean HD sources.
 The 37 below (newly added from the Peak Medical catalog sync) currently use
 Peak Medical's photos as a fallback — send HD photos named after the product to upgrade them:
 
