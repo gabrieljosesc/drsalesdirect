@@ -1,18 +1,63 @@
 PRODUCT PHOTOS — Dr Sales Direct
 ================================
 
-COMPLETE. All 403 active products now display a clean HD image.
+All 563 active products have images. 526 use verified clean HD sources.
+The 37 below (newly added from the Peak Medical catalog sync) currently use
+Peak Medical's photos as a fallback — send HD photos named after the product to upgrade them:
 
-- Old-watermark images remaining: 0
-- Products with no image: 0
-- Watermark policy: Dr Sales Direct logo on PEPTIDES only (bottom-right,
-  subtle); every other category is clean per the client's instruction.
+BOTULINUM TOXINS (2)
+  - BOTULAX® 100u (Korean)
+  - Re N Tox™ 100u
 
-Sources used: the client's category HD packages (including the folder-
-organised Dermatology archive and the final "Missing Images" batch of 34),
-plus verified clean photos from the MedicaPlanet library where the client
-had not supplied one.
+CANNULAS AND NEEDLES (2)
+  - INTRALINE® COG C18100M-C Dimension 720 18G 100mm
+  - SOFTFIL® PRECISION Micro-Cannula 25G/50mm
 
-To update any product's photo later: replace it from the admin panel
-(/admin/products), or drop a product-named file in a folder and run one of
-the scripts/ importers (apply-hd-images.mjs, fill-remaining-images.mjs).
+DERMAL FILLERS (13)
+  - FILLMED® NCTF 135 HA (10 vials)
+  - KARISMA RH COLLAGEN SOFTFILLER BIORESTITUTIVO FACE
+  - METOO FILL DEEP
+  - METOO FILL LIGHT
+  - METOO FILL VOLUME
+  - NEAUVIA™ ORGANIC INTENSE MAN
+  - NEAUVIA™ ORGANIC STIMULATE MAN
+  - NUCLEOFILL™ MEDIUM PLUS
+  - NUCLEOFILL™ SOFT PLUS
+  - REFINE + ULTRA SOFT
+  - REVOFIL AQUASHINE BR SOFT FILLER - 2 Pre-Filled Syringes
+  - REVOFIL AQUASHINE PTX - 2 Pre-Filled Syringes
+  - STYLAGE® XXL BI-SOFT® Mepivacaine
+
+OPHTHALMOLOGY (1)
+  - EYLEA® (English Alternative)
+
+PEELS AND MASKS (1)
+  - FILORGA® TIME PEEL (NORMAL SKIN)
+
+PEPTIDES (1)
+  - BPC-157 20mg
+
+RHEUMATOLOGY (1)
+  - ACTEMRA® 400mg/20ml
+
+SKINCARE (6)
+  - C-VIT RADIANCE GLOWING FLUID
+  - MESOESTETIC® COSMELAN® 2
+  - MESOESTETIC® MELAN TRAN3X CONCENTRATE
+  - NATUVALIA AMPOULES GLOWING EFFECT
+  - REPASKIN FLUID INVISIBLE SPF 50ml
+  - ZO® CALMING TONER PH BALANCER
+
+THREADS (8)
+  - INTRALINE® MONO 29G 38 50 6-0
+  - INTRALINE® MONO 29G 50 70 6-0
+  - INTRALINE® MONO M3038 - 30G 38mm/50mm
+  - INTRALINE® PDO THREADS Cog Dimension 360 B2190-C-21G 90mm/150mm
+  - INTRALINE® PDO THREADS Cog Dimension 360 C19100-C-19G 100mm/140mm
+  - INTRALINE® SPIRAL 29G 50 70 6-0
+  - INTRALINE® SPIRAL S3038 - 30G 38mm/50mm
+  - INTRALINE® TRIPLE TR2650 - 26G 50mm/70mm
+
+WEIGHT LOSS (2)
+  - OZEMPIC® 1mg (Hungarian)
+  - OZEMPIC® 1mg (Polish)

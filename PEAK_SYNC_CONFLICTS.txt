@@ -1,0 +1,321 @@
+PRICE/TIER DIFFERENCES (matched products, drs NOT overwritten)
+======================================================================
+$  XEOMIN® 100u  | peak $409 vs drs $349 ("XEOMIN® 100U")
+$  DYSPORT® 300u  | peak $439 vs drs $359 ("DYSPORT® 300U")
+$  BOTOX® 100u (Non-English)  | peak $419 vs drs $379 ("BOTOX® 100 Units")
+$  AZZALURE®  | peak $159 vs drs $239 ("AZZALURE®")
+$  STYLAGE® XXL BI-SOFT®  | peak $229 vs drs $159 ("STYLAGE® XXL")
+$  STYLAGE® HYDRO BI-SOFT®  | peak $69 vs drs $49 ("STYLAGE® HYDRO")
+$  STYLAGE® HYDROMAX BI-SOFT®  | peak $99 vs drs $59 ("STYLAGE® HYDROMAX")
+$  STYLAGE® L BI-SOFT®  | peak $179 vs drs $139 ("STYLAGE® L")
+$  STYLAGE® XL BI-SOFT®  | peak $229 vs drs $169 ("STYLAGE® XL")
+$  STYLAGE® XL BI-SOFT® with Lidocaine  | peak $239 vs drs $169 ("STYLAGE® XL with Lidocaine")
+$  STYLAGE® L BI-SOFT® with Lidocaine  | peak $189 vs drs $145 ("STYLAGE® L with Lidocaine")
+$  STYLAGE® M BI-SOFT® with Lidocaine  | peak $169 vs drs $159 ("STYLAGE® M with Lidocaine")
+$  STYLAGE® S BI-SOFT® with Lidocaine  | peak $149 vs drs $119 ("STYLAGE® S with Lidocaine")
+$  STYLAGE® SPECIAL LIPS BI-SOFT® with Lidocaine  | peak $109 vs drs $159 ("STYLAGE® SPECIAL LIPS with Lidocaine")
+$  STYLAGE® SPECIAL LIPS BI-SOFT®  | peak $109 vs drs $89 ("STYLAGE® SPECIAL LIPS")
+$  STYLAGE® S BI-SOFT®  | peak $149 vs drs $119 ("STYLAGE® S")
+$  NEXPLANON® (Non-English)  | peak $249 vs drs $255 ("NEXPLANON®")
+$  FR-ANTIOX MD ANTI-POLLUTION CONCENTRATE SERUM 30ml  | peak $59 vs drs $60 ("FR-ANTIOX MD ANTI-POLLUTION Concentrate SERUM MEDIDERMA 30ml")
+$  FR-ANTIOX MD ANTI-POLLUTION PROTECT FACIAL CREAM GEL 50ml  | peak $59 vs drs $60 ("FR-ANTIOX MD ANTI-POLLUTION Protect FACIAL CREAM GEL MEDIDERMA 50ml")
+$  FR-ANTIOX MD ANTI-POLLUTION MOISTURIZING FACIAL CREAM 50ml  | peak $59 vs drs $45 ("FR-ANTIOX MD ANTI-POLLUTION Moisturizing FACIAL CREAM MEDIDERMA 50ml")
+$  RESTYLANE® EYELIGHT™  | peak $169 vs drs $89 ("RESTYLANE® EYELIGHT™")
+$  RESTYLANE® LYFT  | peak $199 vs drs $175 ("Restylane Lyft")
+$  REVOLAX™ SUB-Q  | peak $59 vs drs $65 ("Revolax™ Sub-Q")
+$  SAYPHA® VOLUME  | peak $79 vs drs $69 ("SAYPHA® VOLUME")
+$  VISCODERM® SKINKÒ E + VISCODERM® SKINKÒ KIT  | peak $349 vs drs $331 ("Viscoderm Skinkò E + Viscoderm Skinkò Kit")
+$  RESTYLANE® LYFT with Lidocaine  | peak $189 vs drs $185 ("RESTYLANE® LYFT with Lidocaine")
+$  RESTYLANE® SKINBOOSTERS™ VITAL LIGHT with Lidocaine  | peak $149 vs drs $139 ("RESTYLANE® SKINBOOSTERS™ VITAL LIGHT with Lidocaine")
+$  RESTYLANE® SKINBOOSTERS™ VITAL with Lidocaine  | peak $169 vs drs $189 ("RESTYLANE® SKINBOOSTERS® VITAL with Lidocaine")
+$  RESTYLANE® VOLYME with Lidocaine  | peak $129 vs drs $89 ("RESTYLANE® VOLYME™")
+$  SAYPHA® VOLUME with Lidocaine  | peak $69 vs drs $79 ("SAYPHA® VOLUME with Lidocaine")
+$  TEOSYAL® PURESENSE ULTRA DEEP (2x1.2ml)  | peak $229 vs drs $299 ("TEOSYAL® PURESENSE ULTRA DEEP 2×1.2ml")
+$  HYACORP MLF2® BODY CONTOURING  | peak $169 vs drs $175 ("HYACORP MLF2 BODY CONTOURING")
+$  JAYDESS®  | peak $299 vs drs $305 ("JAYDESS®")
+$  EMLA™ 5x5g  | peak $49 vs drs $55 ("EMLA 5x5g 60ml")
+$  SAXENDA® 6mg/ml - 3mg Pen  | peak $495 vs drs $501 ("Saxenda")
+$  DEPO-PROVERA®  | peak $35 vs drs $29 ("DEPO-PROVERA®")
+$  DERMALAX™ DEEP PLUS with Lidocaine  | peak $69 vs drs $75 ("DERMALAX™ DEEP PLUS with Lidocaine")
+$  DERMALAX™ IMPLANT PLUS with Lidocaine  | peak $129 vs drs $69 ("DERMALAX™ IMPLANT PLUS with Lidocaine")
+$  DERMALAX™ PLUS with Lidocaine  | peak $69 vs drs $75 ("DERMALAX™ PLUS with Lidocaine")
+$  SILHOUETTE SOFT® 12 CONES  | peak $989 vs drs $979 ("SILHOUETTE SOFT® 12 CONES")
+$  SILHOUETTE SOFT® 16 CONES  | peak $1029 vs drs $999 ("SILHOUETTE SOFT® 16 CONES")
+$  SILHOUETTE SOFT® 8 CONES  | peak $979 vs drs $959 ("SILHOUETTE SOFT® 8 CONES")
+$  MONO 29G38  | peak $139 vs drs $62 ("MONO 29G38")
+$  OZEMPIC® 0.25mg  | peak $399 vs drs $405 ("Ozempic – 0.25 Injection Pen – English Pack")
+$  OZEMPIC® 0.5mg  | peak $399 vs drs $405 ("Ozempic – 0.5MG Injection Pen – English Pack")
+$  WEGOVY® FLEXTOUCH 0.25mg  | peak $439 vs drs $445 ("Wegovy FLEXTOUCH 0.25MG")
+$  WEGOVY® FLEXTOUCH 0.5mg  | peak $439 vs drs $445 ("Wegovy FLEXTOUCH 0.5ML")
+$  WEGOVY® FLEXTOUCH 1mg  | peak $439 vs drs $445 ("Wegovy FLEXTOUCH 1MG")
+$  HYALGAN® (Italian)  | peak $44 vs drs $50 ("Hyalgan® Italian")
+$  CRESPINE® GEL PLUS  | peak $319 vs drs $189 ("CRESPINE® GEL PLUS, 14 ML")
+$  FACTOR G RENEW CREAM  | peak $49 vs drs $64 ("FACTOR G RENEW CREAM")
+$  BOTOX® COSMETIC 100u  | peak $520 vs drs $399 ("BOTOX® COSMETIC 100 Units")
+$  Cagrilintide 5mg + Semaglutide 5mg  | peak $119 vs drs $226 ("Cagrilintide & Cagrilintide+Semaglutide")
+$  DSIP 5mg  | peak $38 vs drs $62 ("DSIP")
+$  Kisspeptin-10  | peak $59 vs drs $0 ("Kisspeptin")
+$  NAD+ 1000mg  | peak $191 vs drs $126 ("NAD+")
+$  TB-500 10mg  | peak $106 vs drs $163 ("TB-500")
+$  RESTYLANE® KYSSE with Lidocaine  | peak $189 vs drs $179 ("RESTYLANE® KYSSE™")
+$  PROLIA® (Non-English)  | peak $549 vs drs $499 ("PROLIA® Non-English")
+~  ORENCIA® (Non-English)  | tiers peak:4 vs drs:4
+~  EYLEA® (Non-English)  | tiers peak:4 vs drs:4
+~  HIDRAVEN FOAMY SOAP FREE CR  | tiers peak:4 vs drs:4
+~  ARGIPEEL EXFOLIATING GEL  | tiers peak:4 vs drs:4
+~  AZELAC M 60ml  | tiers peak:4 vs drs:4
+~  AZELAC RU 60ml  | tiers peak:4 vs drs:4
+~  AZELAC RU LIPOSOMAL SERUM  | tiers peak:4 vs drs:0
+~  AZELAC RU LUMINOUS FLUID CREAM SPF50  | tiers peak:4 vs drs:0
+~  MELA 360 SPOT CORRECTOR SERUM 30ml  | tiers peak:4 vs drs:4
+~  LUMIGAN® (1x3ml)  | tiers peak:4 vs drs:4
+~  XEOMIN® 50u (English Alternative)  | tiers peak:4 vs drs:4
+~  XEOMIN® 100u  | tiers peak:4 vs drs:4
+~  NABOTA® (JEUVEAU®) 100u  | tiers peak:4 vs drs:4
+~  NABOTA® (JEUVEAU®) 200u  | tiers peak:4 vs drs:4
+~  DYSPORT® 500u (Non-English)  | tiers peak:4 vs drs:4
+~  DYSPORT® 300u  | tiers peak:4 vs drs:4
+~  BOTULAX® 200u (Korean)  | tiers peak:4 vs drs:4
+~  ALIAXIN® EV  | tiers peak:4 vs drs:4
+~  BOTOX® 50u  | tiers peak:4 vs drs:4
+~  BOTOX® 100u (Non-English)  | tiers peak:4 vs drs:4
+~  BOTOX® 100u (English/Korean)  | tiers peak:4 vs drs:4
+~  BOCOUTURE® 50u (XEOMIN®)  | tiers peak:4 vs drs:4
+~  BOCOUTURE® 100u (XEOMIN®)  | tiers peak:4 vs drs:4
+~  AZZALURE® 2 vials  | tiers peak:4 vs drs:4
+~  AZZALURE®  | tiers peak:4 vs drs:4
+~  RADIESSE® (+) 1.5ml with Lidocaine  | tiers peak:4 vs drs:4
+~  RADIESSE® 1.5ml  | tiers peak:4 vs drs:4
+~  CIMZIA® (Non-English)  | tiers peak:4 vs drs:4
+~  SMB® TCu 380A with Safeload  | tiers peak:4 vs drs:4
+~  T-SAFE® CU 380A QL IUD  | tiers peak:4 vs drs:4
+~  ALIAXIN® FL  | tiers peak:4 vs drs:4
+~  ALIAXIN® GP  | tiers peak:4 vs drs:4
+~  ALIAXIN® LV  | tiers peak:4 vs drs:4
+~  ALIAXIN® SV  | tiers peak:4 vs drs:4
+~  PERFECTHA® DEEP  | tiers peak:4 vs drs:4
+~  PERFECTHA® DERM  | tiers peak:4 vs drs:4
+~  PERFECTHA® FINELINES  | tiers peak:4 vs drs:4
+~  PERFECTHA® SUBSKIN  | tiers peak:4 vs drs:4
+~  STYLAGE® XXL BI-SOFT®  | tiers peak:4 vs drs:4
+~  BELLAST® L  | tiers peak:4 vs drs:4
+~  STYLAGE® HYDRO BI-SOFT®  | tiers peak:4 vs drs:4
+~  STYLAGE® HYDROMAX BI-SOFT®  | tiers peak:4 vs drs:4
+~  STYLAGE® L BI-SOFT®  | tiers peak:4 vs drs:4
+~  STYLAGE® M BI-SOFT®  | tiers peak:4 vs drs:4
+~  STYLAGE® XL BI-SOFT®  | tiers peak:4 vs drs:4
+~  STYLAGE® XL BI-SOFT® with Lidocaine  | tiers peak:4 vs drs:4
+~  BELLAST® PLUS  | tiers peak:4 vs drs:4
+~  BELLAST® SOFT L  | tiers peak:4 vs drs:4
+~  INTRALINE® M2 PLUS  | tiers peak:4 vs drs:4
+~  INTRALINE® M3 PLUS  | tiers peak:4 vs drs:4
+~  INTRALINE® M4 PLUS  | tiers peak:4 vs drs:4
+~  PERFECTHA® DEEP Lidocaine  | tiers peak:4 vs drs:4
+~  PERFECTHA® DERM Lidocaine  | tiers peak:4 vs drs:4
+~  STYLAGE® L BI-SOFT® with Lidocaine  | tiers peak:4 vs drs:4
+~  STYLAGE® M BI-SOFT® with Lidocaine  | tiers peak:4 vs drs:4
+~  STYLAGE® S BI-SOFT® with Lidocaine  | tiers peak:4 vs drs:4
+~  STYLAGE® SPECIAL LIPS BI-SOFT® with Lidocaine  | tiers peak:4 vs drs:4
+~  STYLAGE® SPECIAL LIPS BI-SOFT®  | tiers peak:4 vs drs:4
+~  STYLAGE® S BI-SOFT®  | tiers peak:4 vs drs:4
+~  AQUALYX®  | tiers peak:4 vs drs:4
+~  BCN ADIPO FORTE  | tiers peak:4 vs drs:4
+~  NEXPLANON® (Non-English)  | tiers peak:4 vs drs:4
+~  VABYSMO® INJECTION 120MG  | tiers peak:4 vs drs:4
+~  FR-ANTIOX MD ANTI-POLLUTION CONCENTRATE SERUM 30ml  | tiers peak:4 vs drs:0
+~  FR-ANTIOX MD ANTI-POLLUTION PROTECT FACIAL CREAM GEL 50ml  | tiers peak:4 vs drs:0
+~  FR-ANTIOX MD ANTI-POLLUTION MOISTURIZING FACIAL CREAM 50ml  | tiers peak:4 vs drs:0
+~  FERULAC NANO ADDITIVE MIST  | tiers peak:4 vs drs:4
+~  FERULAC PEEL CLASSIC 60ml  | tiers peak:4 vs drs:4
+~  FERULAC PEEL PLUS  | tiers peak:4 vs drs:4
+~  FERULAC VALENCIA PEEL 50ml  | tiers peak:4 vs drs:4
+~  FILORGA® PRE PEEL  | tiers peak:4 vs drs:4
+~  BCN REVITA-HA  | tiers peak:4 vs drs:4
+~  JALUPRO® 2x30mg/3ml + 2x100mg  | tiers peak:4 vs drs:4
+~  GARDASIL® 9 (Slovakian)  | tiers peak:4 vs drs:4
+~  M-SEQNC EYE GEL  | tiers peak:4 vs drs:4
+~  M-SEQNC MULTI ACTION CREAM 30ml  | tiers peak:4 vs drs:4
+~  M-SEQNC MULTI ACTION CREAM 50ml  | tiers peak:4 vs drs:4
+~  M-SEQNC SERUM  | tiers peak:4 vs drs:4
+~  ALIAXIN® SR  | tiers peak:4 vs drs:4
+~  BELOTERO® BALANCE  | tiers peak:4 vs drs:4
+~  BELOTERO® INTENSE  | tiers peak:4 vs drs:4
+~  FILLMED® ART FILLER VOLUME  | tiers peak:4 vs drs:4
+~  FILLMED® M-HA 10  | tiers peak:4 vs drs:4
+~  FILORGA® ART FILLER UNIVERSAL with Lidocaine  | tiers peak:4 vs drs:4
+~  HYLANSES MD HA ADVANCE HYDRATION GEL CREAM 50ml  | tiers peak:4 vs drs:4
+~  INTRALINE® FOR MEN  | tiers peak:4 vs drs:4
+~  INTRALINE® TWO  | tiers peak:4 vs drs:4
+~  PROFHILO® H+L  | tiers peak:4 vs drs:4
+~  RESTYLANE® EYELIGHT™  | tiers peak:4 vs drs:4
+~  RESTYLANE® LYFT  | tiers peak:4 vs drs:4
+~  REVOFIL FINE  | tiers peak:4 vs drs:4
+~  REVOFIL PLUS  | tiers peak:4 vs drs:4
+~  REVOFIL ULTRA  | tiers peak:4 vs drs:4
+~  REVOLAX™ FINE  | tiers peak:4 vs drs:4
+~  REVOLAX™ SUB-Q  | tiers peak:4 vs drs:4
+~  SAYPHA® FILLER  | tiers peak:4 vs drs:4
+~  SAYPHA® RICH  | tiers peak:4 vs drs:4
+~  SAYPHA® VOLUME  | tiers peak:4 vs drs:4
+~  TEOSYAL® ULTIMATE  | tiers peak:4 vs drs:4
+~  SUNEKOS® PERFORMA  | tiers peak:4 vs drs:4
+~  VISCODERM® SKINKÒ E + VISCODERM® SKINKÒ KIT  | tiers peak:4 vs drs:4
+~  BELOTERO® SOFT with Lidocaine  | tiers peak:4 vs drs:4
+~  REVOFIL AQUASHINE BR SOFT FILLER  | tiers peak:4 vs drs:4
+~  BELOTERO® REVIVE  | tiers peak:4 vs drs:4
+~  REVOFIL AQUASHINE SOFT FILLER  | tiers peak:4 vs drs:4
+~  BELOTERO® VOLUME  | tiers peak:4 vs drs:4
+~  BELOTERO® VOLUME with Lidocaine  | tiers peak:4 vs drs:4
+~  JALUPRO® MOISTURIZING BIOCELLULOSE FACE MASKS (11x8ml)  | tiers peak:4 vs drs:4
+~  JALUPRO® MOISTURIZING BIOCELLULOSE FACE MASKS (5x8ml)  | tiers peak:4 vs drs:4
+~  SUNEKOS® 1200  | tiers peak:4 vs drs:4
+~  SUNEKOS® 200  | tiers peak:4 vs drs:4
+~  FILLMED® M-HA 18  | tiers peak:4 vs drs:4
+~  NEAUVIA™ ORGANIC INTENSE  | tiers peak:4 vs drs:4
+~  NEAUVIA™ ORGANIC INTENSE FLUX  | tiers peak:4 vs drs:4
+~  NEAUVIA™ ORGANIC INTENSE LIPS  | tiers peak:4 vs drs:4
+~  NEAUVIA™ ORGANIC INTENSE LV  | tiers peak:4 vs drs:4
+~  NEAUVIA™ ORGANIC INTENSE ROSE  | tiers peak:4 vs drs:4
+~  NEAUVIA™ ORGANIC STIMULATE  | tiers peak:4 vs drs:4
+~  EJAL40 Bio-Revitalizing Gel  | tiers peak:4 vs drs:4
+~  FILLMED® ART FILLER LIPS SOFT with Lidocaine  | tiers peak:4 vs drs:4
+~  REVANESSE® CONTOUR™ with Lidocaine  | tiers peak:4 vs drs:4
+~  REVANESSE® KISS™ with Lidocaine  | tiers peak:4 vs drs:4
+~  REVANESSE® SHAPE+™ with Lidocaine  | tiers peak:4 vs drs:4
+~  REVANESSE® ULTRA™ with Lidocaine  | tiers peak:4 vs drs:4
+~  HIDRADERM HYAL FACIAL CREAM  | tiers peak:4 vs drs:4
+~  BELOTERO® BALANCE with Lidocaine  | tiers peak:4 vs drs:4
+~  BELOTERO® INTENSE with Lidocaine  | tiers peak:4 vs drs:4
+~  BELOTERO® LIPS CONTOUR with Lidocaine  | tiers peak:4 vs drs:4
+~  BELOTERO® LIPS SHAPE with Lidocaine  | tiers peak:4 vs drs:4
+~  JUVÉDERM® VOLBELLA® with Lidocaine  | tiers peak:4 vs drs:4
+~  JUVÉDERM® VOLIFT® RETOUCH with Lidocaine  | tiers peak:4 vs drs:4
+~  JUVÉDERM® VOLIFT® with Lidocaine  | tiers peak:4 vs drs:4
+~  JUVÉDERM® VOLITE® with Lidocaine  (SKINVIVE™)  | tiers peak:4 vs drs:4
+~  JUVÉDERM® VOLUX® with Lidocaine  | tiers peak:4 vs drs:4
+~  RESTYLANE® 1ml with Lidocaine  | tiers peak:4 vs drs:4
+~  RESTYLANE® DEFYNE with Lidocaine  | tiers peak:4 vs drs:4
+~  RESTYLANE® LYFT with Lidocaine  | tiers peak:4 vs drs:0
+~  RESTYLANE® REFYNE with Lidocaine  | tiers peak:4 vs drs:4
+~  RESTYLANE® SKINBOOSTERS™ VITAL LIGHT with Lidocaine  | tiers peak:4 vs drs:4
+~  RESTYLANE® SKINBOOSTERS™ VITAL with Lidocaine  | tiers peak:4 vs drs:0
+~  RESTYLANE® VOLYME with Lidocaine  | tiers peak:4 vs drs:4
+~  REVOLAX™ DEEP with Lidocaine  | tiers peak:4 vs drs:4
+~  REVOLAX™ FINE with Lidocaine  | tiers peak:4 vs drs:4
+~  BCN LUMEN PEPTIDES  | tiers peak:4 vs drs:4
+~  REVOLAX™ SUB-Q with Lidocaine  | tiers peak:4 vs drs:4
+~  SAYPHA® FILLER with Lidocaine  | tiers peak:4 vs drs:4
+~  SAYPHA® VOLUME PLUS with Lidocaine  | tiers peak:4 vs drs:4
+~  SAYPHA® VOLUME with Lidocaine  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE DEEP LINES  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE GLOBAL ACTION  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE KISS  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE REDENSITY I (1x3ml)  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE REDENSITY I (2x1ml)  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE REDENSITY II (2x1ml)  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE ULTIMATE (1x3ml)  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE ULTIMATE (2x1ml)  | tiers peak:4 vs drs:4
+~  TEOSYAL® PURESENSE ULTRA DEEP (2x1.2ml)  | tiers peak:4 vs drs:4
+~  JUVÉDERM® VOLUMA® with Lidocaine  | tiers peak:4 vs drs:4
+~  TEOSYAL® RHA KISS with Lidocaine  | tiers peak:4 vs drs:4
+~  TEOSYAL® RHA1  | tiers peak:4 vs drs:4
+~  TEOSYAL® RHA2  | tiers peak:4 vs drs:4
+~  TEOSYAL® RHA3  | tiers peak:4 vs drs:4
+~  TEOSYAL® RHA4  | tiers peak:4 vs drs:4
+~  JUVÉDERM® ULTRA 2  | tiers peak:4 vs drs:4
+~  JUVÉDERM® ULTRA 3  | tiers peak:4 vs drs:4
+~  REVANESSE® PURE™ with Lidocaine  | tiers peak:4 vs drs:4
+~  JUVÉDERM® ULTRA 4  | tiers peak:4 vs drs:4
+~  JUVÉDERM® ULTRA PLUS XC  | tiers peak:4 vs drs:4
+~  JUVÉDERM® ULTRA SMILE  | tiers peak:4 vs drs:4
+~  JUVÉDERM® ULTRA XC  | tiers peak:4 vs drs:4
+~  VISCODERM® HYDROBOOSTER  | tiers peak:4 vs drs:4
+~  HYACORP MLF1® BODY CONTOURING  | tiers peak:4 vs drs:4
+~  HYACORP MLF2® BODY CONTOURING  | tiers peak:4 vs drs:4
+~  CINGAL®  | tiers peak:4 vs drs:4
+~  HYNIDASE® 1500iu (English Alternative)  | tiers peak:4 vs drs:4
+~  SYNVISC ONE®  | tiers peak:4 vs drs:4
+~  SYNVISC®  | tiers peak:4 vs drs:4
+~  REMICADE® 100mg vial (Non-English)  | tiers peak:4 vs drs:4
+~  JAYDESS®  | tiers peak:4 vs drs:4
+~  EMLA™ 5x30g  | tiers peak:4 vs drs:4
+~  EMLA™ 5x5g  | tiers peak:4 vs drs:4
+~  SAXENDA® 6mg/ml - 3mg Pen  | tiers peak:4 vs drs:4
+~  SAXENDA® 6mg/ml - 3 Syringes (Italian)  | tiers peak:4 vs drs:4
+~  DEPO-PROVERA®  | tiers peak:4 vs drs:4
+~  DERMALAX™ DEEP PLUS with Lidocaine  | tiers peak:4 vs drs:4
+~  DERMALAX™ IMPLANT PLUS with Lidocaine  | tiers peak:4 vs drs:4
+~  DERMALAX™ PLUS with Lidocaine  | tiers peak:4 vs drs:4
+~  CYTOCARE 502  | tiers peak:4 vs drs:4
+~  CYTOCARE 516  | tiers peak:4 vs drs:4
+~  CYTOCARE 532  | tiers peak:4 vs drs:4
+~  SOFTFIL® PRECISION Micro-Cannula 22G/40mm  | tiers peak:4 vs drs:4
+~  SOFTFIL® PRECISION Micro-Cannula 22G/50mm  | tiers peak:4 vs drs:4
+~  SOFTFIL® PRECISION Micro-Cannula 25G/40mm  | tiers peak:4 vs drs:4
+~  SOFTFIL® PRECISION Micro-Cannula 25G/60mm  | tiers peak:4 vs drs:4
+~  SOFTFIL® PRECISION Micro-Cannula 30G/25mm  | tiers peak:4 vs drs:4
+~  BCN OCULARE-PEPTIDES  | tiers peak:4 vs drs:4
+~  BCN CAPILLUM PEPTIDES  | tiers peak:4 vs drs:4
+~  ALIDYA™  | tiers peak:4 vs drs:4
+~  ELLANSÉ™ S  | tiers peak:4 vs drs:4
+~  PCLA MONO 27G60-100mm  | tiers peak:4 vs drs:4
+~  PCLA SCREW 29G38-50mm  | tiers peak:4 vs drs:4
+~  PCLA SCREW 29G50-20pcs  | tiers peak:4 vs drs:4
+~  SILHOUETTE SOFT® 12 CONES  | tiers peak:4 vs drs:4
+~  SILHOUETTE SOFT® 16 CONES  | tiers peak:4 vs drs:4
+~  SILHOUETTE SOFT® 8 CONES  | tiers peak:4 vs drs:4
+~  INTRALINE® PDO THREADS Cog Dimension 360 C19100M-C-19G 100mm/150m  | tiers peak:4 vs drs:4
+~  MONO 29G38  | tiers peak:4 vs drs:0
+~  RAINBOW® 3D COG 21G90-L  | tiers peak:4 vs drs:4
+~  POWERFILL®  | tiers peak:4 vs drs:4
+~  SCULPTRA® 2 vials  | tiers peak:4 vs drs:4
+~  REJURAN® HEALER  | tiers peak:4 vs drs:4
+~  PHOSPHATIDYLCHOLINE  | tiers peak:4 vs drs:0
+~  MIRENA® (Non-English)  | tiers peak:4 vs drs:4
+~  BCN TENSIS PEPTIDES  | tiers peak:4 vs drs:4
+~  JALUPRO® ENHANCER GEL  | tiers peak:4 vs drs:4
+~  RETISES NANOPEEL 1% GEL  | tiers peak:4 vs drs:0
+~  SENS-AGE MD ULTRA CORRECTOR 3A EYE CONTOUR 15ml  | tiers peak:4 vs drs:4
+~  SENS-AGE MD ULTRA CORRECTOR 3A RENEWER FACIAL CREAM 50ml  | tiers peak:4 vs drs:4
+~  PURIFYING CONTROL AS CLEANSER MOUSE DAILY CARE 200ml  | tiers peak:4 vs drs:4
+~  SALIPEEL DS 60ml  | tiers peak:4 vs drs:4
+~  ZO® EXFOLIATING CLEANSER  | tiers peak:4 vs drs:4
+~  OZEMPIC® 0.25mg  | tiers peak:4 vs drs:4
+~  OZEMPIC® 0.5mg  | tiers peak:4 vs drs:4
+~  WEGOVY® FLEXTOUCH 0.25mg  | tiers peak:4 vs drs:4
+~  WEGOVY® FLEXTOUCH 0.5mg  | tiers peak:4 vs drs:4
+~  WEGOVY® FLEXTOUCH 1mg  | tiers peak:4 vs drs:4
+~  FILORGA® POST PEEL  | tiers peak:4 vs drs:4
+~  PLASMOLIFTING™ PRP GEL  | tiers peak:4 vs drs:4
+~  DUROLANE®  | tiers peak:4 vs drs:4
+~  FILLMED® NCTF 135 HA (5 vials)  | tiers peak:4 vs drs:4
+~  HYALGAN® (Italian)  | tiers peak:4 vs drs:4
+~  MONOVISC®  | tiers peak:4 vs drs:4
+~  SUNEKOS® BODY  | tiers peak:4 vs drs:4
+~  CRESPINE® GEL PLUS  | tiers peak:4 vs drs:4
+~  ZO® SULFER MASQUE  | tiers peak:4 vs drs:4
+~  BELKYRA™ (Portuguese)  | tiers peak:4 vs drs:4
+~  TCA MADRID SIMPLE PEEL MEDIUM  | tiers peak:4 vs drs:0
+~  MELASES TRX TCA 10% PEEL  | tiers peak:4 vs drs:4
+~  SENS-AGE MD G-ACTIVATOR NOURISHING FACIAL CREAM 50ml  | tiers peak:4 vs drs:4
+~  ZO® EXFOLIATING POLISH  | tiers peak:4 vs drs:4
+~  FACTOR G RENEW CREAM  | tiers peak:4 vs drs:0
+~  MELASES TRX BOOSTER PEEL  | tiers peak:4 vs drs:0
+~  BIOREPEELCL3® BODY  | tiers peak:4 vs drs:4
+~  BIOREPEELCL3® FND  | tiers peak:4 vs drs:4
+~  REDNESS CONTROL A&A SENSITIVE GEL  | tiers peak:4 vs drs:4
+~  C-DEFENCE MD C+SKIN BRIGHT MOISTURIZING FACIAL FLUID 50ml  | tiers peak:4 vs drs:4
+~  C-DEFENCE MD C+SKIN CONCENTRATE SERUM 30ml  | tiers peak:4 vs drs:4
+~  GLOWING POWDER - CHEMICAL PEEL ADDITIVES  | tiers peak:4 vs drs:0
+~  C-VIT LIPOSOMAL SERUM  | tiers peak:4 vs drs:4
+~  C-VIT MIST  | tiers peak:4 vs drs:4
+~  NEAUVIA™ NEAUVIA™ ORGANIC INTENSE RHEOLOGY  | tiers peak:4 vs drs:4
+~  CROMA PhilArt EYE  | tiers peak:4 vs drs:4
+~  CROMA PhilArt NEXT  | tiers peak:4 vs drs:4
+~  BOTOX® COSMETIC 100u  | tiers peak:4 vs drs:0
+~  BELOTERO® SOFT  | tiers peak:4 vs drs:4
+~  RESTYLANE® KYSSE with Lidocaine  | tiers peak:4 vs drs:4
+~  PROLIA® (Non-English)  | tiers peak:4 vs drs:4
+~  DYSPORT® 500u 2 vials  | tiers peak:4 vs drs:4
+~  ORTHOVISC®  | tiers peak:4 vs drs:4
+~  EVENITY®  | tiers peak:4 vs drs:4
