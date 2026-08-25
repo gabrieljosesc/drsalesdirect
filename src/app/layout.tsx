@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
+import Script from 'next/script'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { CartProvider } from '@/hooks/useCart'
@@ -105,6 +106,13 @@ export default async function RootLayout({
             <Toaster position="top-right" richColors />
           </WishlistProvider>
         </CartProvider>
+        {/* Lucky Orange session recording — inert until the site ID is set in env */}
+        {process.env.NEXT_PUBLIC_LUCKY_ORANGE_SITE_ID && (
+          <Script
+            strategy="afterInteractive"
+            src={`https://tools.luckyorange.com/core/lo.js?site-id=${process.env.NEXT_PUBLIC_LUCKY_ORANGE_SITE_ID}`}
+          />
+        )}
       </body>
     </html>
   )

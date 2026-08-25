@@ -41,9 +41,13 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
   const from = (page - 1) * PAGE_SIZE
   const totalPages = Math.ceil(count / PAGE_SIZE)
 
+  // Sidebar shows only the seven primary categories (same set as the navbar);
+  // sub-categories are folded into their parent by the category filter.
   const { data: categories } = await supabase
     .from('categories')
     .select('*')
+    .is('parent_id', null)
+    .lt('sort_order', 100)
     .order('sort_order')
 
   const currentParams: Record<string, string | undefined> = {

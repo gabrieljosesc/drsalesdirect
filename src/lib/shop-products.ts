@@ -14,14 +14,15 @@ export interface ShopProductFilters {
   pageSize?: number
 }
 
-function buildProductQuery(supabase: SupabaseClient, filters: ShopProductFilters, categoryId?: string) {
+function buildProductQuery(supabase: SupabaseClient, filters: ShopProductFilters, categoryIds?: string[]) {
   let query = supabase
     .from('products')
     .select(PRODUCT_SELECT, { count: 'exact' })
     .eq('is_active', true)
+    .eq('is_dose_primary', true) // one card per multi-strength family
 
   if (filters.search) query = query.ilike('title', `%${filters.search}%`)
-  if (categoryId) query = query.eq('category_id', categoryId)
+  if (categoryIds && categoryIds.length > 0) query = query.in('category_id', categoryIds)
   if (filters.min_price) query = query.gte('base_price', parseFloat(filters.min_price))
   if (filters.max_price) query = query.lte('base_price', parseFloat(filters.max_price))
 
@@ -52,6 +53,7 @@ function buildCountQuery(supabase: SupabaseClient, filters: ShopProductFilters) 
     .from('products')
     .select('id', { count: 'exact', head: true })
     .eq('is_active', true)
+    .eq('is_dose_primary', true)
 
   if (filters.search) query = query.ilike('title', `%${filters.search}%`)
   if (filters.min_price) query = query.gte('base_price', parseFloat(filters.min_price))
@@ -86,21 +88,29 @@ export async function fetchShopProducts(
   const start = (page - 1) * pageSize
   const end = start + pageSize - 1
 
-  let categoryId: string | undefined
+  // Resolve the category slug to itself plus any child categories, so picking
+  // an umbrella like Dermatology covers its whole sub-tree.
+  let categoryIds: string[] | undefined
   if (filters.category) {
     const { data: cat } = await supabase
       .from('categories')
       .select('id')
       .eq('slug', filters.category)
       .single()
-    categoryId = cat?.id
+    if (cat?.id) {
+      const { data: children } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('parent_id', cat.id)
+      categoryIds = [cat.id, ...(children ?? []).map(c => c.id)]
+    }
   }
 
   const peptidesId = await peptidesCategoryId(supabase)
-  const deferPeptides = !categoryId && !!peptidesId
+  const deferPeptides = !categoryIds && !!peptidesId
 
   if (!deferPeptides) {
-    let query = buildProductQuery(supabase, filters, categoryId)
+    let query = buildProductQuery(supabase, filters, categoryIds)
     query = applySort(query, sort)
     const { data, count } = await query.range(start, end)
     return { products: (data as Product[]) ?? [], count: count ?? 0 }

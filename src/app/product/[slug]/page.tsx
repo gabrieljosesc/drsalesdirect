@@ -51,6 +51,7 @@ export default async function ProductPage({ params }: Props) {
     .select('*, category:categories(*), images:product_images(id,url,sort_order)')
     .eq('category_id', product.category_id)
     .eq('is_active', true)
+    .eq('is_dose_primary', true)
     .neq('id', product.id)
     .limit(4)
 

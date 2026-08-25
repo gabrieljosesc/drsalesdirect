@@ -22,7 +22,7 @@ const SLIDES: Slide[] = [
   {
     eyebrow: 'Trusted by Medical Professionals Since 2012',
     title: 'Premium Medical Supplies at Wholesale Prices',
-    body: 'Botulinum toxins, dermal fillers, orthopedic injectables, and rheumatology — sourced from original manufacturers and delivered straight to your clinic.',
+    body: 'Your trusted source for rheumatology, ophthalmology, orthopedic injectables, aesthetic products, and more — offering a comprehensive selection at competitive wholesale prices, delivered directly to your practice.',
     primary: { label: 'Shop All Products', href: '/shop' },
     secondary: { label: 'Create Account', href: '/auth/register' },
     bullets: ['Authentic & guaranteed', 'Cold-chain shipping', 'Licensed pros only'],
@@ -50,7 +50,7 @@ const SLIDES: Slide[] = [
   },
 ]
 
-const INTERVAL = 6500
+const INTERVAL = 3000
 
 export default function HeroSlideshow() {
   const [index, setIndex] = useState(0)

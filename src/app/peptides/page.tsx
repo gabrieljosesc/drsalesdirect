@@ -31,6 +31,7 @@ export default async function PeptidesPage() {
         .select('*, category:categories(*), images:product_images(id,url,sort_order)')
         .eq('category_id', cat.id)
         .eq('is_active', true)
+        .eq('is_dose_primary', true) // one card per multi-strength family
         .order('title')
     : { data: [] as Product[] }
 

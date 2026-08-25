@@ -68,8 +68,35 @@ export default async function HomePage() {
       {/* ── HERO SLIDESHOW ───────────────────────────────────────────── */}
       <HeroSlideshow />
 
+      {/* ── CASH BACK & REFERRAL — overlapping the hero so the programs
+             are visible on first load without scrolling ──────────────── */}
+      <section className="relative z-10 max-w-7xl mx-auto px-4 -mt-12 lg:-mt-14">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white p-8 lg:p-10 shadow-xl">
+            <Wallet className="w-10 h-10 text-blue-200 mb-4" />
+            <h3 className="text-2xl font-bold mb-2">Get Cash Back on Every Order</h3>
+            <p className="text-white/80 mb-6 max-w-md">
+              Earn rewards on your purchases and redeem them toward future orders. The more you order, the more you save.
+            </p>
+            <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+              Start Earning
+            </Link>
+          </div>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#1e3a8a] text-white p-8 lg:p-10 shadow-xl">
+            <Gift className="w-10 h-10 text-white/80 mb-4" />
+            <h3 className="text-2xl font-bold mb-2">Refer a Colleague, Get Rewarded</h3>
+            <p className="text-white/90 mb-6 max-w-md">
+              Invite fellow medical professionals to Dr Sales Direct and you both receive a reward on your next purchase.
+            </p>
+            <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+              Know More About Our Referral Program
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── TRUST BAR ────────────────────────────────────────────────── */}
-      <section className="bg-white border-b">
+      <section className="bg-white border-b mt-10">
         <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
           {trustFeatures.map(({ icon: Icon, title, desc }) => (
             <div key={title} className="flex items-start gap-3">
@@ -132,32 +159,6 @@ export default async function HomePage() {
 
       {/* ── MONTHLY HIGHLIGHTS ───────────────────────────────────────── */}
       <HighlightSlides />
-
-      {/* ── CASH BACK & REFERRAL ─────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 py-14">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white p-8 lg:p-10">
-            <Wallet className="w-10 h-10 text-blue-200 mb-4" />
-            <h3 className="text-2xl font-bold mb-2">Get Cash Back on Every Order</h3>
-            <p className="text-white/80 mb-6 max-w-md">
-              Earn rewards on your purchases and redeem them toward future orders. The more you order, the more you save.
-            </p>
-            <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
-              Start Earning
-            </Link>
-          </div>
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#1e3a8a] text-white p-8 lg:p-10">
-            <Gift className="w-10 h-10 text-white/80 mb-4" />
-            <h3 className="text-2xl font-bold mb-2">Refer a Colleague, Get Rewarded</h3>
-            <p className="text-white/90 mb-6 max-w-md">
-              Invite fellow medical professionals to Dr Sales Direct and you both receive a reward on your next purchase.
-            </p>
-            <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
-              Know More About Our Referral Program
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* ── BLOG ─────────────────────────────────────────────────────── */}
       {posts && posts.length > 0 && (

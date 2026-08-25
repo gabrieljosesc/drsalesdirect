@@ -53,6 +53,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     .select('*, category:categories(*), images:product_images(id,url,sort_order)', { count: 'exact' })
     .in('category_id', catIds)
     .eq('is_active', true)
+    .eq('is_dose_primary', true) // one card per multi-strength family
 
   switch (sort) {
     case 'price_asc': query = query.order('base_price', { ascending: true }); break
