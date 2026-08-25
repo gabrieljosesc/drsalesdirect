@@ -96,38 +96,52 @@ export default function HeroSlideshow() {
       )}
       <div className={cn('absolute inset-0 bg-gradient-to-r transition-colors duration-700', slide.gradient)} />
 
-      {/* Compact vertical rhythm: the hero plus the top of the promo cards must
-          fit above the fold on ~720px-tall laptop viewports. */}
-      <div className="relative max-w-7xl mx-auto px-4 pt-10 pb-20 lg:pt-14 lg:pb-24">
-        <div key={index} className="pmw-slide-enter max-w-2xl text-white">
-          <p className="inline-flex items-center gap-2 text-blue-200 text-xs font-semibold tracking-widest uppercase mb-3 bg-white/10 rounded-full px-3 py-1">
-            <Award className="w-3.5 h-3.5" /> {slide.eyebrow}
-          </p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.08] mb-4">
-            {slide.title}
-          </h1>
-          <p className="text-white/85 text-base md:text-lg mb-6 max-w-xl">{slide.body}</p>
-          <div className="flex flex-wrap gap-3">
-            <Link href={slide.primary.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold gap-2')}>
-              {slide.primary.label} <ArrowRight className="w-4 h-4" />
-            </Link>
-            {slide.secondary && (
-              <Link href={slide.secondary.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-transparent border border-white text-white hover:bg-white hover:text-[#ec6a82] font-semibold')}>
-                {slide.secondary.label}
-              </Link>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-sm text-white/75">
-            {slide.bullets.map(b => (
-              <span key={b} className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-blue-300" /> {b}
-              </span>
-            ))}
-          </div>
+      {/* All slides are stacked in one grid cell so the hero keeps a single,
+          constant height (that of the tallest slide) — no layout jumps as the
+          slideshow advances, and the section stays compact enough that the
+          promo cards below peek above the fold on ~720px-tall viewports. */}
+      <div className="relative max-w-7xl mx-auto px-4 pt-8 pb-8 lg:pt-10 lg:pb-10">
+        <div className="grid">
+          {SLIDES.map((s, i) => (
+            <div
+              key={i}
+              inert={i !== index}
+              aria-hidden={i !== index}
+              className={cn(
+                'col-start-1 row-start-1 max-w-2xl text-white transition-opacity duration-700',
+                i === index ? 'opacity-100' : 'opacity-0 pointer-events-none',
+              )}
+            >
+              <p className="inline-flex items-center gap-2 text-blue-200 text-xs font-semibold tracking-widest uppercase mb-3 bg-white/10 rounded-full px-3 py-1">
+                <Award className="w-3.5 h-3.5" /> {s.eyebrow}
+              </p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.08] mb-4">
+                {s.title}
+              </h1>
+              <p className="text-white/85 text-base md:text-lg mb-6 max-w-xl">{s.body}</p>
+              <div className="flex flex-wrap gap-3">
+                <Link href={s.primary.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold gap-2')}>
+                  {s.primary.label} <ArrowRight className="w-4 h-4" />
+                </Link>
+                {s.secondary && (
+                  <Link href={s.secondary.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-transparent border border-white text-white hover:bg-white hover:text-[#ec6a82] font-semibold')}>
+                    {s.secondary.label}
+                  </Link>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-sm text-white/75">
+                {s.bullets.map(b => (
+                  <span key={b} className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-blue-300" /> {b}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Controls */}
-        <div className="relative mt-6 flex items-center gap-3">
+        <div className="relative mt-5 flex items-center gap-3">
           <div className="flex gap-2">
             {SLIDES.map((_, i) => (
               <button

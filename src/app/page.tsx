@@ -68,9 +68,9 @@ export default async function HomePage() {
       {/* ── HERO SLIDESHOW ───────────────────────────────────────────── */}
       <HeroSlideshow />
 
-      {/* ── CASH BACK & REFERRAL — overlapping the hero so the programs
-             are visible on first load without scrolling ──────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 -mt-12 lg:-mt-14">
+      {/* ── CASH BACK & REFERRAL — right below the hero so the programs
+             peek above the fold on first load ─────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 mt-8">
         <div className="grid md:grid-cols-2 gap-6">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white p-8 lg:p-10 shadow-xl">
             <Wallet className="w-10 h-10 text-blue-200 mb-4" />
@@ -96,7 +96,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── TRUST BAR ────────────────────────────────────────────────── */}
-      <section className="bg-white border-b mt-10">
+      <section className="bg-white border-b mt-8">
         <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
           {trustFeatures.map(({ icon: Icon, title, desc }) => (
             <div key={title} className="flex items-start gap-3">
