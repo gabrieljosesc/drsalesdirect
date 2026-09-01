@@ -11,14 +11,15 @@ export type DoseOption = { dose: string; slug: string; current: boolean }
 export function splitPeptideTitle(title: string): { base: string; dose: string | null } {
   const t = title.trim()
   if (t.includes('+')) return { base: t, dose: null }
-  const m = t.match(/^(.*?)[\s,]*(\d+(?:\.\d+)?\s*mg)\s*$/i)
+  const m = t.match(/^(.*?)[\s,]*(\d+(?:\.\d+)?\s*(?:mg|mcg))\s*$/i)
   if (!m) return { base: t, dose: null }
   return { base: m[1].trim(), dose: m[2].replace(/\s+/g, '').toLowerCase() }
 }
 
-/** Sort doses numerically by their mg value (e.g. 5mg before 10mg before 100mg). */
+/** Sort doses numerically by mg-equivalent value (500mcg before 5mg before 100mg). */
 function doseValue(dose: string): number {
-  return parseFloat(dose) || 0
+  const n = parseFloat(dose) || 0
+  return dose.endsWith('mcg') ? n / 1000 : n
 }
 
 /**

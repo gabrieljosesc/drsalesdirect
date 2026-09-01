@@ -1,6 +1,7 @@
 'use server'
 
 import { createAdminClient } from '@/lib/supabase/server'
+import { getAuthUser } from '@/lib/supabase/auth'
 
 export type CouponRow = {
   id: string
@@ -13,6 +14,7 @@ export type CouponRow = {
   used_count: number
   expires_at: string | null
   is_active: boolean
+  once_per_customer: boolean
   created_at: string
 }
 
@@ -50,6 +52,20 @@ export async function validateCoupon(rawCode: string, subtotal: number): Promise
   }
   if (subtotal < Number(c.min_subtotal)) {
     return { ok: false, error: `This coupon requires a minimum order of $${Number(c.min_subtotal).toFixed(2)}.` }
+  }
+
+  if (c.once_per_customer) {
+    const user = await getAuthUser()
+    if (!user) return { ok: false, error: 'Sign in to use this coupon.' }
+    const { count } = await svc
+      .from('orders')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .ilike('coupon_code', c.code)
+      .neq('status', 'cancelled')
+    if ((count ?? 0) > 0) {
+      return { ok: false, error: 'This coupon can only be used once per customer.' }
+    }
   }
 
   const discount = c.kind === 'percent'
