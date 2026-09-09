@@ -41,6 +41,7 @@ export interface Product {
   review_count: number
   is_active: boolean
   is_featured: boolean
+  is_coming_soon?: boolean
   coa_url?: string | null
   coas?: ProductCoa[]
   created_at: string

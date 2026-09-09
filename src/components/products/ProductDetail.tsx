@@ -20,7 +20,8 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
 
   const images = product.images ?? []
   const tiers = parsePriceTiers(product.price_tiers)
-  const showPrice = product.base_price > 0 || tiers.length > 0
+  const comingSoon = Boolean(product.is_coming_soon)
+  const showPrice = (product.base_price > 0 || tiers.length > 0) && !comingSoon
 
   const unitPrice = unitPriceForQuantity(tiers, qty, product.base_price)
   const lineTotal = unitPrice * qty
@@ -131,6 +132,18 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
                 <span className="text-3xl font-bold text-gray-900">{formatPrice(unitPrice)}</span>
                 <span className="text-sm text-gray-400">/ unit</span>
               </div>
+            ) : comingSoon ? (
+              <div>
+                <span className="inline-block rounded-full bg-[#1f3a6b] text-white text-sm font-semibold px-4 py-1.5 mb-2">
+                  Coming Soon
+                </span>
+                <p className="text-gray-600">
+                  {product.base_price > 0
+                    ? <>Expected price: <span className="font-semibold text-gray-900">{formatPrice(product.base_price)}</span></>
+                    : 'Pricing to be announced.'}
+                  {' '}This product is not yet available for ordering — <Link href="/contact" className="text-[#ec6a82] hover:underline">contact us</Link> to be notified when it arrives.
+                </p>
+              </div>
             ) : (
               <span className="text-xl text-gray-500 italic">Contact us for pricing</span>
             )}
@@ -202,7 +215,7 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
             </>
           )}
 
-          {!showPrice && (
+          {!showPrice && !comingSoon && (
             <Link
               href="/contact"
               className="inline-block px-6 py-3 bg-[#ec6a82] text-white rounded-lg font-medium hover:bg-[#d95672] transition-colors mb-4"

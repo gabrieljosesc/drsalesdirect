@@ -41,8 +41,9 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound()
 
-  // Peptides encode dose in the title; offer other strengths of the same peptide
-  const doseOptions = product.category?.slug === 'peptides'
+  // Peptides and weight-loss products encode the dose in the title; offer the
+  // other strengths of the same product (e.g. Ozempic 0.25/0.5/1mg) in one page.
+  const doseOptions = ['peptides', 'weight-loss'].includes(product.category?.slug ?? '')
     ? await getDoseSiblings(supabase, product)
     : []
 

@@ -18,6 +18,7 @@ export default function ProductCard({ product }: Props) {
   const { addToCart } = useCart()
   const { isWishlisted, toggle } = useWishlist()
   const imageUrl = product.images?.[0]?.url ?? null
+  const comingSoon = Boolean(product.is_coming_soon)
   const showPrice = product.base_price > 0
   const wished = isWishlisted(product.id)
 
@@ -51,6 +52,11 @@ export default function ProductCard({ product }: Props) {
               <ShoppingCart className="w-12 h-12" />
             </div>
           )}
+          {comingSoon && (
+            <span className="absolute top-2 left-2 rounded-full bg-[#1f3a6b] text-white text-[11px] font-semibold px-2.5 py-1">
+              Coming Soon
+            </span>
+          )}
           {/* Wishlist heart */}
           <button
             onClick={handleWishlist}
@@ -71,10 +77,10 @@ export default function ProductCard({ product }: Props) {
               {showPrice ? (
                 <span className="text-base font-bold text-gray-800">{formatPrice(product.base_price)}</span>
               ) : (
-                <span className="text-sm text-gray-400 italic">Contact for price</span>
+                <span className="text-sm text-gray-400 italic">{comingSoon ? 'Price TBA' : 'Contact for price'}</span>
               )}
             </div>
-            {showPrice && (
+            {showPrice && !comingSoon && (
               <Button
                 size="sm"
                 onClick={handleAddToCart}
