@@ -10,6 +10,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import NavigationProgress from '@/components/layout/NavigationProgress'
 import { FloatingCart } from '@/components/FloatingCart'
+import ChatWidget from '@/components/ChatWidget'
 import { createAdminClient } from '@/lib/supabase/server'
 import { getAuthUser } from '@/lib/supabase/auth'
 
@@ -103,6 +104,7 @@ export default async function RootLayout({
             </main>
             <Footer />
             <FloatingCart />
+            <ChatWidget />
             <Toaster position="top-right" richColors />
           </WishlistProvider>
         </CartProvider>

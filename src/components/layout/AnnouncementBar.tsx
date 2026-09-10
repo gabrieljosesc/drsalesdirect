@@ -10,7 +10,7 @@ const ANNOUNCEMENTS: Announcement[] = [
   { icon: Truck, text: 'Free shipping on your first order — and every order over $795', href: '/shipping' },
   { icon: Tag, text: 'Bulk pricing: the more units you order, the lower your price per unit', href: '/shop' },
   { icon: ShieldCheck, text: 'Authentic products sourced from original manufacturers', href: '/about' },
-  { icon: Sparkles, text: 'New: research peptides now in stock', href: '/peptides' },
+  { icon: Sparkles, text: 'New: research peptides now in stock', href: '/shop/peptides' },
   { icon: Headset, text: 'Questions? Call +1-855-843-4782, Mon – Fri 9:00 AM – 6:00 PM EST', href: '/contact' },
 ]
 
