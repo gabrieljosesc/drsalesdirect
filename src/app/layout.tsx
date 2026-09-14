@@ -10,6 +10,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import NavigationProgress from '@/components/layout/NavigationProgress'
 import { FloatingCart } from '@/components/FloatingCart'
+import LuckyOrangeBrandFix from '@/components/LuckyOrangeBrandFix'
 import { createAdminClient } from '@/lib/supabase/server'
 import { getAuthUser } from '@/lib/supabase/auth'
 
@@ -105,7 +106,9 @@ export default async function RootLayout({
             <FloatingCart />
             {/* Live chat is Lucky Orange's built-in chat widget (loaded via
                 lo.js below) — its appearance/logo is configured in the Lucky
-                Orange dashboard, not here. */}
+                Orange dashboard, not here. BrandFix overrides the widget's
+                avatar with the current logo until the dashboard is updated. */}
+            <LuckyOrangeBrandFix />
             <Toaster position="top-right" richColors />
           </WishlistProvider>
         </CartProvider>
