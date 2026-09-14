@@ -6,10 +6,9 @@ all 62 peptide products (Epithalon 50mg shares the Epitalon shot). His files
 carry their own watermark, so no extra logo is composited.
 
 SAPHNELO and EYLEA HD photos received and applied (2026-09-11); Eylea HD is
-now orderable at $1,999 (qty 1-5).
-
-STILL AWAITING PHOTOS (8) — no image at all:
-  - MOUNJARO® KwikPen — all 8 variants (Weight Loss, Coming Soon, prices pending)
+orderable at $1,999 (qty 1-5). MOUNJARO photos + confirmed prices applied
+(2026-09-14) — all 8 pens live, grouped into two dose-selector listings.
+Every active product now has an image.
 
 The products below (added from the Peak Medical catalog sync) currently use
 Peak Medical's photos as a fallback — send HD photos named after the product to upgrade them:
