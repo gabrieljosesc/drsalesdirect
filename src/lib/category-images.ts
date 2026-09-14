@@ -10,7 +10,7 @@
  */
 export const CATEGORY_IMAGE_COUNT: Record<string, number> = {
   'dermatology': 3,
-  'dermal-fillers': 3,
+  'dermal-fillers': 4,
   'weight-loss': 3,
   'peptides': 3,
   'rheumatology': 3,
@@ -18,7 +18,19 @@ export const CATEGORY_IMAGE_COUNT: Record<string, number> = {
   'gynecology': 3,
   'ophthalmology': 3,
   'osteoporosis': 3,
-  'skincare': 1,
+  'skincare': 2,
+  // Dermatology subcategory banners (client's set, 2026-09-15)
+  'anaesthetics': 1,
+  'body-sculpting': 1,
+  'botulinum-toxins': 1,
+  'cannulas-and-needles': 1,
+  'dermal-filler-removal': 1,
+  'eyelash-enhancers': 1,
+  'fat-removal': 1,
+  'mesotherapy': 1,
+  'peels-and-masks': 1,
+  'prp-kits': 1,
+  'threads': 1,
 }
 
 /** Ordered list of photo URLs for a category (empty when none exist). */
