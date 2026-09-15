@@ -17,6 +17,7 @@ export function LoginForm() {
 
   const [state, action, pending] = useActionState(loginAction, null)
   const error = state && 'error' in state ? state.error : null
+  const needsVerificationEmail = state && 'needsVerificationEmail' in state ? state.needsVerificationEmail : undefined
 
   // Controlled so a failed login (server-action re-render) keeps what was typed
   const [email, setEmail] = useState('')
@@ -49,6 +50,17 @@ export function LoginForm() {
         {error && (
           <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {error}
+            {needsVerificationEmail && (
+              <>
+                {' '}
+                <Link
+                  href={`/auth/verify-email?email=${encodeURIComponent(needsVerificationEmail)}`}
+                  className="font-medium underline"
+                >
+                  Enter your verification code
+                </Link>
+              </>
+            )}
           </div>
         )}
 

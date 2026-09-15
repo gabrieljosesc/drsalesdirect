@@ -123,12 +123,17 @@ function RegisterForm() {
         <p className="text-sm text-gray-500 mb-2">
           For licensed medical professionals only. Fields marked <span className="text-red-500">*</span> are required.
         </p>
-        <p className="text-xs text-gray-400 mb-6">
+        <p className="text-xs text-gray-400 mb-4">
           By registering you agree to our{' '}
           <Link href="/legal/terms" className="text-[#ec6a82] hover:underline">Terms of Service</Link>{' '}
           and{' '}
           <Link href="/legal/privacy" className="text-[#ec6a82] hover:underline">Privacy Policy</Link>.
         </p>
+
+        <div className="mb-6 rounded-lg border border-[#ec6a82]/30 bg-[#ec6a82]/5 px-4 py-3 text-sm text-[#b83a52]">
+          🎉 New customers get <span className="font-semibold">10% off their first order</span> —
+          applied automatically at checkout.
+        </div>
 
         {globalError && (
           <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">

@@ -11,6 +11,7 @@ const ANNOUNCEMENTS: Announcement[] = [
   { icon: Tag, text: 'Bulk pricing: the more units you order, the lower your price per unit', href: '/shop' },
   { icon: ShieldCheck, text: 'Authentic products sourced from original manufacturers', href: '/about' },
   { icon: Sparkles, text: 'New: research peptides now in stock', href: '/shop/peptides' },
+  { icon: Sparkles, text: 'New customers: 10% off your first order — applied automatically at checkout', href: '/auth/register' },
   { icon: Headset, text: 'Questions? Call +1-855-843-4782, Mon – Fri 9:00 AM – 6:00 PM EST', href: '/contact' },
 ]
 

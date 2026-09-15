@@ -13,7 +13,11 @@ export type RegisterState =
 
 export type LoginState =
   | null
-  | { error: string }
+  | { error: string; needsVerificationEmail?: string }
+
+export type VerifyEmailState =
+  | null
+  | { error?: string; resent?: boolean }
 
 // ── Register ──────────────────────────────────────────────────────────────
 export async function registerAction(
@@ -129,7 +133,58 @@ export async function registerAction(
   }
 
   revalidatePath('/', 'layout')
+  // With email confirmation enabled there is no session yet: the customer
+  // must enter the one-time code we emailed before the account works.
+  if (!data.session) {
+    redirect(`/auth/verify-email?email=${encodeURIComponent(v.email)}`)
+  }
   redirect('/auth/login?registered=1')
+}
+
+// ── Email verification (one-time code) ────────────────────────────────────
+// The Supabase "Confirm signup" email carries a 6-digit OTP ({{ .Token }});
+// the customer types it on /auth/verify-email to activate the account.
+export async function verifyEmailAction(
+  _prev: VerifyEmailState,
+  formData: FormData
+): Promise<VerifyEmailState> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const token = String(formData.get('token') ?? '').replace(/\D/g, '')
+  if (!email) return { error: 'Missing email address — please register again.' }
+  if (token.length !== 6) return { error: 'Enter the 6-digit code from your email.' }
+
+  const supabase = await createClient()
+  let { error } = await supabase.auth.verifyOtp({ email, token, type: 'signup' })
+  if (error) {
+    // Older projects issue signup OTPs under the generic "email" type
+    const retry = await supabase.auth.verifyOtp({ email, token, type: 'email' })
+    error = retry.error
+  }
+  if (error) {
+    return {
+      error: /invalid|expired/i.test(error.message)
+        ? 'That code is invalid or has expired. Request a new one below.'
+        : error.message,
+    }
+  }
+
+  revalidatePath('/', 'layout')
+  redirect('/auth/login?verified=1')
+}
+
+export async function resendVerificationAction(
+  _prev: VerifyEmailState,
+  formData: FormData
+): Promise<VerifyEmailState> {
+  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  if (!email) return { error: 'Missing email address.' }
+  const supabase = await createClient()
+  const { error } = await supabase.auth.resend({ type: 'signup', email })
+  // Don't reveal whether the email exists
+  if (error && !/already confirmed/i.test(error.message)) {
+    console.error('resendVerification:', error.message)
+  }
+  return { resent: true }
 }
 
 // ── Login ─────────────────────────────────────────────────────────────────
@@ -158,7 +213,10 @@ export async function loginAction(
       return { error: 'Incorrect email or password.' }
     }
     if (/email not confirmed/i.test(error.message)) {
-      return { error: 'Please verify your email before signing in. Check your inbox.' }
+      return {
+        error: 'Please verify your email before signing in.',
+        needsVerificationEmail: email,
+      }
     }
     return { error: error.message }
   }

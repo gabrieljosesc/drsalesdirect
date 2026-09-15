@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useCart } from '@/hooks/useCart'
@@ -120,6 +120,21 @@ export default function CheckoutPage() {
   const total = selectedTotal
   const minimumMet = meetsCheckoutMinimumUsd(total)
   const discount = coupon ? Math.min(coupon.discount, total) : 0
+
+  // New-customer welcome discount: auto-apply WELCOME10 on a customer's first
+  // order (server-side validation enforces one use per customer, so this is a
+  // silent no-op for anyone who already used it).
+  const welcomeTried = useRef(false)
+  useEffect(() => {
+    if (welcomeTried.current || coupon || !firstOrder || total <= 0) return
+    welcomeTried.current = true
+    validateCoupon('WELCOME10', total).then(res => {
+      if (res.ok) {
+        setCoupon({ code: res.code, discount: res.discount })
+        toast.success('Welcome discount applied — 10% off your first order!')
+      }
+    }).catch(() => {})
+  }, [coupon, firstOrder, total])
   const shippingAmount = computeShipping(total - discount, firstOrder)
   const grandTotal = Math.max(0, total - discount) + shippingAmount
 
