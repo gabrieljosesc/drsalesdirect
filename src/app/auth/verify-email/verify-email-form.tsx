@@ -28,7 +28,7 @@ export function VerifyEmailForm() {
 
         <h1 className="text-2xl font-bold text-gray-900 mb-1">Verify your email</h1>
         <p className="text-sm text-gray-500 mb-6">
-          We sent a 6-digit verification code to{' '}
+          We sent a verification code to{' '}
           <span className="font-medium text-gray-800">{email || 'your email address'}</span>.
           Enter it below to activate your account.
         </p>
@@ -52,15 +52,15 @@ export function VerifyEmailForm() {
             <Label htmlFor="token">Verification code</Label>
             <Input
               id="token" name="token" inputMode="numeric" autoComplete="one-time-code"
-              maxLength={6} placeholder="123456" required autoFocus
+              maxLength={10} placeholder="12345678" required autoFocus
               value={token}
-              onChange={e => setToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="mt-1 text-center text-2xl font-mono tracking-[0.5em]"
+              onChange={e => setToken(e.target.value.replace(/\D/g, '').slice(0, 10))}
+              className="mt-1 text-center text-2xl font-mono tracking-[0.35em]"
             />
           </div>
           <Button
             type="submit"
-            disabled={pending || token.length !== 6}
+            disabled={pending || token.length < 6}
             className="w-full bg-[#ec6a82] hover:bg-[#d95672]"
           >
             {pending ? 'Verifying…' : 'Verify Email'}

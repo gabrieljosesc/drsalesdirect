@@ -151,7 +151,10 @@ export async function verifyEmailAction(
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
   const token = String(formData.get('token') ?? '').replace(/\D/g, '')
   if (!email) return { error: 'Missing email address — please register again.' }
-  if (token.length !== 6) return { error: 'Enter the 6-digit code from your email.' }
+  // Supabase OTP length is project-configurable (this project issues 8 digits)
+  if (token.length < 6 || token.length > 10) {
+    return { error: 'Enter the verification code from your email.' }
+  }
 
   const supabase = await createClient()
   let { error } = await supabase.auth.verifyOtp({ email, token, type: 'signup' })
