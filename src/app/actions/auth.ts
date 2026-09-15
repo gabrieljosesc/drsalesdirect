@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { registerSchema, flattenErrors } from '@/app/auth/register/schema'
+import { sendVerifyCodeEmail, sendPasswordResetEmail } from '@/lib/email/auth-emails'
 
 // ── Types ─────────────────────────────────────────────────────────────────
 export type RegisterState =
@@ -67,31 +68,37 @@ export async function registerAction(
     .join(' ')
     .trim()
 
-  const supabase = await createClient()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
-  const { data, error } = await supabase.auth.signUp({
+  // Create the account via the admin API so WE send the verification email —
+  // a branded message with the one-time code, through the site's own SMTP —
+  // instead of Supabase's rate-limited built-in mailer.
+  const admin = createAdminClient()
+  const { data, error } = await admin.auth.admin.generateLink({
+    type: 'signup',
     email: v.email,
     password: v.password,
-    options: {
-      data: { full_name: fullName },
-      // PKCE: exchange code in /auth/callback, then land on homepage signed in.
-      emailRedirectTo: `${siteUrl}/auth/callback?next=/`,
-    },
+    options: { data: { full_name: fullName } },
   })
 
   if (error) {
-    if (error.message?.toLowerCase().includes('already registered')) {
+    if (/already.*(registered|exists|been)/i.test(error.message ?? '')) {
       return { fieldErrors: { email: 'An account with this email already exists.' }, values: { ...raw, password: '', confirm_password: '' } }
     }
     return { error: error.message }
   }
 
-  if (data.user) {
-    // Use admin client: during email-confirmation signup there is no session yet,
-    // so the anon client would be blocked by RLS. Service role bypasses RLS.
-    const admin = createAdminClient()
+  const otp = data.properties?.email_otp
+  const tokenHash = data.properties?.hashed_token
+  if (otp && tokenHash) {
+    const confirmUrl =
+      `${siteUrl}/auth/confirm?token_hash=${encodeURIComponent(tokenHash)}` +
+      `&type=signup&next=${encodeURIComponent('/auth/login?verified=1')}`
+    const sent = await sendVerifyCodeEmail(v.email, otp, confirmUrl)
+    if (!sent.ok) console.error('[register] verification email failed:', sent.error)
+  }
 
+  if (data.user) {
     await admin.from('profiles').upsert({
       id:              data.user.id,
       email:           v.email,
@@ -133,12 +140,8 @@ export async function registerAction(
   }
 
   revalidatePath('/', 'layout')
-  // With email confirmation enabled there is no session yet: the customer
-  // must enter the one-time code we emailed before the account works.
-  if (!data.session) {
-    redirect(`/auth/verify-email?email=${encodeURIComponent(v.email)}`)
-  }
-  redirect('/auth/login?registered=1')
+  // The customer must enter the one-time code we emailed before signing in.
+  redirect(`/auth/verify-email?email=${encodeURIComponent(v.email)}`)
 }
 
 // ── Email verification (one-time code) ────────────────────────────────────
@@ -157,11 +160,13 @@ export async function verifyEmailAction(
   }
 
   const supabase = await createClient()
-  let { error } = await supabase.auth.verifyOtp({ email, token, type: 'signup' })
-  if (error) {
-    // Older projects issue signup OTPs under the generic "email" type
-    const retry = await supabase.auth.verifyOtp({ email, token, type: 'email' })
-    error = retry.error
+  // Codes come as type "signup" on first registration and "magiclink" from a
+  // resend; some Supabase versions file both under the generic "email" type.
+  let error: { message: string } | null = null
+  for (const type of ['signup', 'email', 'magiclink'] as const) {
+    const res = await supabase.auth.verifyOtp({ email, token, type })
+    error = res.error
+    if (!error) break
   }
   if (error) {
     return {
@@ -181,10 +186,20 @@ export async function resendVerificationAction(
 ): Promise<VerifyEmailState> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
   if (!email) return { error: 'Missing email address.' }
-  const supabase = await createClient()
-  const { error } = await supabase.auth.resend({ type: 'signup', email })
-  // Don't reveal whether the email exists
-  if (error && !/already confirmed/i.test(error.message)) {
+
+  // A fresh code for an existing account comes from a magiclink grant —
+  // verifying it both confirms the address and signs the customer in.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const admin = createAdminClient()
+  const { data, error } = await admin.auth.admin.generateLink({ type: 'magiclink', email })
+  if (!error && data.properties?.email_otp && data.properties?.hashed_token) {
+    const confirmUrl =
+      `${siteUrl}/auth/confirm?token_hash=${encodeURIComponent(data.properties.hashed_token)}` +
+      `&type=magiclink&next=${encodeURIComponent('/')}`
+    const sent = await sendVerifyCodeEmail(email, data.properties.email_otp, confirmUrl)
+    if (!sent.ok) console.error('resendVerification send:', sent.error)
+  } else if (error) {
+    // Don't reveal whether the email exists
     console.error('resendVerification:', error.message)
   }
   return { resent: true }
@@ -246,14 +261,20 @@ export async function forgotPasswordAction(
   const email = String(formData.get('email') ?? '').trim()
   if (!email) return { error: 'Email is required.' }
 
-  const supabase = await createClient()
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${siteUrl}/auth/callback?next=/auth/update-password`,
-  })
-
-  // Always return success — don't reveal whether email exists
-  if (error) console.error('resetPasswordForEmail:', error.message)
+  // Branded reset email via the site's own SMTP (never Supabase's mailer)
+  const admin = createAdminClient()
+  const { data, error } = await admin.auth.admin.generateLink({ type: 'recovery', email })
+  if (!error && data.properties?.hashed_token) {
+    const resetUrl =
+      `${siteUrl}/auth/confirm?token_hash=${encodeURIComponent(data.properties.hashed_token)}` +
+      `&type=recovery&next=${encodeURIComponent('/auth/update-password')}`
+    const sent = await sendPasswordResetEmail(email, resetUrl)
+    if (!sent.ok) console.error('forgotPassword send:', sent.error)
+  } else if (error) {
+    // Always return success — don't reveal whether the email exists
+    console.error('forgotPassword generateLink:', error.message)
+  }
   return { sent: true }
 }
