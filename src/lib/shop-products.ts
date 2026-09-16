@@ -39,7 +39,10 @@ function applySort(
     case 'price_desc':
       return query.order('base_price', { ascending: false })
     default:
-      return query.order('created_at', { ascending: false })
+      // Pinned products (products.sort_order) lead the default view
+      return query
+        .order('sort_order', { ascending: true, nullsFirst: false })
+        .order('created_at', { ascending: false })
   }
 }
 

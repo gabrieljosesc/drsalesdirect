@@ -38,7 +38,9 @@ export default async function HomePage() {
   const [{ data: featured }, { data: carouselRaw }, { data: posts }, brands] = await Promise.all([
     supabase.from('products')
       .select('*, category:categories(*), images:product_images(id,url,sort_order)')
-      .eq('is_featured', true).eq('is_active', true).limit(8),
+      .eq('is_featured', true).eq('is_active', true)
+      .order('sort_order', { ascending: true, nullsFirst: false })
+      .limit(8),
     supabase.from('products')
       .select('id, slug, title, base_price, is_featured, images:product_images(url, sort_order)')
       .eq('is_active', true)

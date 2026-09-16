@@ -58,17 +58,29 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   switch (sort) {
     case 'price_asc': query = query.order('base_price', { ascending: true }); break
     case 'price_desc': query = query.order('base_price', { ascending: false }); break
-    default: query = query.order('created_at', { ascending: false })
+    // Default: pinned products first (products.sort_order, e.g. the client's
+    // Retatrutide/Tesamorelin/BPC-157/Semaglutide order on Peptides), then newest.
+    default: query = query
+      .order('sort_order', { ascending: true, nullsFirst: false })
+      .order('created_at', { ascending: false })
   }
 
   const from = (page - 1) * PAGE_SIZE
-  const { data: products, count } = await query.range(from, from + PAGE_SIZE - 1)
+  const [{ data: products, count }, { count: totalProducts }] = await Promise.all([
+    query.range(from, from + PAGE_SIZE - 1),
+    // True product count including strengths folded into a family listing,
+    // so the banner never under-reports the catalog.
+    supabase.from('products')
+      .select('id', { count: 'exact', head: true })
+      .in('category_id', catIds)
+      .eq('is_active', true),
+  ])
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE)
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-6">
-        <CategoryBanner slug={slug} name={category.name} description={category.description} count={count ?? 0} />
+        <CategoryBanner slug={slug} name={category.name} description={category.description} count={count ?? 0} totalCount={totalProducts ?? 0} />
       </div>
 
       {/* Subcategory pills */}

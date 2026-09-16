@@ -11,13 +11,19 @@ import { categoryImages } from '@/lib/category-images'
  * Overlays breadcrumb, title, description, count.
  */
 export default function CategoryBanner({
-  slug, name, description, count,
+  slug, name, description, count, totalCount,
 }: {
   slug: string
   name: string
   description?: string | null
   count: number
+  /** True product count when families fold strengths into one listing. */
+  totalCount?: number
 }) {
+  const grouped = totalCount != null && totalCount > count
+  const countLabel = grouped
+    ? `${totalCount} products · ${count} listings (strengths selectable on each page)`
+    : `${count} ${count === 1 ? 'product' : 'products'}`
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1f3a6b] via-[#3a4a7e] to-[#ec6a82]">
       <RotatingImage images={categoryImages(slug)} alt={name} intervalMs={6000} />
@@ -34,7 +40,7 @@ export default function CategoryBanner({
         <h1 className="mt-4 text-3xl md:text-4xl font-bold text-white">{name}</h1>
         {description && <p className="mt-2 max-w-2xl text-sm md:text-base text-white/85">{description}</p>}
         <p className="mt-3 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-          {count} {count === 1 ? 'product' : 'products'}
+          {countLabel}
         </p>
       </div>
     </div>
