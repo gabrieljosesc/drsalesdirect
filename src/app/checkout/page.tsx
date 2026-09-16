@@ -61,6 +61,7 @@ export default function CheckoutPage() {
   const [billingSame, setBillingSame] = useState(true)
   const [billing, setBilling] = useState<Shipping>(emptyShipping)
   const [firstOrder, setFirstOrder] = useState(false)
+  const [isMigrated, setIsMigrated] = useState(false)
 
   const [savedCards, setSavedCards] = useState<SavedCard[]>([])
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
@@ -121,20 +122,26 @@ export default function CheckoutPage() {
   const minimumMet = meetsCheckoutMinimumUsd(total)
   const discount = coupon ? Math.min(coupon.discount, total) : 0
 
-  // New-customer welcome discount: auto-apply WELCOME10 on a customer's first
-  // order (server-side validation enforces one use per customer, so this is a
-  // silent no-op for anyone who already used it).
+  // One-time 10% welcome discounts (client policy, 2026-09-17):
+  //  - migrated/returning customers: COMEBACK10, valid through Sept 30
+  //  - everyone else on their first order: WELCOME10, no cutoff
+  // Server-side validation enforces expiry and one-use-per-customer, so a
+  // failed attempt is a silent no-op.
   const welcomeTried = useRef(false)
   useEffect(() => {
-    if (welcomeTried.current || coupon || !firstOrder || total <= 0) return
+    if (welcomeTried.current || coupon || total <= 0) return
+    const code = isMigrated ? 'COMEBACK10' : firstOrder ? 'WELCOME10' : null
+    if (!code) return
     welcomeTried.current = true
-    validateCoupon('WELCOME10', total).then(res => {
+    validateCoupon(code, total).then(res => {
       if (res.ok) {
         setCoupon({ code: res.code, discount: res.discount })
-        toast.success('Welcome discount applied — 10% off your first order!')
+        toast.success(isMigrated
+          ? 'Welcome back — 10% off this order!'
+          : 'Welcome discount applied — 10% off your first order!')
       }
     }).catch(() => {})
-  }, [coupon, firstOrder, total])
+  }, [coupon, firstOrder, isMigrated, total])
   const shippingAmount = computeShipping(total - discount, firstOrder)
   const grandTotal = Math.max(0, total - discount) + shippingAmount
 
@@ -161,6 +168,7 @@ export default function CheckoutPage() {
         ])
         if (!mounted) return
         setFirstOrder(firstOrderRes)
+        setIsMigrated(user.user_metadata?.migrated === true)
 
         setContact({
           fullName: profile?.full_name ?? '', email: profile?.email ?? user.email ?? '',
