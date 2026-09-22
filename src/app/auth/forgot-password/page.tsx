@@ -1,14 +1,25 @@
 'use client'
 
-import { useActionState } from 'react'
+import { Suspense, useActionState } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { forgotPasswordAction } from '@/app/actions/auth'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, Clock } from 'lucide-react'
 
 export default function ForgotPasswordPage() {
+  return (
+    <Suspense fallback={null}>
+      <ForgotPasswordForm />
+    </Suspense>
+  )
+}
+
+function ForgotPasswordForm() {
+  const searchParams = useSearchParams()
+  const expired = searchParams.get('expired') === '1'
   const [state, action, pending] = useActionState(forgotPasswordAction, null)
 
   if (state?.sent) {
@@ -32,10 +43,22 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-xl border shadow-sm p-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Reset your password</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">
+          {expired ? 'That link has expired' : 'Reset your password'}
+        </h1>
         <p className="text-sm text-gray-500 mb-6">
-          Enter your email address and we&apos;ll send you a link to reset your password.
+          Enter your email address and we&apos;ll send you a link to {expired ? 'set' : 'reset'} your password.
         </p>
+
+        {expired && (
+          <div className="mb-4 flex items-start gap-2.5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            <Clock className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <span>
+              No problem — password links are only valid for a short time.
+              Enter your email below and we&apos;ll send you a fresh one right away.
+            </span>
+          </div>
+        )}
 
         {state?.error && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">

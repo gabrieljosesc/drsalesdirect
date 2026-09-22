@@ -45,7 +45,15 @@ export async function GET(request: NextRequest) {
   )
 
   const { error } = await supabase.auth.verifyOtp({ type, token_hash })
-  if (error) return fail('That link has expired or is invalid. Please request a new one.')
+  if (error) {
+    // A dead password link (expired, or consumed by a mail scanner's
+    // prefetch) should lead straight to self-service recovery, not a
+    // sign-in form the customer has no password for yet.
+    if (type === 'recovery') {
+      return NextResponse.redirect(`${origin}/auth/forgot-password?expired=1`)
+    }
+    return fail('That link has expired or is invalid. Please request a new one.')
+  }
 
   return redirectRes
 }
