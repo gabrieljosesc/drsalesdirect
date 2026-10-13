@@ -78,12 +78,12 @@ export default async function HomePage() {
         <div className="grid md:grid-cols-2 gap-6">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white p-8 lg:p-10 shadow-xl">
             <Wallet className="w-10 h-10 text-blue-200 mb-4" />
-            <h3 className="text-2xl font-bold mb-2">Get Cash Back on Every Order</h3>
+            <h3 className="text-2xl font-bold mb-2">Save More on Every Order</h3>
             <p className="text-white/80 mb-6 max-w-md">
-              Earn rewards on your purchases and redeem them toward future orders. The more you order, the more you save.
+              Automatic volume discounts lower your price per unit as you order more — tier pricing is shown right on every product page.
             </p>
-            <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
-              Start Earning
+            <Link href="/shop" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+              See Volume Pricing
             </Link>
           </div>
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#1e3a8a] text-white p-8 lg:p-10 shadow-xl">

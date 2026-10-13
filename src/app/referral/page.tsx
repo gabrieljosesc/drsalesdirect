@@ -3,9 +3,9 @@ import type { Metadata } from 'next'
 import { getAuthUser } from '@/lib/supabase/auth'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Gift, Wallet, Users, BadgeCheck } from 'lucide-react'
+import { Gift, Users, BadgeCheck } from 'lucide-react'
 
-export const metadata: Metadata = { title: 'Referral & Rewards' }
+export const metadata: Metadata = { title: 'Referral Program' }
 
 const steps = [
   { icon: Users, title: 'Invite a Colleague', desc: 'Share Dr Sales Direct with fellow licensed medical professionals.' },
@@ -19,11 +19,11 @@ export default async function ReferralPage() {
     <div>
       <section className="bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white">
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <Wallet className="w-12 h-12 mx-auto text-blue-200 mb-4" />
-          <h1 className="text-4xl font-bold mb-3">Cash Back &amp; Referral Program</h1>
+          <Gift className="w-12 h-12 mx-auto text-blue-200 mb-4" />
+          <h1 className="text-4xl font-bold mb-3">Referral Program</h1>
           <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Get rewarded for ordering and for sharing Dr Sales Direct with your network.
-            Earn cash back on every order and bonus rewards for every colleague you refer.
+            Get rewarded for sharing Dr Sales Direct with your network — you and every
+            colleague you refer each receive a reward toward your next purchase.
           </p>
         </div>
       </section>
