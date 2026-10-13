@@ -119,7 +119,7 @@ export default async function HomePage() {
       {/* ── BEST SELLERS — high on the page per the client: a cross-category
              mix of the store's top products ─────────────────────────────── */}
       {featured && featured.length > 0 && (
-        <section className="bg-gray-50 border-y">
+        <section id="best-sellers" className="bg-gray-50 border-y scroll-mt-24">
           <div className="max-w-7xl mx-auto px-4 py-14">
             <div className="flex items-end justify-between mb-8">
               <div>

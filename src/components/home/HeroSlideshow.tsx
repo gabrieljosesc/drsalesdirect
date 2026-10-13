@@ -44,7 +44,7 @@ const SLIDES: Slide[] = [
     title: 'Bulk Discounts on Every Order',
     body: 'Automatic quantity-based pricing across our catalog — the more units you order, the lower your price per unit, shown right on each product page.',
     primary: { label: 'Shop All Products', href: '/shop' },
-    secondary: { label: 'Best Sellers', href: '/shop' },
+    secondary: { label: 'Best Sellers', href: '/#best-sellers' },
     bullets: ['Tiered volume pricing', 'Dedicated account manager', 'Fast, tracked shipping'],
     gradient: 'from-[#2c4a8c]/90 via-[#5a6cb4]/65 to-[#f08aa0]/55',
   },
