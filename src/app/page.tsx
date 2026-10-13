@@ -237,7 +237,12 @@ export default async function HomePage() {
               ? 'Tiered volume pricing on every product — the more you order, the more you save.'
               : 'We help doctors and busy medical professionals save time and money. Create your free account and start ordering from trusted manufacturers today.'}
           </p>
-          <Link href={user ? '/shop' : '/auth/register'} className={cn(buttonVariants({ size: 'lg' }), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+          {/* Plain explicit classes (no buttonVariants merge) — the merged
+              variant styles made this button intermittently render invisible */}
+          <Link
+            href={user ? '/shop' : '/auth/register'}
+            className="inline-flex h-11 items-center justify-center rounded-md bg-white px-8 text-sm font-semibold text-[#ec6a82] shadow-sm transition-colors hover:bg-gray-100"
+          >
             {user ? 'Shop All Products' : 'Get Started Free'}
           </Link>
         </div>
