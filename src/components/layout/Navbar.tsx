@@ -229,7 +229,6 @@ export default function Navbar({ user, categories, navSamples = [], isAdmin, dis
               {user ? (
                 <>
                   <DropdownMenuItem onClick={() => router.push('/account')}>My Account</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push('/account/orders')}>Orders</DropdownMenuItem>
                   {isAdmin && <DropdownMenuItem onClick={() => router.push('/admin')}>Admin Panel</DropdownMenuItem>}
                   <DropdownMenuItem onClick={() => logoutAction()}>Sign Out</DropdownMenuItem>
                 </>

@@ -43,9 +43,6 @@ export function AccountSidebar({
         <div className="min-w-0 flex-1">
           <p className="truncate font-semibold text-gray-900">{displayName}</p>
           <p className="truncate text-xs text-gray-500">{email}</p>
-          <Link href="/account/profile" prefetch={false} className="mt-1 inline-block text-xs font-medium text-[#ec6a82] hover:underline">
-            Edit profile
-          </Link>
         </div>
       </div>
 
