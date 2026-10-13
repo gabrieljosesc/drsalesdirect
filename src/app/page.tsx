@@ -77,24 +77,32 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 mt-8">
         <div className="grid md:grid-cols-2 gap-6">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white p-8 lg:p-10 shadow-xl">
-            <Wallet className="w-10 h-10 text-blue-200 mb-4" />
-            <h3 className="text-2xl font-bold mb-2">Save More on Every Order</h3>
-            <p className="text-white/80 mb-6 max-w-md">
-              Automatic volume discounts lower your price per unit as you order more — tier pricing is shown right on every product page.
-            </p>
-            <Link href="/shop" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
-              See Volume Pricing
-            </Link>
+            <Image src="/promos/cash-back.jpg" alt="" aria-hidden fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#ec6a82]/95 via-[#8b5a8c]/75 to-[#2a5a8c]/35" />
+            <div className="relative">
+              <Wallet className="w-10 h-10 text-blue-200 mb-4" />
+              <h3 className="text-2xl font-bold mb-2">Save More on Every Order</h3>
+              <p className="text-white/90 mb-6 max-w-md">
+                Automatic volume discounts lower your price per unit as you order more — tier pricing is shown right on every product page.
+              </p>
+              <Link href="/shop" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+                See Volume Pricing
+              </Link>
+            </div>
           </div>
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#ec6a82] to-[#1e3a8a] text-white p-8 lg:p-10 shadow-xl">
-            <Gift className="w-10 h-10 text-white/80 mb-4" />
-            <h3 className="text-2xl font-bold mb-2">Refer a Colleague, Get Rewarded</h3>
-            <p className="text-white/90 mb-6 max-w-md">
-              Invite fellow medical professionals to Dr Sales Direct and you both receive a reward on your next purchase.
-            </p>
-            <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
-              Know More About Our Referral Program
-            </Link>
+            <Image src="/promos/referral.jpg" alt="" aria-hidden fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#ec6a82]/95 via-[#7a4a8c]/75 to-[#1e3a8a]/35" />
+            <div className="relative">
+              <Gift className="w-10 h-10 text-white/80 mb-4" />
+              <h3 className="text-2xl font-bold mb-2">Refer a Colleague, Get Rewarded</h3>
+              <p className="text-white/90 mb-6 max-w-md">
+                Invite fellow medical professionals to Dr Sales Direct and you both receive a reward on your next purchase.
+              </p>
+              <Link href="/referral" className={cn(buttonVariants(), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+                Know More About Our Referral Program
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -13,6 +13,9 @@ type Highlight = {
   icon: typeof Sparkles
   theme: string
   accent: string
+  /** Optional background photo; `overlay` (literal Tailwind classes) stays on top for readability. */
+  image?: string
+  overlay?: string
 }
 
 const HIGHLIGHTS: Highlight[] = [
@@ -24,6 +27,8 @@ const HIGHLIGHTS: Highlight[] = [
     icon: Sparkles,
     theme: 'from-[#ec6a82] to-[#a94d61]',
     accent: 'text-rose-100',
+    image: '/promos/dermal-fillers.jpg',
+    overlay: 'from-[#ec6a82]/95 via-[#d4607a]/75 to-[#a94d61]/30',
   },
   {
     tag: 'Member Perk',
@@ -67,6 +72,13 @@ export default function HighlightSlides() {
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
+        {h.image && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={h.image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+        )}
+        {h.image && h.overlay && (
+          <div className={cn('absolute inset-0 bg-gradient-to-r', h.overlay)} />
+        )}
         <div key={index} className="pmw-slide-enter relative z-10 max-w-2xl">
           <p className={cn('inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-4 bg-white/10 rounded-full px-3 py-1', h.accent)}>
             <Icon className="w-3.5 h-3.5" /> {h.tag}

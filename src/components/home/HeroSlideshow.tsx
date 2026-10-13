@@ -46,7 +46,8 @@ const SLIDES: Slide[] = [
     primary: { label: 'Shop All Products', href: '/shop' },
     secondary: { label: 'Best Sellers', href: '/#best-sellers' },
     bullets: ['Tiered volume pricing', 'Dedicated account manager', 'Fast, tracked shipping'],
-    gradient: 'from-[#2c4a8c]/90 via-[#5a6cb4]/65 to-[#f08aa0]/55',
+    gradient: 'from-[#2c4a8c]/90 via-[#5a6cb4]/55 to-[#f08aa0]/35',
+    image: '/promos/bulk-discounts.jpg',
   },
 ]
 
