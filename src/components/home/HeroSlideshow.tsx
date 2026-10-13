@@ -52,7 +52,7 @@ const SLIDES: Slide[] = [
 
 const INTERVAL = 3000
 
-export default function HeroSlideshow() {
+export default function HeroSlideshow({ signedIn = false }: { signedIn?: boolean }) {
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const [failed, setFailed] = useState<Record<string, boolean>>({})
@@ -123,11 +123,17 @@ export default function HeroSlideshow() {
                 <Link href={s.primary.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold gap-2')}>
                   {s.primary.label} <ArrowRight className="w-4 h-4" />
                 </Link>
-                {s.secondary && (
-                  <Link href={s.secondary.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-transparent border border-white text-white hover:bg-white hover:text-[#ec6a82] font-semibold')}>
-                    {s.secondary.label}
-                  </Link>
-                )}
+                {s.secondary && (() => {
+                  // Signed-in customers don't need "Create Account" — show their orders instead
+                  const sec = signedIn && s.secondary.href === '/auth/register'
+                    ? { label: 'My Orders', href: '/account/orders' }
+                    : s.secondary
+                  return (
+                    <Link href={sec.href} className={cn(buttonVariants({ size: 'lg' }), 'bg-transparent border border-white text-white hover:bg-white hover:text-[#ec6a82] font-semibold')}>
+                      {sec.label}
+                    </Link>
+                  )
+                })()}
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-sm text-white/75">
                 {s.bullets.map(b => (

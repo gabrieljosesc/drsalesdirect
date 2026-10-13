@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { getAuthUser } from '@/lib/supabase/auth'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Gift, Wallet, Users, BadgeCheck } from 'lucide-react'
@@ -12,7 +13,8 @@ const steps = [
   { icon: Gift, title: 'You Both Get Rewarded', desc: 'You and your colleague each receive a reward toward your next purchase.' },
 ]
 
-export default function ReferralPage() {
+export default async function ReferralPage() {
+  const user = await getAuthUser()
   return (
     <div>
       <section className="bg-gradient-to-br from-[#ec6a82] to-[#2a5a8c] text-white">
@@ -43,10 +45,20 @@ export default function ReferralPage() {
 
         <div className="mt-12 rounded-3xl bg-gray-50 border p-8 text-center">
           <h3 className="text-xl font-bold text-gray-900 mb-2">Ready to start earning?</h3>
-          <p className="text-gray-500 mb-6">Create your free account or contact our team to learn more about your rewards.</p>
+          <p className="text-gray-500 mb-6">
+            {user
+              ? 'Contact our team to refer a colleague and we’ll credit the reward to your account.'
+              : 'Create your free account or contact our team to learn more about your rewards.'}
+          </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/auth/register" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Create Account</Link>
-            <Link href="/contact" className={cn(buttonVariants({ variant: 'outline' }))}>Contact Us</Link>
+            {user ? (
+              <Link href="/contact" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Refer a Colleague</Link>
+            ) : (
+              <>
+                <Link href="/auth/register" className={cn(buttonVariants(), 'bg-[#ec6a82] hover:bg-[#d95672]')}>Create Account</Link>
+                <Link href="/contact" className={cn(buttonVariants({ variant: 'outline' }))}>Contact Us</Link>
+              </>
+            )}
           </div>
         </div>
       </section>

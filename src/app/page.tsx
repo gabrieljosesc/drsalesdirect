@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/server'
+import { getAuthUser } from '@/lib/supabase/auth'
 import { Product } from '@/types'
 import ProductCard from '@/components/products/ProductCard'
 import { buttonVariants } from '@/components/ui/button'
@@ -33,6 +34,7 @@ const reviews = [
 ]
 
 export default async function HomePage() {
+  const user = await getAuthUser()
   const supabase = createAdminClient()
 
   const [{ data: featured }, { data: carouselRaw }, { data: posts }, brands] = await Promise.all([
@@ -68,7 +70,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* ── HERO SLIDESHOW ───────────────────────────────────────────── */}
-      <HeroSlideshow />
+      <HeroSlideshow signedIn={!!user} />
 
       {/* ── CASH BACK & REFERRAL — right below the hero so the programs
              peek above the fold on first load ─────────────────────────── */}
@@ -231,11 +233,12 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto px-4 py-14 text-center">
           <h2 className="text-3xl font-bold mb-3">Ready to Order at Wholesale Prices?</h2>
           <p className="text-white/80 mb-7 max-w-2xl mx-auto">
-            We help doctors and busy medical professionals save time and money. Create your free
-            account and start ordering from trusted manufacturers today.
+            {user
+              ? 'Tiered volume pricing on every product — the more you order, the more you save.'
+              : 'We help doctors and busy medical professionals save time and money. Create your free account and start ordering from trusted manufacturers today.'}
           </p>
-          <Link href="/auth/register" className={cn(buttonVariants({ size: 'lg' }), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
-            Get Started Free
+          <Link href={user ? '/shop' : '/auth/register'} className={cn(buttonVariants({ size: 'lg' }), 'bg-white text-[#ec6a82] hover:bg-gray-100 font-semibold')}>
+            {user ? 'Shop All Products' : 'Get Started Free'}
           </Link>
         </div>
       </section>
