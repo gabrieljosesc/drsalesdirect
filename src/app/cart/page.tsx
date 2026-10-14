@@ -96,7 +96,9 @@ export default function CartPage() {
                   {item.product.category && (
                     <p className="text-xs text-gray-400 mt-0.5">{item.product.category.name}</p>
                   )}
-                  <p className="text-xs text-gray-500 mt-0.5">{formatPrice(unitPrice)} / unit</p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {item.product.is_free ? <span className="font-semibold text-green-700">FREE</span> : `${formatPrice(unitPrice)} / unit`}
+                  </p>
                   <div className="flex items-center justify-between mt-3">
                     <div className="flex items-center border rounded-md">
                       <button
@@ -114,7 +116,9 @@ export default function CartPage() {
                       </button>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-semibold text-gray-800">{formatPrice(unitPrice * item.quantity)}</span>
+                      <span className={cn('font-semibold', item.product.is_free ? 'text-green-700' : 'text-gray-800')}>
+                        {item.product.is_free ? 'FREE' : formatPrice(unitPrice * item.quantity)}
+                      </span>
                       <button
                         onClick={() => removeFromCart(item.product_id)}
                         className="text-gray-400 hover:text-red-500 transition-colors"

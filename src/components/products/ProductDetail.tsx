@@ -21,7 +21,8 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
   const images = product.images ?? []
   const tiers = parsePriceTiers(product.price_tiers)
   const comingSoon = Boolean(product.is_coming_soon)
-  const showPrice = (product.base_price > 0 || tiers.length > 0) && !comingSoon
+  const isFree = product.is_free === true && !comingSoon
+  const showPrice = (product.base_price > 0 || tiers.length > 0 || isFree) && !comingSoon
 
   const unitPrice = unitPriceForQuantity(tiers, qty, product.base_price)
   const lineTotal = unitPrice * qty
@@ -127,7 +128,12 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
           )}
 
           <div className="mb-4">
-            {showPrice ? (
+            {isFree ? (
+              <div>
+                <span className="text-3xl font-bold text-green-700">FREE</span>
+                <p className="mt-1 text-sm text-gray-600">Complimentary with your peptide order — add it to your cart at no charge.</p>
+              </div>
+            ) : showPrice ? (
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-bold text-gray-900">{formatPrice(unitPrice)}</span>
                 <span className="text-sm text-gray-400">/ unit</span>
@@ -206,7 +212,7 @@ export default function ProductDetail({ product, doseOptions = [] }: { product: 
                   Add to Cart
                 </Button>
               </div>
-              {qty > 1 && (
+              {qty > 1 && !isFree && (
                 <p className="text-sm text-gray-600 mb-4">
                   {qty} × {formatPrice(unitPrice)} ={' '}
                   <span className="font-semibold text-gray-900">{formatPrice(lineTotal)}</span>

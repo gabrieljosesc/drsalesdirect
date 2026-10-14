@@ -33,11 +33,12 @@ export async function updateProductAction(formData: FormData): Promise<void> {
   const category_id = String(formData.get('category_id') || '') || null
   const is_active = formData.get('is_active') === 'on'
   const is_featured = formData.get('is_featured') === 'on'
+  const is_free = formData.get('is_free') === 'on'
   const image_url = String(formData.get('image_url') || '').trim()
 
   const { error } = await supabase
     .from('products')
-    .update({ title, slug, description, sku, base_price, category_id, is_active, is_featured })
+    .update({ title, slug, description, sku, base_price, category_id, is_active, is_featured, is_free })
     .eq('id', id)
 
   if (error) redirect(`/admin/products/${id}?error=${encodeURIComponent(error.message)}`)
@@ -67,11 +68,12 @@ export async function createProductAction(formData: FormData): Promise<void> {
   const category_id = String(formData.get('category_id') || '') || null
   const is_active = formData.get('is_active') === 'on'
   const is_featured = formData.get('is_featured') === 'on'
+  const is_free = formData.get('is_free') === 'on'
   const image_url = String(formData.get('image_url') || '').trim()
 
   const { data, error } = await supabase
     .from('products')
-    .insert({ title, slug, description, sku, base_price, price_tiers: [], category_id, is_active, is_featured })
+    .insert({ title, slug, description, sku, base_price, price_tiers: [], category_id, is_active, is_featured, is_free })
     .select('id')
     .single()
 

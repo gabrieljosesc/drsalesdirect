@@ -19,7 +19,8 @@ export default function ProductCard({ product }: Props) {
   const { isWishlisted, toggle } = useWishlist()
   const imageUrl = product.images?.[0]?.url ?? null
   const comingSoon = Boolean(product.is_coming_soon)
-  const showPrice = product.base_price > 0
+  const isFree = product.is_free === true && !comingSoon
+  const showPrice = product.base_price > 0 || isFree
   const wished = isWishlisted(product.id)
 
   function handleAddToCart(e: React.MouseEvent) {
@@ -57,6 +58,11 @@ export default function ProductCard({ product }: Props) {
               Coming Soon
             </span>
           )}
+          {isFree && (
+            <span className="absolute top-2 left-2 rounded-full bg-green-600 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-sm">
+              Free
+            </span>
+          )}
           {/* Wishlist heart */}
           <button
             onClick={handleWishlist}
@@ -74,7 +80,9 @@ export default function ProductCard({ product }: Props) {
           </h3>
           <div className="flex items-center justify-between">
             <div>
-              {showPrice ? (
+              {isFree ? (
+                <span className="text-base font-bold text-green-700">FREE</span>
+              ) : showPrice ? (
                 <span className="text-base font-bold text-gray-800">{formatPrice(product.base_price)}</span>
               ) : (
                 <span className="text-sm text-gray-400 italic">{comingSoon ? 'Price TBA' : 'Contact for price'}</span>
