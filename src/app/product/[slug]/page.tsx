@@ -39,7 +39,8 @@ export default async function ProductPage({ params }: Props) {
     .eq('slug', slug)
     .single()
 
-  if (!product) notFound()
+  // Deactivated products must not be purchasable via a direct/indexed URL
+  if (!product || !product.is_active) notFound()
 
   // Peptides and weight-loss products encode the dose in the title; offer the
   // other strengths of the same product (e.g. Ozempic 0.25/0.5/1mg) in one page.
