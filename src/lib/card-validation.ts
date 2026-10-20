@@ -24,8 +24,22 @@ export function inferBrand(pan: string): string | null {
   if (d.startsWith('4')) return 'visa'
   if (/^5[1-5]/.test(d) || /^2[2-7]/.test(d)) return 'mastercard'
   if (/^3[47]/.test(d)) return 'amex'
-  if (/^6(?:011|5)/.test(d)) return 'discover'
+  if (isDiscoverNumber(d)) return 'discover'
   return null
+}
+
+/**
+ * Discover IIN ranges: 6011, 65, 644-649, and 622126-622925. Used to warn
+ * customers as they type — Discover is not an accepted payment method.
+ */
+export function isDiscoverNumber(pan: string): boolean {
+  const d = digitsOnly(pan)
+  if (/^6011/.test(d) || /^65/.test(d) || /^64[4-9]/.test(d)) return true
+  if (d.length >= 6) {
+    const six = parseInt(d.slice(0, 6), 10)
+    return six >= 622126 && six <= 622925
+  }
+  return /^6221[3-9]/.test(d) || /^622[3-8]/.test(d) || /^6229[01]/.test(d)
 }
 
 /** Formats user input as MM/YY with an automatic slash after the month. */

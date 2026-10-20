@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { addSavedCard, deleteSavedCard, setDefaultSavedCard, type SavedCardRow } from '@/app/actions/saved-cards'
-import { formatExpiryMmYyInput } from '@/lib/card-validation'
+import { formatExpiryMmYyInput, isDiscoverNumber } from '@/lib/card-validation'
+import { AcceptedPayments } from '@/components/AcceptedPayments'
 
 function formatCard(c: SavedCardRow) {
   const brand = c.brand ? c.brand.charAt(0).toUpperCase() + c.brand.slice(1) : 'Card'
@@ -16,9 +17,15 @@ function AddCardModal({ onClose }: { onClose: () => void }) {
   const [error, setError] = useState<string | null>(null)
   const [pending, start] = useTransition()
   const [expiryDisplay, setExpiryDisplay] = useState('')
+  const [cardNumber, setCardNumber] = useState('')
+  const isDiscover = isDiscoverNumber(cardNumber)
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (isDiscover) {
+      setError('Discover cards are not accepted. Please use Visa, Mastercard, or American Express.')
+      return
+    }
     const formData = new FormData(e.currentTarget)
     setError(null)
     start(async () => {
@@ -39,10 +46,24 @@ function AddCardModal({ onClose }: { onClose: () => void }) {
           For your protection, the full card number is encrypted on our servers. No payment is charged
           on this website — our team confirms payment with you directly.
         </div>
+        <div className="mt-3">
+          <AcceptedPayments />
+        </div>
         <form onSubmit={handleSubmit} className="mt-4 space-y-3">
           <div>
             <label className="text-xs font-medium text-gray-600">Card number</label>
-            <input name="card_number" required autoComplete="cc-number" placeholder="4242 4242 4242 4242" className={inputClass} />
+            <input
+              name="card_number" required autoComplete="cc-number" placeholder="4242 4242 4242 4242"
+              value={cardNumber}
+              onChange={e => { setCardNumber(e.target.value); setError(null) }}
+              className={inputClass}
+            />
+            {isDiscover && (
+              <p className="mt-1.5 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-900">
+                This looks like a Discover card — unfortunately Discover is not accepted.
+                Please use Visa, Mastercard, or American Express.
+              </p>
+            )}
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>

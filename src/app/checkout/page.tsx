@@ -9,6 +9,7 @@ import { productUnitPrice } from '@/lib/price-tiers'
 import { computeShipping, SHIPPING_RATES_TEXT } from '@/lib/shipping'
 import { meetsCheckoutMinimumUsd } from '@/lib/cart-minimum'
 import { CartMinimumBar } from '@/components/CartMinimumBar'
+import { AcceptedPayments } from '@/components/AcceptedPayments'
 import { placeOrder, isFirstOrder } from '@/app/actions/orders'
 import { uploadIdDocument } from '@/app/actions/id-verification'
 import { isInternationalCountry } from '@/lib/international'
@@ -444,6 +445,9 @@ export default function CheckoutPage() {
                 </div>
               ) : (
                 <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 sm:col-span-2">
+                  <div className="mb-3 border-b border-gray-200 pb-3">
+                    <AcceptedPayments />
+                  </div>
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Payment card</p>
